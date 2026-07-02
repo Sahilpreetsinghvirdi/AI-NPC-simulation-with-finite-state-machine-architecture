@@ -14,6 +14,8 @@ constexpr float kAttackDamage = 8.0f;
 constexpr float kAcceleration = 28.0f;
 constexpr float kFarPursuitDistance = 45.0f;
 constexpr float kCloseSpeedMultiplier = 0.45f;
+constexpr float kMaxTurnRateRadiansPerSecond = 2.8f;
+constexpr float kSeparationSteeringScale = 0.08f;
 
 sim::math::Vec2 DirectionFromAngle(const float radians)
 {
@@ -26,6 +28,35 @@ float MoveTowards(const float current, const float target, const float maxDelta)
         return std::min(target, current + maxDelta);
     }
     return std::max(target, current - maxDelta);
+}
+
+float WrapAngle(const float radians)
+{
+    constexpr float kPi = 3.14159265358979323846f;
+    constexpr float kTwoPi = kPi * 2.0f;
+    float result = std::fmod(radians + kPi, kTwoPi);
+    if (result < 0.0f) {
+        result += kTwoPi;
+    }
+    return result - kPi;
+}
+
+sim::math::Vec2 RotateTowards(const sim::math::Vec2 current, const sim::math::Vec2 desired, const float maxRadians)
+{
+    if (desired.LengthSquared() <= sim::math::Vec2::kEpsilon) {
+        return current;
+    }
+
+    if (current.LengthSquared() <= sim::math::Vec2::kEpsilon) {
+        return desired.Normalized();
+    }
+
+    const float currentAngle = std::atan2(current.y, current.x);
+    const float desiredAngle = std::atan2(desired.y, desired.x);
+    const float delta = std::clamp(WrapAngle(desiredAngle - currentAngle), -maxRadians, maxRadians);
+    const float nextAngle = currentAngle + delta;
+
+    return {std::cos(nextAngle), std::sin(nextAngle)};
 }
 
 } // namespace
@@ -83,6 +114,26 @@ const sim::math::Vec2& PoliceNpc::GetCurrentTarget() const
     return currentTarget_;
 }
 
+const sim::math::Vec2& PoliceNpc::GetCurrentHeading() const
+{
+    return currentHeading_;
+}
+
+const sim::math::Vec2& PoliceNpc::GetDesiredHeading() const
+{
+    return desiredHeading_;
+}
+
+const sim::math::Vec2& PoliceNpc::GetSteeringVector() const
+{
+    return steeringVector_;
+}
+
+const sim::math::Vec2& PoliceNpc::GetPursuitVector() const
+{
+    return pursuitVector_;
+}
+
 bool PoliceNpc::Update(const float deltaTime, Player& player)
 {
     return Update(deltaTime, player, player.GetPosition(), {}, true);
@@ -113,7 +164,14 @@ bool PoliceNpc::Update(const float deltaTime,
     lastAction_ = decision.action;
     if (decision.action == NpcAction::MoveTowardPlayer) {
         const sim::math::Vec2 toTarget = (currentTarget_ - position_).Normalized();
-        MoveBy(((toTarget * currentSpeed_) + separationForce) * deltaTime);
+        pursuitVector_ = toTarget;
+        desiredHeading_ = (toTarget + (separationForce * kSeparationSteeringScale)).Normalized();
+        if (desiredHeading_.LengthSquared() <= sim::math::Vec2::kEpsilon) {
+            desiredHeading_ = currentHeading_;
+        }
+        steeringVector_ = desiredHeading_ - currentHeading_;
+        currentHeading_ = RotateTowards(currentHeading_, desiredHeading_, kMaxTurnRateRadiansPerSecond * deltaTime);
+        MoveBy(((currentHeading_ * currentSpeed_) + separationForce) * deltaTime);
     } else {
         ApplyAction(decision.action, deltaTime, player);
     }

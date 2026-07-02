@@ -3,7 +3,6 @@
 #include "sim/entities/NpcState.hpp"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 
 namespace sim {
@@ -14,20 +13,17 @@ constexpr float kPlayerBaseSpeed = 6.0f;
 constexpr float kPlayerMaxSpeed = 18.0f;
 constexpr float kPlayerAcceleration = 22.0f;
 constexpr float kPlayerAccelerationDistance = 40.0f;
+constexpr float kPlayerMaxTurnRateRadiansPerSecond = 2.6f;
+constexpr float kPoliceDangerRadius = 70.0f;
+constexpr float kWorldMin = 6.0f;
+constexpr float kWorldMax = 114.0f;
+constexpr float kWallAvoidanceMargin = 18.0f;
 constexpr float kPlayerAttackRange = 8.0f;
 constexpr float kPlayerAttackCooldown = 0.8f;
 constexpr float kPlayerAttackDamage = 8.0f;
 constexpr float kPursuitFailureDuration = 10.0f;
 constexpr float kDeathPauseDuration = 5.0f;
 constexpr int kRespawnWantedLevel = 3;
-constexpr float kGoalArrivalDistance = 4.0f;
-constexpr std::array<sim::math::Vec2, 5> kPlayerGoals{
-    sim::math::Vec2{100.0f, 25.0f},
-    sim::math::Vec2{102.0f, 98.0f},
-    sim::math::Vec2{28.0f, 104.0f},
-    sim::math::Vec2{18.0f, 38.0f},
-    sim::math::Vec2{78.0f, 58.0f}
-};
 
 float MoveTowards(const float current, const float target, const float maxDelta)
 {
@@ -35,6 +31,53 @@ float MoveTowards(const float current, const float target, const float maxDelta)
         return std::min(target, current + maxDelta);
     }
     return std::max(target, current - maxDelta);
+}
+
+float WrapAngle(const float radians)
+{
+    constexpr float kPi = 3.14159265358979323846f;
+    constexpr float kTwoPi = kPi * 2.0f;
+    float result = std::fmod(radians + kPi, kTwoPi);
+    if (result < 0.0f) {
+        result += kTwoPi;
+    }
+    return result - kPi;
+}
+
+sim::math::Vec2 RotateTowards(const sim::math::Vec2 current, const sim::math::Vec2 desired, const float maxRadians)
+{
+    if (desired.LengthSquared() <= sim::math::Vec2::kEpsilon) {
+        return current;
+    }
+
+    if (current.LengthSquared() <= sim::math::Vec2::kEpsilon) {
+        return desired.Normalized();
+    }
+
+    const float currentAngle = std::atan2(current.y, current.x);
+    const float desiredAngle = std::atan2(desired.y, desired.x);
+    const float delta = std::clamp(WrapAngle(desiredAngle - currentAngle), -maxRadians, maxRadians);
+    const float nextAngle = currentAngle + delta;
+
+    return {std::cos(nextAngle), std::sin(nextAngle)};
+}
+
+sim::math::Vec2 WallAvoidance(const sim::math::Vec2 position)
+{
+    sim::math::Vec2 force;
+    if (position.x < kWorldMin + kWallAvoidanceMargin) {
+        force.x += (kWorldMin + kWallAvoidanceMargin - position.x) / kWallAvoidanceMargin;
+    } else if (position.x > kWorldMax - kWallAvoidanceMargin) {
+        force.x -= (position.x - (kWorldMax - kWallAvoidanceMargin)) / kWallAvoidanceMargin;
+    }
+
+    if (position.y < kWorldMin + kWallAvoidanceMargin) {
+        force.y += (kWorldMin + kWallAvoidanceMargin - position.y) / kWallAvoidanceMargin;
+    } else if (position.y > kWorldMax - kWallAvoidanceMargin) {
+        force.y -= (position.y - (kWorldMax - kWallAvoidanceMargin)) / kWallAvoidanceMargin;
+    }
+
+    return force;
 }
 
 } // namespace
@@ -148,19 +191,39 @@ void Simulation::UpdatePlayer(const float deltaTime)
     if (player_.IsDead()) {
         playerCurrentSpeed_ = 0.0f;
         playerVelocity_ = {};
+        playerSteeringVector_ = {};
         return;
     }
 
     playerCurrentSpeed_ = MoveTowards(playerCurrentSpeed_, CalculatePlayerTargetSpeed(), kPlayerAcceleration * deltaTime);
 
-    const sim::math::Vec2 goal = kPlayerGoals[playerGoalIndex_];
-    if (sim::math::Distance(player_.GetPosition(), goal) <= kGoalArrivalDistance) {
-        playerGoalIndex_ = (playerGoalIndex_ + 1) % kPlayerGoals.size();
+    sim::math::Vec2 dangerEscape;
+    for (const auto& police : policeManager_.GetPoliceNpcs()) {
+        if (!police.IsAlive()) {
+            continue;
+        }
+
+        const sim::math::Vec2 away = player_.GetPosition() - police.GetPosition();
+        const float distance = std::max(away.Length(), 1.0f);
+        const float weight = std::max(0.0f, (kPoliceDangerRadius - distance) / kPoliceDangerRadius);
+        dangerEscape += away.Normalized() * (weight * weight);
     }
 
-    const sim::math::Vec2 direction = (kPlayerGoals[playerGoalIndex_] - player_.GetPosition()).Normalized();
-    playerVelocity_ = direction * playerCurrentSpeed_;
+    playerEscapeVector_ = (dangerEscape + WallAvoidance(player_.GetPosition()) + (playerCurrentHeading_ * 0.25f)).Normalized();
+    if (playerEscapeVector_.LengthSquared() <= sim::math::Vec2::kEpsilon) {
+        playerEscapeVector_ = playerCurrentHeading_;
+    }
+
+    playerDesiredHeading_ = playerEscapeVector_;
+    playerSteeringVector_ = playerDesiredHeading_ - playerCurrentHeading_;
+    playerCurrentHeading_ = RotateTowards(playerCurrentHeading_, playerDesiredHeading_,
+                                          kPlayerMaxTurnRateRadiansPerSecond * deltaTime);
+    playerVelocity_ = playerCurrentHeading_ * playerCurrentSpeed_;
     player_.Translate(playerVelocity_ * deltaTime);
+    player_.SetPosition({
+        std::clamp(player_.GetPosition().x, kWorldMin, kWorldMax),
+        std::clamp(player_.GetPosition().y, kWorldMin, kWorldMax)
+    });
 
     const auto tick = timer_.GetTickIndex();
     if (tick == 5) {

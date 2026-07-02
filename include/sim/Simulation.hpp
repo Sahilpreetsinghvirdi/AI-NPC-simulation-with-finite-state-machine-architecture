@@ -37,6 +37,10 @@ public:
     [[nodiscard]] sim::math::Vec2 GetHospitalPosition() const;
     [[nodiscard]] float GetPlayerCurrentSpeed() const;
     [[nodiscard]] sim::math::Vec2 GetPlayerVelocity() const { return playerVelocity_; }
+    [[nodiscard]] sim::math::Vec2 GetPlayerCurrentHeading() const { return playerCurrentHeading_; }
+    [[nodiscard]] sim::math::Vec2 GetPlayerDesiredHeading() const { return playerDesiredHeading_; }
+    [[nodiscard]] sim::math::Vec2 GetPlayerSteeringVector() const { return playerSteeringVector_; }
+    [[nodiscard]] sim::math::Vec2 GetPlayerEscapeVector() const { return playerEscapeVector_; }
     [[nodiscard]] float GetPursuitTimerSeconds() const;
     [[nodiscard]] float GetPursuitFailureSeconds() const;
 
@@ -63,7 +67,10 @@ private:
     Config config_;
     sim::math::Vec2 hospitalPosition_{15.0f, 15.0f};
     sim::math::Vec2 playerVelocity_;
-    std::size_t playerGoalIndex_{0};
+    sim::math::Vec2 playerCurrentHeading_{1.0f, 0.0f};
+    sim::math::Vec2 playerDesiredHeading_{1.0f, 0.0f};
+    sim::math::Vec2 playerSteeringVector_;
+    sim::math::Vec2 playerEscapeVector_{1.0f, 0.0f};
     float playerCurrentSpeed_{0.0f};
     float playerAttackCooldown_{0.0f};
     float pursuitTimerSeconds_{0.0f};

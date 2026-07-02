@@ -23,6 +23,8 @@ constexpr Color kTextMuted{150, 156, 170, 255};
 constexpr Color kAccent{100, 210, 120, 255};
 constexpr Color kInterceptLineColor{250, 210, 90, 180};
 constexpr Color kVelocityColor{80, 220, 255, 220};
+constexpr Color kDesiredHeadingColor{180, 120, 255, 210};
+constexpr Color kSteeringColor{255, 120, 150, 210};
 
 void DrawEntity(const float screenX, const float screenY, const float radius, const Color fillColor,
                 const Color outlineColor, const char* label)
@@ -155,10 +157,14 @@ void SimulationRenderer::DrawWorldPanel(const Simulation& simulation)
 
     const ScreenPoint playerScreen = WorldToScreen(player.GetPosition());
     const ScreenPoint velocityEnd = WorldToScreen(player.GetPosition() + (simulation.GetPlayerVelocity() * 1.2f));
+    const ScreenPoint playerDesiredEnd = WorldToScreen(player.GetPosition() + (simulation.GetPlayerDesiredHeading() * 14.0f));
+    const ScreenPoint playerSteeringEnd = WorldToScreen(player.GetPosition() + (simulation.GetPlayerSteeringVector() * 18.0f));
 
     const Color playerDrawColor = player.IsDead() ? Color{100, 100, 110, 255} : kPlayerColor;
     DrawEntity(playerScreen.x, playerScreen.y, 10.0f, playerDrawColor, RAYWHITE, "Player");
     DrawLineEx({playerScreen.x, playerScreen.y}, {velocityEnd.x, velocityEnd.y}, 3.0f, kVelocityColor);
+    DrawLineEx({playerScreen.x, playerScreen.y}, {playerDesiredEnd.x, playerDesiredEnd.y}, 2.0f, kDesiredHeadingColor);
+    DrawLineEx({playerScreen.x, playerScreen.y}, {playerSteeringEnd.x, playerSteeringEnd.y}, 2.0f, kSteeringColor);
     DrawHealthBar(playerScreen.x, playerScreen.y, 40.0f, player.GetHealth(),
                   sim::entities::Player::kMaxHealth, kPlayerColor);
 
@@ -166,7 +172,13 @@ void SimulationRenderer::DrawWorldPanel(const Simulation& simulation)
     for (const auto& police : policeManager.GetPoliceNpcs()) {
         const ScreenPoint policeScreen = WorldToScreen(police.GetPosition());
         const ScreenPoint targetScreen = WorldToScreen(police.GetCurrentTarget());
+        const ScreenPoint policeDesiredEnd = WorldToScreen(police.GetPosition() + (police.GetDesiredHeading() * 12.0f));
+        const ScreenPoint policeSteeringEnd = WorldToScreen(police.GetPosition() + (police.GetSteeringVector() * 16.0f));
+        const ScreenPoint policePursuitEnd = WorldToScreen(police.GetPosition() + (police.GetPursuitVector() * 10.0f));
         DrawLineV({policeScreen.x, policeScreen.y}, {targetScreen.x, targetScreen.y}, kInterceptLineColor);
+        DrawLineEx({policeScreen.x, policeScreen.y}, {policePursuitEnd.x, policePursuitEnd.y}, 2.0f, kVelocityColor);
+        DrawLineEx({policeScreen.x, policeScreen.y}, {policeDesiredEnd.x, policeDesiredEnd.y}, 2.0f, kDesiredHeadingColor);
+        DrawLineEx({policeScreen.x, policeScreen.y}, {policeSteeringEnd.x, policeSteeringEnd.y}, 2.0f, kSteeringColor);
         DrawCircleLines(static_cast<int>(targetScreen.x), static_cast<int>(targetScreen.y), 7.0f, kInterceptLineColor);
         DrawEntity(policeScreen.x, policeScreen.y, 10.0f, kPoliceColor, RAYWHITE, "Police");
         DrawText(policeManager.GetRoleName(policeIndex),
@@ -260,6 +272,18 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     drawLine(buffer, simulation.GetPursuitTimerSeconds() > 7.0f ? ORANGE : kTextPrimary);
     std::snprintf(buffer, sizeof(buffer), "Speed: %.1f u/s", simulation.GetPlayerCurrentSpeed());
     drawLine(buffer, simulation.GetPlayerCurrentSpeed() > 10.0f ? ORANGE : kTextPrimary);
+    std::snprintf(buffer, sizeof(buffer), "Heading: (%.2f, %.2f)",
+                  simulation.GetPlayerCurrentHeading().x, simulation.GetPlayerCurrentHeading().y);
+    drawLine(buffer, kTextMuted);
+    std::snprintf(buffer, sizeof(buffer), "Desired: (%.2f, %.2f)",
+                  simulation.GetPlayerDesiredHeading().x, simulation.GetPlayerDesiredHeading().y);
+    drawLine(buffer, kTextMuted);
+    std::snprintf(buffer, sizeof(buffer), "Steer: (%.2f, %.2f)",
+                  simulation.GetPlayerSteeringVector().x, simulation.GetPlayerSteeringVector().y);
+    drawLine(buffer, kTextMuted);
+    std::snprintf(buffer, sizeof(buffer), "Escape: (%.2f, %.2f)",
+                  simulation.GetPlayerEscapeVector().x, simulation.GetPlayerEscapeVector().y);
+    drawLine(buffer, kTextMuted);
 
     y += 8;
     drawSection("Police");
@@ -284,6 +308,18 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
         drawLine(buffer, kTextPrimary);
         std::snprintf(buffer, sizeof(buffer), "Distance: %.1f", distance);
         drawLine(buffer, distance <= 10.0f ? RED : kTextPrimary);
+        std::snprintf(buffer, sizeof(buffer), "Lead Heading: (%.2f, %.2f)",
+                      primaryPolice->GetCurrentHeading().x, primaryPolice->GetCurrentHeading().y);
+        drawLine(buffer, kTextMuted);
+        std::snprintf(buffer, sizeof(buffer), "Lead Desired: (%.2f, %.2f)",
+                      primaryPolice->GetDesiredHeading().x, primaryPolice->GetDesiredHeading().y);
+        drawLine(buffer, kTextMuted);
+        std::snprintf(buffer, sizeof(buffer), "Lead Steer: (%.2f, %.2f)",
+                      primaryPolice->GetSteeringVector().x, primaryPolice->GetSteeringVector().y);
+        drawLine(buffer, kTextMuted);
+        std::snprintf(buffer, sizeof(buffer), "Lead Pursuit: (%.2f, %.2f)",
+                      primaryPolice->GetPursuitVector().x, primaryPolice->GetPursuitVector().y);
+        drawLine(buffer, kTextMuted);
     } else {
         drawLine("Lead: none", kTextMuted);
     }

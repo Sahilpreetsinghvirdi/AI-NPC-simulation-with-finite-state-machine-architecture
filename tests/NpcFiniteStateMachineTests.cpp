@@ -203,6 +203,24 @@ bool PoliceInterceptionChangesRelativePositions()
     return countOk && targetSpreadOk && relativeOk;
 }
 
+bool PoliceSteeringDoesNotInstantlySnap()
+{
+    sim::entities::Player player({-100.0f, 0.0f});
+    player.SetWantedLevel(1);
+
+    sim::entities::PoliceNpc police({0.0f, 0.0f});
+    police.Update(0.1f, player, {-100.0f, 0.0f}, {}, true);
+
+    const bool desiredOk = Expect(police.GetDesiredHeading().x < -0.9f,
+                                  "desired heading should point toward the intercept target");
+    const bool currentOk = Expect(police.GetCurrentHeading().x > 0.8f,
+                                  "current heading should turn gradually instead of snapping backward");
+    const bool steeringOk = Expect(police.GetSteeringVector().LengthSquared() > 0.0f,
+                                   "steering vector should expose heading correction");
+
+    return desiredOk && currentOk && steeringOk;
+}
+
 } // namespace
 
 int main()
@@ -214,7 +232,8 @@ int main()
                     PoliceNpcUsesStateMachineDecision() &&
                     PoliceSpeedScalesWithWantedLevel() &&
                     PoliceManagerSpawnsAndUpdatesIndependentPolice() &&
-                    PoliceInterceptionChangesRelativePositions();
+                    PoliceInterceptionChangesRelativePositions() &&
+                    PoliceSteeringDoesNotInstantlySnap();
 
     if (ok) {
         std::cout << "All NPC FSM tests passed.\n";

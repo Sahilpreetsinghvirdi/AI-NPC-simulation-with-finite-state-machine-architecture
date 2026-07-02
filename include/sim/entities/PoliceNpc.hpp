@@ -31,6 +31,10 @@ public:
     [[nodiscard]] float GetSpeedMultiplier() const;
     [[nodiscard]] float GetEffectiveMaxSpeed() const;
     [[nodiscard]] const sim::math::Vec2& GetCurrentTarget() const;
+    [[nodiscard]] const sim::math::Vec2& GetCurrentHeading() const;
+    [[nodiscard]] const sim::math::Vec2& GetDesiredHeading() const;
+    [[nodiscard]] const sim::math::Vec2& GetSteeringVector() const;
+    [[nodiscard]] const sim::math::Vec2& GetPursuitVector() const;
 
     bool Update(float deltaTime, Player& player);
     bool Update(float deltaTime,
@@ -55,6 +59,10 @@ private:
 
     sim::math::Vec2 position_;
     sim::math::Vec2 currentTarget_;
+    sim::math::Vec2 currentHeading_{1.0f, 0.0f};
+    sim::math::Vec2 desiredHeading_{1.0f, 0.0f};
+    sim::math::Vec2 steeringVector_;
+    sim::math::Vec2 pursuitVector_;
     float health_{kMaxHealth};
     sim::ai::NpcFiniteStateMachine stateMachine_;
     NpcAction lastAction_{NpcAction::None};
