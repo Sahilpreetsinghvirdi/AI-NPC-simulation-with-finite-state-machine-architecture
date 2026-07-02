@@ -15,9 +15,10 @@ constexpr float kPlayerAcceleration = 22.0f;
 constexpr float kPlayerAccelerationDistance = 40.0f;
 constexpr float kPlayerMaxTurnRateRadiansPerSecond = 2.6f;
 constexpr float kPoliceDangerRadius = 70.0f;
+constexpr float kPlayerPerceptionRadius = 24.0f;
+constexpr float kObstacleMemoryDuration = 4.5f;
 constexpr float kWorldMin = 6.0f;
 constexpr float kWorldMax = 114.0f;
-constexpr float kWallAvoidanceMargin = 18.0f;
 constexpr float kPlayerAttackRange = 8.0f;
 constexpr float kPlayerAttackCooldown = 0.8f;
 constexpr float kPlayerAttackDamage = 8.0f;
@@ -62,22 +63,30 @@ sim::math::Vec2 RotateTowards(const sim::math::Vec2 current, const sim::math::Ve
     return {std::cos(nextAngle), std::sin(nextAngle)};
 }
 
-sim::math::Vec2 WallAvoidance(const sim::math::Vec2 position)
+float BoundaryDistanceAlongRay(const sim::math::Vec2 position,
+                               const sim::math::Vec2 direction,
+                               const Simulation::PerceivedBoundary& boundary)
 {
-    sim::math::Vec2 force;
-    if (position.x < kWorldMin + kWallAvoidanceMargin) {
-        force.x += (kWorldMin + kWallAvoidanceMargin - position.x) / kWallAvoidanceMargin;
-    } else if (position.x > kWorldMax - kWallAvoidanceMargin) {
-        force.x -= (position.x - (kWorldMax - kWallAvoidanceMargin)) / kWallAvoidanceMargin;
+    if (!boundary.remembered) {
+        return kPlayerPerceptionRadius;
     }
 
-    if (position.y < kWorldMin + kWallAvoidanceMargin) {
-        force.y += (kWorldMin + kWallAvoidanceMargin - position.y) / kWallAvoidanceMargin;
-    } else if (position.y > kWorldMax - kWallAvoidanceMargin) {
-        force.y -= (position.y - (kWorldMax - kWallAvoidanceMargin)) / kWallAvoidanceMargin;
+    const float denom = direction.Dot(boundary.normal);
+    if (denom >= -sim::math::Vec2::kEpsilon) {
+        return kPlayerPerceptionRadius;
     }
 
-    return force;
+    const float distanceToPlane = (boundary.start - position).Dot(boundary.normal);
+    if (distanceToPlane <= 0.0f) {
+        return 0.0f;
+    }
+
+    return std::clamp(distanceToPlane / -denom, 0.0f, kPlayerPerceptionRadius);
+}
+
+sim::math::Vec2 DirectionFromAngle(const float radians)
+{
+    return {std::cos(radians), std::sin(radians)};
 }
 
 } // namespace
@@ -94,6 +103,12 @@ Simulation::Simulation(sim::core::Logger& logger, const Config config)
     , config_(config)
 {
     player_.SetWantedLevel(1);
+    playerKnownBoundaries_ = {
+        PerceivedBoundary{{kWorldMin, kWorldMin}, {kWorldMin, kWorldMax}, {1.0f, 0.0f}},
+        PerceivedBoundary{{kWorldMax, kWorldMin}, {kWorldMax, kWorldMax}, {-1.0f, 0.0f}},
+        PerceivedBoundary{{kWorldMin, kWorldMin}, {kWorldMax, kWorldMin}, {0.0f, 1.0f}},
+        PerceivedBoundary{{kWorldMin, kWorldMax}, {kWorldMax, kWorldMax}, {0.0f, -1.0f}}
+    };
     policeManager_.SyncToWantedLevel(player_.GetWantedLevel(), player_.GetPosition());
 }
 
@@ -176,6 +191,19 @@ float Simulation::GetPlayerCurrentSpeed() const
     return playerCurrentSpeed_;
 }
 
+float Simulation::GetPlayerPerceptionRadius() const
+{
+    return kPlayerPerceptionRadius;
+}
+
+std::size_t Simulation::GetPlayerPerceivedObstacleCount() const
+{
+    return static_cast<std::size_t>(std::count_if(playerKnownBoundaries_.begin(), playerKnownBoundaries_.end(),
+                                                  [](const PerceivedBoundary& boundary) {
+                                                      return boundary.remembered;
+                                                  }));
+}
+
 float Simulation::GetPursuitTimerSeconds() const
 {
     return pursuitTimerSeconds_;
@@ -184,6 +212,35 @@ float Simulation::GetPursuitTimerSeconds() const
 float Simulation::GetPursuitFailureSeconds() const
 {
     return kPursuitFailureDuration;
+}
+
+void Simulation::UpdatePlayerPerception(const float deltaTime)
+{
+    for (PerceivedBoundary& boundary : playerKnownBoundaries_) {
+        boundary.visible = false;
+        if (boundary.remembered) {
+            boundary.lastSeenSeconds += deltaTime;
+            if (boundary.lastSeenSeconds > kObstacleMemoryDuration) {
+                boundary.remembered = false;
+            }
+        }
+    }
+
+    const sim::math::Vec2 position = player_.GetPosition();
+    const float distances[] = {
+        position.x - kWorldMin,
+        kWorldMax - position.x,
+        position.y - kWorldMin,
+        kWorldMax - position.y
+    };
+
+    for (std::size_t index = 0; index < playerKnownBoundaries_.size(); ++index) {
+        if (distances[index] <= kPlayerPerceptionRadius) {
+            playerKnownBoundaries_[index].visible = true;
+            playerKnownBoundaries_[index].remembered = true;
+            playerKnownBoundaries_[index].lastSeenSeconds = 0.0f;
+        }
+    }
 }
 
 void Simulation::UpdatePlayer(const float deltaTime)
@@ -195,9 +252,11 @@ void Simulation::UpdatePlayer(const float deltaTime)
         return;
     }
 
+    UpdatePlayerPerception(deltaTime);
     playerCurrentSpeed_ = MoveTowards(playerCurrentSpeed_, CalculatePlayerTargetSpeed(), kPlayerAcceleration * deltaTime);
 
     sim::math::Vec2 dangerEscape;
+    playerDangerLevel_ = 0.0f;
     for (const auto& police : policeManager_.GetPoliceNpcs()) {
         if (!police.IsAlive()) {
             continue;
@@ -207,9 +266,51 @@ void Simulation::UpdatePlayer(const float deltaTime)
         const float distance = std::max(away.Length(), 1.0f);
         const float weight = std::max(0.0f, (kPoliceDangerRadius - distance) / kPoliceDangerRadius);
         dangerEscape += away.Normalized() * (weight * weight);
+        playerDangerLevel_ += weight;
     }
 
-    playerEscapeVector_ = (dangerEscape + WallAvoidance(player_.GetPosition()) + (playerCurrentHeading_ * 0.25f)).Normalized();
+    float bestScore = -1000000.0f;
+    sim::math::Vec2 bestDirection = playerCurrentHeading_;
+    const float baseAngle = std::atan2(playerCurrentHeading_.y, playerCurrentHeading_.x);
+    constexpr int kCandidateCount = 16;
+
+    for (int candidate = 0; candidate < kCandidateCount; ++candidate) {
+        const float t = static_cast<float>(candidate) / static_cast<float>(kCandidateCount);
+        const float angle = baseAngle + ((t - 0.5f) * 6.28318530718f);
+        const sim::math::Vec2 direction = DirectionFromAngle(angle);
+
+        float freeSpace = kPlayerPerceptionRadius;
+        for (const PerceivedBoundary& boundary : playerKnownBoundaries_) {
+            freeSpace = std::min(freeSpace, BoundaryDistanceAlongRay(player_.GetPosition(), direction, boundary));
+        }
+
+        float policeSafety = 0.0f;
+        for (const auto& police : policeManager_.GetPoliceNpcs()) {
+            if (!police.IsAlive()) {
+                continue;
+            }
+
+            const sim::math::Vec2 futurePosition = player_.GetPosition() + (direction * kPlayerPerceptionRadius * 0.5f);
+            policeSafety += std::min(sim::math::Distance(futurePosition, police.GetPosition()), kPoliceDangerRadius) /
+                            kPoliceDangerRadius;
+        }
+
+        const sim::math::Vec2 dangerDirection = dangerEscape.Normalized();
+        const float continuity = direction.Dot(playerCurrentHeading_);
+        const float dangerAlignment = direction.Dot(dangerDirection);
+        const float freeSpaceScore = freeSpace / kPlayerPerceptionRadius;
+        const float deadEndPenalty = freeSpaceScore < 0.35f && dangerAlignment > 0.0f ? 1.0f : 0.0f;
+        const float score = (policeSafety * 2.0f) + (freeSpaceScore * 3.0f) +
+                            (dangerAlignment * 1.5f) + (continuity * 0.45f) - deadEndPenalty;
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestDirection = direction;
+        }
+    }
+
+    playerEscapeScore_ = bestScore;
+    playerEscapeVector_ = ((bestDirection * 0.75f) + (dangerEscape.Normalized() * 0.25f)).Normalized();
     if (playerEscapeVector_.LengthSquared() <= sim::math::Vec2::kEpsilon) {
         playerEscapeVector_ = playerCurrentHeading_;
     }

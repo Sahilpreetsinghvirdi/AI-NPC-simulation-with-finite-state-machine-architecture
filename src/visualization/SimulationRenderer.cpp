@@ -25,6 +25,9 @@ constexpr Color kInterceptLineColor{250, 210, 90, 180};
 constexpr Color kVelocityColor{80, 220, 255, 220};
 constexpr Color kDesiredHeadingColor{180, 120, 255, 210};
 constexpr Color kSteeringColor{255, 120, 150, 210};
+constexpr Color kPerceptionColor{120, 180, 255, 95};
+constexpr Color kVisibleBoundaryColor{255, 120, 90, 230};
+constexpr Color kMemoryBoundaryColor{255, 210, 90, 150};
 
 void DrawEntity(const float screenX, const float screenY, const float radius, const Color fillColor,
                 const Color outlineColor, const char* label)
@@ -161,12 +164,27 @@ void SimulationRenderer::DrawWorldPanel(const Simulation& simulation)
     const ScreenPoint playerSteeringEnd = WorldToScreen(player.GetPosition() + (simulation.GetPlayerSteeringVector() * 18.0f));
 
     const Color playerDrawColor = player.IsDead() ? Color{100, 100, 110, 255} : kPlayerColor;
+    DrawCircleLines(static_cast<int>(playerScreen.x), static_cast<int>(playerScreen.y),
+                    simulation.GetPlayerPerceptionRadius() *
+                        ((config_.screenWidth - config_.hudWidth - (config_.worldMargin * 2)) / config_.worldWidth),
+                    kPerceptionColor);
     DrawEntity(playerScreen.x, playerScreen.y, 10.0f, playerDrawColor, RAYWHITE, "Player");
     DrawLineEx({playerScreen.x, playerScreen.y}, {velocityEnd.x, velocityEnd.y}, 3.0f, kVelocityColor);
     DrawLineEx({playerScreen.x, playerScreen.y}, {playerDesiredEnd.x, playerDesiredEnd.y}, 2.0f, kDesiredHeadingColor);
     DrawLineEx({playerScreen.x, playerScreen.y}, {playerSteeringEnd.x, playerSteeringEnd.y}, 2.0f, kSteeringColor);
     DrawHealthBar(playerScreen.x, playerScreen.y, 40.0f, player.GetHealth(),
                   sim::entities::Player::kMaxHealth, kPlayerColor);
+
+    for (const auto& boundary : simulation.GetPlayerKnownBoundaries()) {
+        if (!boundary.remembered) {
+            continue;
+        }
+
+        const ScreenPoint start = WorldToScreen(boundary.start);
+        const ScreenPoint end = WorldToScreen(boundary.end);
+        DrawLineEx({start.x, start.y}, {end.x, end.y}, boundary.visible ? 4.0f : 2.0f,
+                   boundary.visible ? kVisibleBoundaryColor : kMemoryBoundaryColor);
+    }
 
     std::size_t policeIndex = 0;
     for (const auto& police : policeManager.GetPoliceNpcs()) {
@@ -284,6 +302,12 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     std::snprintf(buffer, sizeof(buffer), "Escape: (%.2f, %.2f)",
                   simulation.GetPlayerEscapeVector().x, simulation.GetPlayerEscapeVector().y);
     drawLine(buffer, kTextMuted);
+    std::snprintf(buffer, sizeof(buffer), "Perceived: %zu", simulation.GetPlayerPerceivedObstacleCount());
+    drawLine(buffer, kTextMuted);
+    std::snprintf(buffer, sizeof(buffer), "Escape Score: %.2f", simulation.GetPlayerEscapeScore());
+    drawLine(buffer, kTextMuted);
+    std::snprintf(buffer, sizeof(buffer), "Danger: %.2f", simulation.GetPlayerDangerLevel());
+    drawLine(buffer, simulation.GetPlayerDangerLevel() > 1.0f ? ORANGE : kTextMuted);
 
     y += 8;
     drawSection("Police");

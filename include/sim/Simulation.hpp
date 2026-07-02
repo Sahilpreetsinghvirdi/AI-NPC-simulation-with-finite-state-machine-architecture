@@ -7,6 +7,7 @@
 #include "sim/entities/PoliceNpc.hpp"
 #include "sim/math/Vec2.hpp"
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <string>
@@ -16,6 +17,15 @@ namespace sim {
 // Orchestrates entities, timing, and logging for the AI simulation sandbox.
 class Simulation {
 public:
+    struct PerceivedBoundary {
+        sim::math::Vec2 start;
+        sim::math::Vec2 end;
+        sim::math::Vec2 normal;
+        float lastSeenSeconds{0.0f};
+        bool visible{false};
+        bool remembered{false};
+    };
+
     struct Config {
         std::uint64_t maxTicks{0}; // 0 = run until the window closes
         float tickRateHz{10.0f};
@@ -41,6 +51,11 @@ public:
     [[nodiscard]] sim::math::Vec2 GetPlayerDesiredHeading() const { return playerDesiredHeading_; }
     [[nodiscard]] sim::math::Vec2 GetPlayerSteeringVector() const { return playerSteeringVector_; }
     [[nodiscard]] sim::math::Vec2 GetPlayerEscapeVector() const { return playerEscapeVector_; }
+    [[nodiscard]] float GetPlayerPerceptionRadius() const;
+    [[nodiscard]] const std::array<PerceivedBoundary, 4>& GetPlayerKnownBoundaries() const { return playerKnownBoundaries_; }
+    [[nodiscard]] std::size_t GetPlayerPerceivedObstacleCount() const;
+    [[nodiscard]] float GetPlayerEscapeScore() const { return playerEscapeScore_; }
+    [[nodiscard]] float GetPlayerDangerLevel() const { return playerDangerLevel_; }
     [[nodiscard]] float GetPursuitTimerSeconds() const;
     [[nodiscard]] float GetPursuitFailureSeconds() const;
 
@@ -52,6 +67,7 @@ public:
 
 private:
     void UpdatePlayer(float deltaTime);
+    void UpdatePlayerPerception(float deltaTime);
     void UpdatePolice(float deltaTime);
     void UpdatePursuitEscalation(float deltaTime, float playerHealthBeforePoliceUpdate);
     void TryPlayerAttackPolice(float deltaTime);
@@ -71,6 +87,9 @@ private:
     sim::math::Vec2 playerDesiredHeading_{1.0f, 0.0f};
     sim::math::Vec2 playerSteeringVector_;
     sim::math::Vec2 playerEscapeVector_{1.0f, 0.0f};
+    std::array<PerceivedBoundary, 4> playerKnownBoundaries_;
+    float playerEscapeScore_{0.0f};
+    float playerDangerLevel_{0.0f};
     float playerCurrentSpeed_{0.0f};
     float playerAttackCooldown_{0.0f};
     float pursuitTimerSeconds_{0.0f};
