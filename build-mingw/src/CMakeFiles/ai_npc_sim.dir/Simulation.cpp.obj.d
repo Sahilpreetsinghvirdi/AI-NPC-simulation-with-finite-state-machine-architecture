@@ -243,5 +243,6 @@ src/CMakeFiles/ai_npc_sim.dir/Simulation.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/tr1/riemann_zeta.tcc \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/PoliceNpc.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/NpcFiniteStateMachine.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/NpcAction.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/NpcState.hpp

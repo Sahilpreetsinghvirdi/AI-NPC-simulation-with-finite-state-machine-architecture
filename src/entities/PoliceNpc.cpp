@@ -11,7 +11,6 @@ namespace {
 constexpr float kBaseSpeed = 8.0f;
 constexpr float kAcceleration = 30.0f;
 constexpr float kHungerDecayPerSecond = 1.5f;
-constexpr float kPursueDistanceThreshold = 80.0f;
 constexpr float kSprintDistance = 18.0f;
 constexpr float kAttackRange = 10.0f;
 constexpr float kAttackCooldown = 0.5f;
@@ -61,7 +60,7 @@ float PoliceNpc::GetMoney() const
 
 NpcState PoliceNpc::GetState() const
 {
-    return state_;
+    return stateMachine_.GetState();
 }
 
 NpcAction PoliceNpc::GetLastAction() const
@@ -78,8 +77,9 @@ void PoliceNpc::Update(const float deltaTime, Player& player)
 {
     attackCooldown_ = std::max(0.0f, attackCooldown_ - deltaTime);
 
-    DecideState(player);
     ApplyHungerDecay(deltaTime);
+
+    const sim::ai::NpcDecision decision = stateMachine_.Update(BuildAiContext(player), deltaTime);
     UpdateSpeed(deltaTime, player);
 
     const float distance = sim::math::Distance(position_, player.GetPosition());
@@ -88,9 +88,8 @@ void PoliceNpc::Update(const float deltaTime, Player& player)
         return;
     }
 
-    const NpcAction action = SelectRuleBasedAction(player);
-    lastAction_ = action;
-    ApplyAction(action, deltaTime, player);
+    lastAction_ = decision.action;
+    ApplyAction(decision.action, deltaTime, player);
 }
 
 sim::ai::Observation PoliceNpc::GetObservation(const Player& player) const
@@ -108,7 +107,7 @@ sim::ai::Observation PoliceNpc::GetObservation(const Player& player) const
         health_,
         hunger_,
         money_,
-        static_cast<float>(state_)
+        static_cast<float>(stateMachine_.GetState())
     };
 
     return observation;
@@ -160,35 +159,19 @@ std::string PoliceNpc::ToString() const
            << ", hunger=" << hunger_
            << ", money=" << money_
            << ", speed=" << currentSpeed_
-           << ", state=" << sim::entities::ToString(state_)
+           << ", state=" << sim::entities::ToString(stateMachine_.GetState())
            << '}';
     return stream.str();
 }
 
-void PoliceNpc::DecideState(const Player& player)
+sim::ai::NpcAiContext PoliceNpc::BuildAiContext(const Player& player) const
 {
-    if (player.GetWantedLevel() > 0 && player.IsAlive()) {
-        const float distance = sim::math::Distance(position_, player.GetPosition());
-        state_ = (distance <= kPursueDistanceThreshold) ? NpcState::Pursue : NpcState::Investigate;
-        return;
-    }
-
-    state_ = NpcState::Patrol;
-}
-
-NpcAction PoliceNpc::SelectRuleBasedAction(const Player& player) const
-{
-    switch (state_) {
-    case NpcState::Pursue:
-        return NpcAction::MoveTowardPlayer;
-    case NpcState::Investigate:
-        return (player.GetWantedLevel() > 0) ? NpcAction::MoveTowardPlayer : NpcAction::PatrolStep;
-    case NpcState::Patrol:
-        return NpcAction::PatrolStep;
-    case NpcState::Idle:
-    default:
-        return NpcAction::Wait;
-    }
+    return {
+        .npcPosition = position_,
+        .playerPosition = player.GetPosition(),
+        .playerWantedLevel = player.GetWantedLevel(),
+        .playerAlive = player.IsAlive()
+    };
 }
 
 void PoliceNpc::ApplyHungerDecay(const float deltaTime)
@@ -222,11 +205,11 @@ void PoliceNpc::TryAttack(Player& player, const float /*deltaTime*/)
 float PoliceNpc::GetTargetSpeedMultiplier(const float distanceToPlayer, const Player& player) const
 {
     if (player.GetWantedLevel() > 0 && player.IsAlive() && distanceToPlayer <= kSprintDistance &&
-        (state_ == NpcState::Pursue || state_ == NpcState::Investigate)) {
+        (stateMachine_.GetState() == NpcState::Pursue || stateMachine_.GetState() == NpcState::Investigate)) {
         return 4.0f;
     }
 
-    switch (state_) {
+    switch (stateMachine_.GetState()) {
     case NpcState::Patrol:      return 1.0f;
     case NpcState::Investigate: return 1.5f;
     case NpcState::Pursue:      return 3.0f;

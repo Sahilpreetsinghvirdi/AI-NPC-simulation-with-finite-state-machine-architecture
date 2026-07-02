@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sim/ai/Observation.hpp"
+#include "sim/ai/NpcFiniteStateMachine.hpp"
 #include "sim/entities/NpcAction.hpp"
 #include "sim/entities/NpcState.hpp"
 #include "sim/entities/Player.hpp"
@@ -37,8 +38,7 @@ public:
     [[nodiscard]] std::string ToString() const;
 
 private:
-    void DecideState(const Player& player);
-    NpcAction SelectRuleBasedAction(const Player& player) const;
+    [[nodiscard]] sim::ai::NpcAiContext BuildAiContext(const Player& player) const;
     void ApplyHungerDecay(float deltaTime);
     void UpdateSpeed(float deltaTime, const Player& player);
     void TryAttack(Player& player, float deltaTime);
@@ -49,7 +49,7 @@ private:
     float health_{kMaxHealth};
     float hunger_{kMaxHunger};
     float money_{250.0f};
-    NpcState state_{NpcState::Idle};
+    sim::ai::NpcFiniteStateMachine stateMachine_;
     NpcAction lastAction_{NpcAction::None};
     float patrolHeadingRadians_{0.0f};
     float currentSpeed_{0.0f};

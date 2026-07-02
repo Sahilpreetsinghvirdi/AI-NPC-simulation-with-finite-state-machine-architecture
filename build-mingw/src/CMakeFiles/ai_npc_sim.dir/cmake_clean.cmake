@@ -4,6 +4,8 @@ file(REMOVE_RECURSE
   "../bin/ai_npc_sim.pdb"
   "CMakeFiles/ai_npc_sim.dir/Simulation.cpp.obj"
   "CMakeFiles/ai_npc_sim.dir/Simulation.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj.d"
   "CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj"
   "CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj.d"
   "CMakeFiles/ai_npc_sim.dir/core/LogLevel.cpp.obj"

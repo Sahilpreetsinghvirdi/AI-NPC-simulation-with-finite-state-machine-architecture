@@ -6,7 +6,8 @@
 		"D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/cmake_install.cmake",
 		"D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/cmake_install.cmake",
 		"D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src/cmake_install.cmake",
-		"D:/Visual Studio Files/ai-npc-simulation/build-mingw/src/cmake_install.cmake"
+		"D:/Visual Studio Files/ai-npc-simulation/build-mingw/src/cmake_install.cmake",
+		"D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

@@ -92,6 +92,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "D:/Visual Studio Files/ai-npc-simulation/cmake/FetchRaylib.cmake"
   "D:/Visual Studio Files/ai-npc-simulation/cmake/ProjectOptions.cmake"
   "D:/Visual Studio Files/ai-npc-simulation/src/CMakeLists.txt"
+  "D:/Visual Studio Files/ai-npc-simulation/tests/CMakeLists.txt"
   )
 
 # The corresponding makefile is:
@@ -117,6 +118,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "_deps/raylib-build/raylib/external/glfw/src/glfw3.pc"
   "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/CMakeDirectoryInformation.cmake"
   "src/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "tests/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -126,4 +128,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"
   "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/DependInfo.cmake"
   "src/CMakeFiles/ai_npc_sim.dir/DependInfo.cmake"
+  "tests/CMakeFiles/ai_npc_tests.dir/DependInfo.cmake"
   )

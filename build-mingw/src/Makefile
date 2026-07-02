@@ -84,6 +84,16 @@ package_source:
 package_source/fast: package_source
 .PHONY : package_source/fast
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
+	C:\mingw64\bin\ctest.exe $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
@@ -217,6 +227,30 @@ Simulation.s: Simulation.cpp.s
 Simulation.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/Simulation.cpp.s
 .PHONY : Simulation.cpp.s
+
+ai/NpcFiniteStateMachine.obj: ai/NpcFiniteStateMachine.cpp.obj
+.PHONY : ai/NpcFiniteStateMachine.obj
+
+# target to build an object file
+ai/NpcFiniteStateMachine.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj
+.PHONY : ai/NpcFiniteStateMachine.cpp.obj
+
+ai/NpcFiniteStateMachine.i: ai/NpcFiniteStateMachine.cpp.i
+.PHONY : ai/NpcFiniteStateMachine.i
+
+# target to preprocess a source file
+ai/NpcFiniteStateMachine.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.i
+.PHONY : ai/NpcFiniteStateMachine.cpp.i
+
+ai/NpcFiniteStateMachine.s: ai/NpcFiniteStateMachine.cpp.s
+.PHONY : ai/NpcFiniteStateMachine.s
+
+# target to generate assembly for a file
+ai/NpcFiniteStateMachine.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.s
+.PHONY : ai/NpcFiniteStateMachine.cpp.s
 
 ai/Observation.obj: ai/Observation.cpp.obj
 .PHONY : ai/Observation.obj
@@ -520,10 +554,14 @@ help:
 	@echo ... package
 	@echo ... package_source
 	@echo ... rebuild_cache
+	@echo ... test
 	@echo ... ai_npc_sim
 	@echo ... Simulation.obj
 	@echo ... Simulation.i
 	@echo ... Simulation.s
+	@echo ... ai/NpcFiniteStateMachine.obj
+	@echo ... ai/NpcFiniteStateMachine.i
+	@echo ... ai/NpcFiniteStateMachine.s
 	@echo ... ai/Observation.obj
 	@echo ... ai/Observation.i
 	@echo ... ai/Observation.s

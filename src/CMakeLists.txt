@@ -7,6 +7,7 @@ add_executable(ai_npc_sim
     core/SimulationTimer.cpp
     math/Vec2.cpp
     ai/Observation.cpp
+    ai/NpcFiniteStateMachine.cpp
     entities/Player.cpp
     entities/PlayerLifeState.cpp
     entities/NpcState.cpp

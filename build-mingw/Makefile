@@ -84,6 +84,16 @@ package_source:
 package_source/fast: package_source
 .PHONY : package_source/fast
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
+	C:\mingw64\bin\ctest.exe $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
@@ -245,6 +255,19 @@ ai_npc_sim/fast:
 	$(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/build
 .PHONY : ai_npc_sim/fast
 
+#=============================================================================
+# Target rules for targets named ai_npc_tests
+
+# Build rule for target.
+ai_npc_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 ai_npc_tests
+.PHONY : ai_npc_tests
+
+# fast build rule for target.
+ai_npc_tests/fast:
+	$(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/build
+.PHONY : ai_npc_tests/fast
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -259,9 +282,11 @@ help:
 	@echo ... package
 	@echo ... package_source
 	@echo ... rebuild_cache
+	@echo ... test
 	@echo ... uninstall
 	@echo ... update_mappings
 	@echo ... ai_npc_sim
+	@echo ... ai_npc_tests
 	@echo ... glfw
 	@echo ... raylib
 .PHONY : help
