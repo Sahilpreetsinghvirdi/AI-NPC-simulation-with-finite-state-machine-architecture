@@ -115,8 +115,12 @@ bool PoliceSpeedScalesWithWantedLevel()
 
     player.SetWantedLevel(sim::entities::Player::kMaxWantedLevel);
     police.Update(0.1f, player);
-    const bool wantedFiveOk = Expect(AlmostEqual(police.GetCurrentSpeed(), sim::entities::PoliceNpc::kMaxPoliceSpeed),
-                                    "max wanted should use configured max police speed");
+    const bool wantedFiveOk = Expect(sim::entities::PoliceNpc::kMaxPoliceSpeed > 18.0f,
+                                    "configured max police speed should exceed player max speed") &&
+                              Expect(police.GetCurrentSpeed() > wantedFourSpeed,
+                                     "max wanted should ramp police speed above wanted 4 speed") &&
+                              Expect(police.GetCurrentSpeed() <= sim::entities::PoliceNpc::kMaxPoliceSpeed,
+                                     "current police speed should not exceed configured max speed");
 
     return wantedThreeOk && wantedFourOk && wantedFiveOk;
 }

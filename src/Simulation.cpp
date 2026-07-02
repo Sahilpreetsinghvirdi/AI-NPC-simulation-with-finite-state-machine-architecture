@@ -3,6 +3,7 @@
 #include "sim/entities/NpcState.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 
 namespace sim {
@@ -19,6 +20,14 @@ constexpr float kPlayerAttackDamage = 8.0f;
 constexpr float kPursuitFailureDuration = 10.0f;
 constexpr float kDeathPauseDuration = 5.0f;
 constexpr int kRespawnWantedLevel = 3;
+constexpr float kGoalArrivalDistance = 4.0f;
+constexpr std::array<sim::math::Vec2, 5> kPlayerGoals{
+    sim::math::Vec2{100.0f, 25.0f},
+    sim::math::Vec2{102.0f, 98.0f},
+    sim::math::Vec2{28.0f, 104.0f},
+    sim::math::Vec2{18.0f, 38.0f},
+    sim::math::Vec2{78.0f, 58.0f}
+};
 
 float MoveTowards(const float current, const float target, const float maxDelta)
 {
@@ -41,6 +50,8 @@ Simulation::Simulation(sim::core::Logger& logger, const Config config)
     , player_({20.0f, 20.0f})
     , config_(config)
 {
+    player_.SetWantedLevel(1);
+    policeManager_.SyncToWantedLevel(player_.GetWantedLevel(), player_.GetPosition());
 }
 
 void Simulation::Run()
@@ -136,14 +147,20 @@ void Simulation::UpdatePlayer(const float deltaTime)
 {
     if (player_.IsDead()) {
         playerCurrentSpeed_ = 0.0f;
+        playerVelocity_ = {};
         return;
     }
 
     playerCurrentSpeed_ = MoveTowards(playerCurrentSpeed_, CalculatePlayerTargetSpeed(), kPlayerAcceleration * deltaTime);
 
-    playerHeadingRadians_ += 0.08f;
-    const sim::math::Vec2 direction{std::cos(playerHeadingRadians_), std::sin(playerHeadingRadians_)};
-    player_.Translate(direction * (playerCurrentSpeed_ * deltaTime));
+    const sim::math::Vec2 goal = kPlayerGoals[playerGoalIndex_];
+    if (sim::math::Distance(player_.GetPosition(), goal) <= kGoalArrivalDistance) {
+        playerGoalIndex_ = (playerGoalIndex_ + 1) % kPlayerGoals.size();
+    }
+
+    const sim::math::Vec2 direction = (kPlayerGoals[playerGoalIndex_] - player_.GetPosition()).Normalized();
+    playerVelocity_ = direction * playerCurrentSpeed_;
+    player_.Translate(playerVelocity_ * deltaTime);
 
     const auto tick = timer_.GetTickIndex();
     if (tick == 5) {
@@ -158,7 +175,7 @@ void Simulation::UpdatePlayer(const float deltaTime)
 void Simulation::UpdatePolice(const float deltaTime)
 {
     policeManager_.SyncToWantedLevel(player_.GetWantedLevel(), player_.GetPosition());
-    policeManager_.UpdateAll(deltaTime, player_);
+    policeManager_.UpdateAll(deltaTime, player_, playerVelocity_);
 }
 
 void Simulation::UpdatePursuitEscalation(const float deltaTime, const float playerHealthBeforePoliceUpdate)

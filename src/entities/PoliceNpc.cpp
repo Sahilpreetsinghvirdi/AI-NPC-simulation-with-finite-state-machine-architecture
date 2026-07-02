@@ -9,12 +9,23 @@ namespace sim::entities {
 namespace {
 
 constexpr float kAttackRange = 10.0f;
-constexpr float kAttackCooldown = 0.5f;
-constexpr float kAttackDamage = 20.0f;
+constexpr float kAttackCooldown = 1.4f;
+constexpr float kAttackDamage = 8.0f;
+constexpr float kAcceleration = 28.0f;
+constexpr float kFarPursuitDistance = 45.0f;
+constexpr float kCloseSpeedMultiplier = 0.45f;
 
 sim::math::Vec2 DirectionFromAngle(const float radians)
 {
     return {std::cos(radians), std::sin(radians)};
+}
+
+float MoveTowards(const float current, const float target, const float maxDelta)
+{
+    if (current < target) {
+        return std::min(target, current + maxDelta);
+    }
+    return std::max(target, current - maxDelta);
 }
 
 } // namespace
@@ -64,29 +75,50 @@ float PoliceNpc::GetSpeedMultiplier() const
 
 float PoliceNpc::GetEffectiveMaxSpeed() const
 {
-    return currentSpeed_;
+    return effectiveMaxSpeed_;
 }
 
-void PoliceNpc::Update(const float deltaTime, Player& player)
+const sim::math::Vec2& PoliceNpc::GetCurrentTarget() const
+{
+    return currentTarget_;
+}
+
+bool PoliceNpc::Update(const float deltaTime, Player& player)
+{
+    return Update(deltaTime, player, player.GetPosition(), {}, true);
+}
+
+bool PoliceNpc::Update(const float deltaTime,
+                       Player& player,
+                       const sim::math::Vec2 interceptTarget,
+                       const sim::math::Vec2 separationForce,
+                       const bool canDamagePlayer)
 {
     if (!IsAlive()) {
         lastAction_ = NpcAction::Wait;
-        return;
+        return false;
     }
 
     attackCooldown_ = std::max(0.0f, attackCooldown_ - deltaTime);
+    currentTarget_ = interceptTarget;
 
     const sim::ai::NpcDecision decision = stateMachine_.Update(BuildAiContext(player), deltaTime);
     UpdateSpeed(deltaTime, player);
 
     const float distance = sim::math::Distance(position_, player.GetPosition());
     if (player.IsAlive() && player.GetWantedLevel() > 0 && distance <= kAttackRange && attackCooldown_ <= 0.0f) {
-        TryAttack(player, deltaTime);
-        return;
+        return TryAttack(player, deltaTime, canDamagePlayer);
     }
 
     lastAction_ = decision.action;
-    ApplyAction(decision.action, deltaTime, player);
+    if (decision.action == NpcAction::MoveTowardPlayer) {
+        const sim::math::Vec2 toTarget = (currentTarget_ - position_).Normalized();
+        MoveBy(((toTarget * currentSpeed_) + separationForce) * deltaTime);
+    } else {
+        ApplyAction(decision.action, deltaTime, player);
+    }
+
+    return false;
 }
 
 sim::ai::Observation PoliceNpc::GetObservation(const Player& player) const
@@ -176,36 +208,50 @@ sim::ai::NpcAiContext PoliceNpc::BuildAiContext(const Player& player) const
     };
 }
 
-void PoliceNpc::UpdateSpeed(const float /*deltaTime*/, const Player& player)
+void PoliceNpc::UpdateSpeed(const float deltaTime, const Player& player)
 {
+    const float distance = sim::math::Distance(position_, player.GetPosition());
+    float maxSpeed = kBaseSpeed;
+
     if (player.GetWantedLevel() <= 3) {
-        currentSpeed_ = kBaseSpeed;
-        return;
+        maxSpeed = kBaseSpeed;
+    } else {
+        const int boostedStars = player.GetWantedLevel() - 3;
+        float speedMultiplier = 1.0f + (kSpeedIncreasePerStar * static_cast<float>(boostedStars));
+        if (player.GetWantedLevel() >= Player::kMaxWantedLevel) {
+            speedMultiplier = std::max(speedMultiplier, kMaxPoliceSpeed / kBaseSpeed);
+        }
+
+        maxSpeed = std::min(kBaseSpeed * speedMultiplier, kMaxPoliceSpeed);
     }
 
-    const int boostedStars = player.GetWantedLevel() - 3;
-    float speedMultiplier = 1.0f + (kSpeedIncreasePerStar * static_cast<float>(boostedStars));
-    if (player.GetWantedLevel() >= Player::kMaxWantedLevel) {
-        speedMultiplier = std::max(speedMultiplier, kMaxPoliceSpeed / kBaseSpeed);
+    float distanceMultiplier = 1.0f;
+    if (distance <= kAttackRange) {
+        distanceMultiplier = kCloseSpeedMultiplier;
+    } else if (distance < kFarPursuitDistance) {
+        const float t = (distance - kAttackRange) / (kFarPursuitDistance - kAttackRange);
+        distanceMultiplier = kCloseSpeedMultiplier + ((1.0f - kCloseSpeedMultiplier) * t);
     }
 
-    currentSpeed_ = std::min(kBaseSpeed * speedMultiplier, kMaxPoliceSpeed);
+    effectiveMaxSpeed_ = maxSpeed;
+    currentSpeed_ = MoveTowards(currentSpeed_, maxSpeed * distanceMultiplier, kAcceleration * deltaTime);
 }
 
-void PoliceNpc::TryAttack(Player& player, const float /*deltaTime*/)
+bool PoliceNpc::TryAttack(Player& player, const float /*deltaTime*/, const bool canDamagePlayer)
 {
-    if (!player.IsAlive() || player.GetWantedLevel() <= 0) {
-        return;
+    if (!canDamagePlayer || !player.IsAlive() || player.GetWantedLevel() <= 0) {
+        return false;
     }
 
     const float distance = sim::math::Distance(position_, player.GetPosition());
     if (distance > kAttackRange || attackCooldown_ > 0.0f) {
-        return;
+        return false;
     }
 
     player.ApplyDamage(kAttackDamage);
     attackCooldown_ = kAttackCooldown;
     lastAction_ = NpcAction::Attack;
+    return true;
 }
 
 void PoliceNpc::MoveBy(const sim::math::Vec2& offset)

@@ -7,6 +7,7 @@
 #include "sim/entities/PoliceNpc.hpp"
 #include "sim/math/Vec2.hpp"
 
+#include <cstddef>
 #include <cstdint>
 #include <string>
 
@@ -60,7 +61,8 @@ private:
     sim::entities::PoliceManager policeManager_;
     Config config_;
     sim::math::Vec2 hospitalPosition_{15.0f, 15.0f};
-    float playerHeadingRadians_{0.0f};
+    sim::math::Vec2 playerVelocity_;
+    std::size_t playerGoalIndex_{0};
     float playerCurrentSpeed_{0.0f};
     float playerAttackCooldown_{0.0f};
     float pursuitTimerSeconds_{0.0f};

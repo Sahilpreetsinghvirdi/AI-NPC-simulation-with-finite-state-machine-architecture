@@ -252,6 +252,8 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     drawSection("Police");
     std::snprintf(buffer, sizeof(buffer), "Active: %zu", policeManager.GetActiveCount());
     drawLine(buffer, kTextPrimary);
+    std::snprintf(buffer, sizeof(buffer), "Wanted: %d / %d", player.GetWantedLevel(), sim::entities::Player::kMaxWantedLevel);
+    drawLine(buffer, player.GetWantedLevel() > 0 ? ORANGE : kTextPrimary);
     if (primaryPolice != nullptr) {
         std::snprintf(buffer, sizeof(buffer), "Lead Pos: (%.1f, %.1f)",
                       primaryPolice->GetPosition().x, primaryPolice->GetPosition().y);
@@ -271,6 +273,17 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
         drawLine(buffer, distance <= 10.0f ? RED : kTextPrimary);
     } else {
         drawLine("Lead: none", kTextMuted);
+    }
+
+    std::size_t policeIndex = 0;
+    for (const auto& police : policeManager.GetPoliceNpcs()) {
+        const auto& target = police.GetCurrentTarget();
+        std::snprintf(buffer, sizeof(buffer), "P%zu Target: (%.1f, %.1f)",
+                      policeIndex + 1, target.x, target.y);
+        drawLine(buffer, kTextMuted);
+        std::snprintf(buffer, sizeof(buffer), "P%zu Speed: %.1f", policeIndex + 1, police.GetCurrentSpeed());
+        drawLine(buffer, police.GetCurrentSpeed() > sim::entities::PoliceNpc::kBaseSpeed ? ORANGE : kTextMuted);
+        ++policeIndex;
     }
 
     y += 8;

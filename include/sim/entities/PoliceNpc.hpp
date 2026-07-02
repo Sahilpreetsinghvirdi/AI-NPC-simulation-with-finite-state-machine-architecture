@@ -30,8 +30,14 @@ public:
     [[nodiscard]] float GetCurrentSpeed() const;
     [[nodiscard]] float GetSpeedMultiplier() const;
     [[nodiscard]] float GetEffectiveMaxSpeed() const;
+    [[nodiscard]] const sim::math::Vec2& GetCurrentTarget() const;
 
-    void Update(float deltaTime, Player& player);
+    bool Update(float deltaTime, Player& player);
+    bool Update(float deltaTime,
+                Player& player,
+                sim::math::Vec2 interceptTarget,
+                sim::math::Vec2 separationForce,
+                bool canDamagePlayer);
     void ApplyDamage(float amount);
 
     // RL interface — stable contract for future policy integration.
@@ -44,15 +50,17 @@ public:
 private:
     [[nodiscard]] sim::ai::NpcAiContext BuildAiContext(const Player& player) const;
     void UpdateSpeed(float deltaTime, const Player& player);
-    void TryAttack(Player& player, float deltaTime);
+    [[nodiscard]] bool TryAttack(Player& player, float deltaTime, bool canDamagePlayer);
     void MoveBy(const sim::math::Vec2& offset);
 
     sim::math::Vec2 position_;
+    sim::math::Vec2 currentTarget_;
     float health_{kMaxHealth};
     sim::ai::NpcFiniteStateMachine stateMachine_;
     NpcAction lastAction_{NpcAction::None};
     float patrolHeadingRadians_{0.0f};
     float currentSpeed_{0.0f};
+    float effectiveMaxSpeed_{kBaseSpeed};
     float attackCooldown_{0.0f};
 };
 
