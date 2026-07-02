@@ -36,11 +36,16 @@ private:
     };
 
     [[nodiscard]] ScreenPoint WorldToScreen(sim::math::Vec2 worldPosition) const;
+    void HandleWindowControls();
+    void SyncWindowSize();
     void DrawWorldPanel(const Simulation& simulation);
     void DrawHudPanel(const Simulation& simulation) const;
 
     Config config_;
     float tickAccumulator_{0.0f};
+    int windowedWidth_{1280};
+    int windowedHeight_{720};
+    bool fullscreen_{false};
 };
 
 } // namespace sim::visualization

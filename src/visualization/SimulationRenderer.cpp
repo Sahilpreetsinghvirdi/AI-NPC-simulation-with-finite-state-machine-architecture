@@ -62,8 +62,12 @@ SimulationRenderer::SimulationRenderer()
 
 SimulationRenderer::SimulationRenderer(const Config config)
     : config_(config)
+    , windowedWidth_(config.screenWidth)
+    , windowedHeight_(config.screenHeight)
 {
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(config_.screenWidth, config_.screenHeight, "AiNpcSimulation — 2D Sandbox");
+    SetWindowMinSize(900, 540);
     SetTargetFPS(60);
 }
 
@@ -86,6 +90,9 @@ float SimulationRenderer::GetFrameDeltaSeconds() const
 
 void SimulationRenderer::UpdateSimulation(Simulation& simulation, const float frameDeltaSeconds)
 {
+    HandleWindowControls();
+    SyncWindowSize();
+
     simulation.UpdateRealtime(frameDeltaSeconds);
 
     if (simulation.IsPaused()) {
@@ -103,6 +110,8 @@ void SimulationRenderer::UpdateSimulation(Simulation& simulation, const float fr
 
 void SimulationRenderer::Draw(const Simulation& simulation)
 {
+    SyncWindowSize();
+
     BeginDrawing();
     ClearBackground(kBackgroundColor);
 
@@ -110,6 +119,40 @@ void SimulationRenderer::Draw(const Simulation& simulation)
     DrawHudPanel(simulation);
 
     EndDrawing();
+}
+
+void SimulationRenderer::HandleWindowControls()
+{
+    if (!IsKeyPressed(KEY_F11)) {
+        return;
+    }
+
+    if (!fullscreen_) {
+        windowedWidth_ = GetScreenWidth();
+        windowedHeight_ = GetScreenHeight();
+
+        const int monitor = GetCurrentMonitor();
+        SetWindowSize(GetMonitorWidth(monitor), GetMonitorHeight(monitor));
+        ToggleFullscreen();
+        fullscreen_ = true;
+    } else {
+        ToggleFullscreen();
+        SetWindowSize(windowedWidth_, windowedHeight_);
+        fullscreen_ = false;
+    }
+
+    SyncWindowSize();
+}
+
+void SimulationRenderer::SyncWindowSize()
+{
+    config_.screenWidth = GetScreenWidth();
+    config_.screenHeight = GetScreenHeight();
+
+    if (!fullscreen_) {
+        windowedWidth_ = config_.screenWidth;
+        windowedHeight_ = config_.screenHeight;
+    }
 }
 
 SimulationRenderer::ScreenPoint SimulationRenderer::WorldToScreen(const sim::math::Vec2 worldPosition) const
