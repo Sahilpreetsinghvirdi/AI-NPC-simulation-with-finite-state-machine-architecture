@@ -1,0 +1,16 @@
+# CMake / Visual Studio build artifacts
+build/
+out/
+cmake-build-*/
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Runtime output (logs are generated, not versioned)
+logs/*.log
+logs/*.txt
+
+# IDE
+.idea/

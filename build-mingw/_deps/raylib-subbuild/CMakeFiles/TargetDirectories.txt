@@ -1,0 +1,3 @@
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/CMakeFiles/raylib-populate.dir
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/CMakeFiles/edit_cache.dir
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/CMakeFiles/rebuild_cache.dir

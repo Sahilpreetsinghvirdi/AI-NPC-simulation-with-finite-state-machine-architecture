@@ -1,0 +1,37 @@
+file(REMOVE_RECURSE
+  "../bin/ai_npc_sim.exe"
+  "../bin/ai_npc_sim.exe.manifest"
+  "../bin/ai_npc_sim.pdb"
+  "CMakeFiles/ai_npc_sim.dir/Simulation.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/Simulation.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/core/LogLevel.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/core/LogLevel.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/core/Logger.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/core/Logger.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/core/SimulationTimer.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/core/SimulationTimer.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/main.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/main.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj.d"
+  "libai_npc_sim.dll.a"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/ai_npc_sim.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

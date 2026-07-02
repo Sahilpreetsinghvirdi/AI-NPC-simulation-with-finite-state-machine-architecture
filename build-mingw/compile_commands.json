@@ -1,0 +1,248 @@
+[
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -D_CRT_SECURE_NO_WARNINGS @CMakeFiles/raylib.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -Wall -Wextra -Wpedantic -o CMakeFiles\\raylib.dir\\raudio.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\raudio.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/raudio.c",
+  "output": "_deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -D_CRT_SECURE_NO_WARNINGS @CMakeFiles/raylib.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -Wall -Wextra -Wpedantic -o CMakeFiles\\raylib.dir\\rcore.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\rcore.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/rcore.c",
+  "output": "_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rcore.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -D_CRT_SECURE_NO_WARNINGS @CMakeFiles/raylib.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -Wall -Wextra -Wpedantic -o CMakeFiles\\raylib.dir\\rmodels.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\rmodels.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/rmodels.c",
+  "output": "_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -D_CRT_SECURE_NO_WARNINGS @CMakeFiles/raylib.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -Wall -Wextra -Wpedantic -o CMakeFiles\\raylib.dir\\rshapes.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\rshapes.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/rshapes.c",
+  "output": "_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -D_CRT_SECURE_NO_WARNINGS @CMakeFiles/raylib.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -Wall -Wextra -Wpedantic -o CMakeFiles\\raylib.dir\\rtext.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\rtext.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/rtext.c",
+  "output": "_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -D_CRT_SECURE_NO_WARNINGS @CMakeFiles/raylib.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -Wall -Wextra -Wpedantic -o CMakeFiles\\raylib.dir\\rtextures.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\rtextures.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/rtextures.c",
+  "output": "_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -D_CRT_SECURE_NO_WARNINGS @CMakeFiles/raylib.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -Wall -Wextra -Wpedantic -o CMakeFiles\\raylib.dir\\utils.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\utils.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/utils.c",
+  "output": "_deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\context.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\context.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/context.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/context.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\init.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\init.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/init.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/init.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\input.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\input.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/input.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/input.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\monitor.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\monitor.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/monitor.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/monitor.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\platform.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\platform.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/platform.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/platform.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\vulkan.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\vulkan.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/vulkan.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\window.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\window.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/window.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/window.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\egl_context.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\egl_context.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/egl_context.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\osmesa_context.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\osmesa_context.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/osmesa_context.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\null_init.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\null_init.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/null_init.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_init.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\null_monitor.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\null_monitor.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/null_monitor.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\null_window.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\null_window.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/null_window.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_window.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\null_joystick.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\null_joystick.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/null_joystick.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\win32_module.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\win32_module.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/win32_module.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/win32_module.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\win32_time.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\win32_time.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/win32_time.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\win32_thread.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\win32_thread.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/win32_thread.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\win32_init.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\win32_init.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/win32_init.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\win32_joystick.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\win32_joystick.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/win32_joystick.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\win32_monitor.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\win32_monitor.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/win32_monitor.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\win32_window.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\win32_window.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/win32_window.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-build/raylib/external/glfw/src",
+  "command": "C:\\mingw64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_WIN32 -D_UNICODE @CMakeFiles/glfw.dir/includes_C.rsp -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=c99 -Wall -Wextra -Wpedantic -o CMakeFiles\\glfw.dir\\wgl_context.c.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\build-mingw\\_deps\\raylib-src\\src\\external\\glfw\\src\\wgl_context.c\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-src/src/external/glfw/src/wgl_context.c",
+  "output": "_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\main.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\main.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/main.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/main.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\Simulation.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\Simulation.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/Simulation.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/Simulation.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\core\\LogLevel.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\core\\LogLevel.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/core/LogLevel.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/core/LogLevel.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\core\\Logger.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\core\\Logger.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/core/Logger.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/core/Logger.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\core\\SimulationTimer.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\core\\SimulationTimer.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/core/SimulationTimer.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/core/SimulationTimer.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\math\\Vec2.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\math\\Vec2.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/math/Vec2.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\ai\\Observation.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\Observation.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/Observation.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\entities\\Player.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\entities\\Player.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/entities/Player.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\entities\\PlayerLifeState.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\entities\\PlayerLifeState.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/entities/PlayerLifeState.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\entities\\NpcState.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\entities\\NpcState.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/entities/NpcState.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\entities\\NpcAction.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\entities\\NpcAction.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/entities/NpcAction.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\entities\\PoliceNpc.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\entities\\PoliceNpc.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/entities/PoliceNpc.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\visualization\\SimulationRenderer.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\visualization\\SimulationRenderer.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/visualization/SimulationRenderer.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj"
+}
+]

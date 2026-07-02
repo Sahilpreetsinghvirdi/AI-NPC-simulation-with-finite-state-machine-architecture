@@ -1,0 +1,14 @@
+# Target labels
+ raylib-populate
+# Source files and their labels
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/CMakeFiles/raylib-populate
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/CMakeFiles/raylib-populate.rule
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/CMakeFiles/raylib-populate-complete.rule
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-build.rule
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-configure.rule
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-download.rule
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-install.rule
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-mkdir.rule
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch.rule
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-test.rule
+D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update.rule

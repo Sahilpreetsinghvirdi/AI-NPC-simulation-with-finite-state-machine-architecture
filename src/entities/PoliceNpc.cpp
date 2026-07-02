@@ -1,0 +1,243 @@
+#include "sim/entities/PoliceNpc.hpp"
+
+#include <algorithm>
+#include <cmath>
+#include <sstream>
+
+namespace sim::entities {
+
+namespace {
+
+constexpr float kBaseSpeed = 8.0f;
+constexpr float kAcceleration = 30.0f;
+constexpr float kHungerDecayPerSecond = 1.5f;
+constexpr float kPursueDistanceThreshold = 80.0f;
+constexpr float kSprintDistance = 18.0f;
+constexpr float kAttackRange = 10.0f;
+constexpr float kAttackCooldown = 0.5f;
+constexpr float kAttackDamage = 20.0f;
+
+sim::math::Vec2 DirectionFromAngle(const float radians)
+{
+    return {std::cos(radians), std::sin(radians)};
+}
+
+float MoveTowards(const float current, const float target, const float maxDelta)
+{
+    if (current < target) {
+        return std::min(target, current + maxDelta);
+    }
+    return std::max(target, current - maxDelta);
+}
+
+} // namespace
+
+PoliceNpc::PoliceNpc() = default;
+
+PoliceNpc::PoliceNpc(const sim::math::Vec2 startPosition)
+    : position_(startPosition)
+{
+}
+
+const sim::math::Vec2& PoliceNpc::GetPosition() const
+{
+    return position_;
+}
+
+float PoliceNpc::GetHealth() const
+{
+    return health_;
+}
+
+float PoliceNpc::GetHunger() const
+{
+    return hunger_;
+}
+
+float PoliceNpc::GetMoney() const
+{
+    return money_;
+}
+
+NpcState PoliceNpc::GetState() const
+{
+    return state_;
+}
+
+NpcAction PoliceNpc::GetLastAction() const
+{
+    return lastAction_;
+}
+
+float PoliceNpc::GetCurrentSpeed() const
+{
+    return currentSpeed_;
+}
+
+void PoliceNpc::Update(const float deltaTime, Player& player)
+{
+    attackCooldown_ = std::max(0.0f, attackCooldown_ - deltaTime);
+
+    DecideState(player);
+    ApplyHungerDecay(deltaTime);
+    UpdateSpeed(deltaTime, player);
+
+    const float distance = sim::math::Distance(position_, player.GetPosition());
+    if (player.IsAlive() && player.GetWantedLevel() > 0 && distance <= kAttackRange && attackCooldown_ <= 0.0f) {
+        TryAttack(player, deltaTime);
+        return;
+    }
+
+    const NpcAction action = SelectRuleBasedAction(player);
+    lastAction_ = action;
+    ApplyAction(action, deltaTime, player);
+}
+
+sim::ai::Observation PoliceNpc::GetObservation(const Player& player) const
+{
+    const float distance = sim::math::Distance(position_, player.GetPosition());
+
+    sim::ai::Observation observation;
+    observation.features = {
+        position_.x,
+        position_.y,
+        player.GetPosition().x,
+        player.GetPosition().y,
+        distance,
+        static_cast<float>(player.GetWantedLevel()),
+        health_,
+        hunger_,
+        money_,
+        static_cast<float>(state_)
+    };
+
+    return observation;
+}
+
+void PoliceNpc::ApplyAction(const NpcAction action, const float deltaTime, const Player& player)
+{
+    // TODO: Route all locomotion through a learned policy once RL is integrated.
+    switch (action) {
+    case NpcAction::Wait:
+        break;
+
+    case NpcAction::PatrolStep: {
+        patrolHeadingRadians_ += 0.05f;
+        MoveBy(DirectionFromAngle(patrolHeadingRadians_) * (currentSpeed_ * deltaTime));
+        break;
+    }
+
+    case NpcAction::MoveTowardPlayer: {
+        const sim::math::Vec2 toPlayer = (player.GetPosition() - position_).Normalized();
+        MoveBy(toPlayer * (currentSpeed_ * deltaTime));
+        break;
+    }
+
+    case NpcAction::Attack:
+        break;
+
+    case NpcAction::None:
+    default:
+        break;
+    }
+}
+
+float PoliceNpc::CalculateReward(const Player& player, const NpcAction /*action*/) const
+{
+    if (player.GetWantedLevel() <= 0) {
+        return 0.0f;
+    }
+
+    const float distance = sim::math::Distance(position_, player.GetPosition());
+    return std::max(0.0f, 100.0f - distance);
+}
+
+std::string PoliceNpc::ToString() const
+{
+    std::ostringstream stream;
+    stream << "Police{pos=" << position_
+           << ", health=" << health_
+           << ", hunger=" << hunger_
+           << ", money=" << money_
+           << ", speed=" << currentSpeed_
+           << ", state=" << sim::entities::ToString(state_)
+           << '}';
+    return stream.str();
+}
+
+void PoliceNpc::DecideState(const Player& player)
+{
+    if (player.GetWantedLevel() > 0 && player.IsAlive()) {
+        const float distance = sim::math::Distance(position_, player.GetPosition());
+        state_ = (distance <= kPursueDistanceThreshold) ? NpcState::Pursue : NpcState::Investigate;
+        return;
+    }
+
+    state_ = NpcState::Patrol;
+}
+
+NpcAction PoliceNpc::SelectRuleBasedAction(const Player& player) const
+{
+    switch (state_) {
+    case NpcState::Pursue:
+        return NpcAction::MoveTowardPlayer;
+    case NpcState::Investigate:
+        return (player.GetWantedLevel() > 0) ? NpcAction::MoveTowardPlayer : NpcAction::PatrolStep;
+    case NpcState::Patrol:
+        return NpcAction::PatrolStep;
+    case NpcState::Idle:
+    default:
+        return NpcAction::Wait;
+    }
+}
+
+void PoliceNpc::ApplyHungerDecay(const float deltaTime)
+{
+    hunger_ = std::max(0.0f, hunger_ - (kHungerDecayPerSecond * deltaTime));
+}
+
+void PoliceNpc::UpdateSpeed(const float deltaTime, const Player& player)
+{
+    const float distance = sim::math::Distance(position_, player.GetPosition());
+    const float targetSpeed = kBaseSpeed * GetTargetSpeedMultiplier(distance, player);
+    currentSpeed_ = MoveTowards(currentSpeed_, targetSpeed, kAcceleration * deltaTime);
+}
+
+void PoliceNpc::TryAttack(Player& player, const float /*deltaTime*/)
+{
+    if (!player.IsAlive() || player.GetWantedLevel() <= 0) {
+        return;
+    }
+
+    const float distance = sim::math::Distance(position_, player.GetPosition());
+    if (distance > kAttackRange || attackCooldown_ > 0.0f) {
+        return;
+    }
+
+    player.ApplyDamage(kAttackDamage);
+    attackCooldown_ = kAttackCooldown;
+    lastAction_ = NpcAction::Attack;
+}
+
+float PoliceNpc::GetTargetSpeedMultiplier(const float distanceToPlayer, const Player& player) const
+{
+    if (player.GetWantedLevel() > 0 && player.IsAlive() && distanceToPlayer <= kSprintDistance &&
+        (state_ == NpcState::Pursue || state_ == NpcState::Investigate)) {
+        return 4.0f;
+    }
+
+    switch (state_) {
+    case NpcState::Patrol:      return 1.0f;
+    case NpcState::Investigate: return 1.5f;
+    case NpcState::Pursue:      return 3.0f;
+    case NpcState::Idle:
+    default:                    return 0.0f;
+    }
+}
+
+void PoliceNpc::MoveBy(const sim::math::Vec2& offset)
+{
+    position_ += offset;
+}
+
+} // namespace sim::entities

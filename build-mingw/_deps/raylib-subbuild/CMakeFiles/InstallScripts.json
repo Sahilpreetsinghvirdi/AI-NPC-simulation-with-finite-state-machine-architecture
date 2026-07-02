@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/Visual Studio Files/ai-npc-simulation/build-mingw/_deps/raylib-subbuild/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
