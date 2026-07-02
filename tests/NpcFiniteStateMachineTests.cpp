@@ -1,5 +1,6 @@
 #include "sim/ai/NpcFiniteStateMachine.hpp"
 #include "sim/entities/Player.hpp"
+#include "sim/entities/PoliceManager.hpp"
 #include "sim/entities/PoliceNpc.hpp"
 #include "sim/math/Vec2.hpp"
 
@@ -120,6 +121,38 @@ bool PoliceSpeedScalesWithWantedLevel()
     return wantedThreeOk && wantedFourOk && wantedFiveOk;
 }
 
+bool PoliceManagerSpawnsAndUpdatesIndependentPolice()
+{
+    sim::entities::Player player({0.0f, 0.0f});
+    player.SetWantedLevel(3);
+
+    sim::entities::PoliceManager manager;
+    manager.SyncToWantedLevel(player.GetWantedLevel(), player.GetPosition());
+
+    const bool countOk = Expect(manager.GetActiveCount() == 3, "wanted 3 should spawn three police NPCs");
+    const auto& policeNpcs = manager.GetPoliceNpcs();
+    const bool uniqueSpawnOk = Expect(policeNpcs.size() == 3 &&
+                                          !sim::math::ApproxEqual(policeNpcs[0].GetPosition(), policeNpcs[1].GetPosition()) &&
+                                          !sim::math::ApproxEqual(policeNpcs[1].GetPosition(), policeNpcs[2].GetPosition()),
+                                      "spawned police should not share one position");
+
+    manager.UpdateAll(0.1f, player);
+
+    bool allUpdated = true;
+    for (const auto& police : manager.GetPoliceNpcs()) {
+        allUpdated = allUpdated &&
+                     police.GetState() == sim::entities::NpcState::Pursue &&
+                     police.GetLastAction() == sim::entities::NpcAction::MoveTowardPlayer;
+    }
+
+    const bool updatedOk = Expect(allUpdated, "each police NPC should update its own FSM and action");
+
+    manager.SyncToWantedLevel(1, player.GetPosition());
+    const bool shrinkOk = Expect(manager.GetActiveCount() == 1, "wanted 1 should shrink active police to one");
+
+    return countOk && uniqueSpawnOk && updatedOk && shrinkOk;
+}
+
 } // namespace
 
 int main()
@@ -129,7 +162,8 @@ int main()
                     PursuesNearbyWantedPlayer() &&
                     AccumulatesTimeWhileStateIsStable() &&
                     PoliceNpcUsesStateMachineDecision() &&
-                    PoliceSpeedScalesWithWantedLevel();
+                    PoliceSpeedScalesWithWantedLevel() &&
+                    PoliceManagerSpawnsAndUpdatesIndependentPolice();
 
     if (ok) {
         std::cout << "All NPC FSM tests passed.\n";

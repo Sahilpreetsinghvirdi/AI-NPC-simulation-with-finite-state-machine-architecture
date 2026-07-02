@@ -3,6 +3,7 @@ add_executable(ai_npc_tests
     ../src/ai/NpcFiniteStateMachine.cpp
     ../src/entities/NpcState.cpp
     ../src/entities/NpcAction.cpp
+    ../src/entities/PoliceManager.cpp
     ../src/entities/Player.cpp
     ../src/entities/PlayerLifeState.cpp
     ../src/entities/PoliceNpc.cpp

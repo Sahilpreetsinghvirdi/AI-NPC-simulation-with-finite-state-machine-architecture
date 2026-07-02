@@ -22,6 +22,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj.d"
   "CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj"
   "CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj.d"
   "CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj"
   "CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj.d"
   "CMakeFiles/ai_npc_sim.dir/main.cpp.obj"

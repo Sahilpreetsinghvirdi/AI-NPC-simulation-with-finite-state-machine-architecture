@@ -39,7 +39,6 @@ Simulation::Simulation(sim::core::Logger& logger, const Config config)
     : logger_(logger)
     , timer_({.tickRateHz = config.tickRateHz, .realTimePacing = config.realTimePacing})
     , player_({20.0f, 20.0f})
-    , police_({80.0f, 80.0f})
     , config_(config)
 {
 }
@@ -158,13 +157,14 @@ void Simulation::UpdatePlayer(const float deltaTime)
 
 void Simulation::UpdatePolice(const float deltaTime)
 {
-    police_.Update(deltaTime, player_);
+    policeManager_.SyncToWantedLevel(player_.GetWantedLevel(), player_.GetPosition());
+    policeManager_.UpdateAll(deltaTime, player_);
 }
 
 void Simulation::UpdatePursuitEscalation(const float deltaTime, const float playerHealthBeforePoliceUpdate)
 {
     const bool policeDamagedPlayer = player_.GetHealth() < playerHealthBeforePoliceUpdate;
-    if (player_.IsDead() || policeDamagedPlayer || police_.GetState() != sim::entities::NpcState::Pursue) {
+    if (player_.IsDead() || policeDamagedPlayer || !policeManager_.AnyInState(sim::entities::NpcState::Pursue)) {
         pursuitTimerSeconds_ = 0.0f;
         return;
     }
@@ -178,6 +178,7 @@ void Simulation::UpdatePursuitEscalation(const float deltaTime, const float play
 
     if (player_.GetWantedLevel() < sim::entities::Player::kMaxWantedLevel) {
         player_.IncreaseWantedLevel(1);
+        policeManager_.SyncToWantedLevel(player_.GetWantedLevel(), player_.GetPosition());
         RecordEvent("Pursuit failed for 10s. Wanted level increased.");
     } else {
         RecordEvent("Pursuit failed for 10s. Wanted level is already maxed.");
@@ -186,27 +187,33 @@ void Simulation::UpdatePursuitEscalation(const float deltaTime, const float play
 
 void Simulation::TryPlayerAttackPolice(const float /*deltaTime*/)
 {
-    if (!player_.IsAlive() || !police_.IsAlive() || playerAttackCooldown_ > 0.0f) {
+    if (!player_.IsAlive() || playerAttackCooldown_ > 0.0f) {
         return;
     }
 
-    const float distance = sim::math::Distance(player_.GetPosition(), police_.GetPosition());
+    sim::entities::PoliceNpc* nearestPolice = policeManager_.GetNearestPolice(player_.GetPosition());
+    if (nearestPolice == nullptr) {
+        return;
+    }
+
+    const float distance = sim::math::Distance(player_.GetPosition(), nearestPolice->GetPosition());
     if (distance > kPlayerAttackRange) {
         return;
     }
 
-    police_.ApplyDamage(kPlayerAttackDamage);
+    nearestPolice->ApplyDamage(kPlayerAttackDamage);
     playerAttackCooldown_ = kPlayerAttackCooldown;
     RecordEvent("Player counterattacked police.");
 }
 
 float Simulation::CalculatePlayerTargetSpeed() const
 {
-    if (!police_.IsAlive()) {
+    const sim::entities::PoliceNpc* nearestPolice = policeManager_.GetNearestPolice(player_.GetPosition());
+    if (nearestPolice == nullptr) {
         return kPlayerBaseSpeed;
     }
 
-    const float distance = sim::math::Distance(player_.GetPosition(), police_.GetPosition());
+    const float distance = sim::math::Distance(player_.GetPosition(), nearestPolice->GetPosition());
     if (distance >= kPlayerAccelerationDistance) {
         return kPlayerBaseSpeed;
     }
@@ -226,6 +233,7 @@ void Simulation::RespawnPlayer()
 {
     player_.Respawn(hospitalPosition_, sim::entities::Player::kMaxHealth);
     player_.SetWantedLevel(kRespawnWantedLevel);
+    policeManager_.SyncToWantedLevel(player_.GetWantedLevel(), player_.GetPosition());
     deathPauseRemaining_ = 0.0f;
     RecordEvent("Player respawned at hospital. Wanted level restored to 3 stars.");
 }

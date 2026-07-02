@@ -372,6 +372,30 @@ __/src/entities/PlayerLifeState.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PlayerLifeState.cpp.s
 .PHONY : __/src/entities/PlayerLifeState.cpp.s
 
+__/src/entities/PoliceManager.obj: __/src/entities/PoliceManager.cpp.obj
+.PHONY : __/src/entities/PoliceManager.obj
+
+# target to build an object file
+__/src/entities/PoliceManager.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PoliceManager.cpp.obj
+.PHONY : __/src/entities/PoliceManager.cpp.obj
+
+__/src/entities/PoliceManager.i: __/src/entities/PoliceManager.cpp.i
+.PHONY : __/src/entities/PoliceManager.i
+
+# target to preprocess a source file
+__/src/entities/PoliceManager.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PoliceManager.cpp.i
+.PHONY : __/src/entities/PoliceManager.cpp.i
+
+__/src/entities/PoliceManager.s: __/src/entities/PoliceManager.cpp.s
+.PHONY : __/src/entities/PoliceManager.s
+
+# target to generate assembly for a file
+__/src/entities/PoliceManager.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PoliceManager.cpp.s
+.PHONY : __/src/entities/PoliceManager.cpp.s
+
 __/src/entities/PoliceNpc.obj: __/src/entities/PoliceNpc.cpp.obj
 .PHONY : __/src/entities/PoliceNpc.obj
 
@@ -457,6 +481,9 @@ help:
 	@echo ... __/src/entities/PlayerLifeState.obj
 	@echo ... __/src/entities/PlayerLifeState.i
 	@echo ... __/src/entities/PlayerLifeState.s
+	@echo ... __/src/entities/PoliceManager.obj
+	@echo ... __/src/entities/PoliceManager.i
+	@echo ... __/src/entities/PoliceManager.s
 	@echo ... __/src/entities/PoliceNpc.obj
 	@echo ... __/src/entities/PoliceNpc.i
 	@echo ... __/src/entities/PoliceNpc.s

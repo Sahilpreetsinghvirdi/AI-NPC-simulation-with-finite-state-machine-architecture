@@ -177,6 +177,7 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/bits/ostream_print.h \
  C:/mingw64/include/c++/16.1.0/bits/ostream.tcc \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/Player.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/PoliceManager.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/PoliceNpc.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
  C:/mingw64/include/c++/16.1.0/vector \

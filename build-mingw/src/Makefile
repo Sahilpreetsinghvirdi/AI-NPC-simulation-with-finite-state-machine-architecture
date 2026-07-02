@@ -444,6 +444,30 @@ entities/PlayerLifeState.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.s
 .PHONY : entities/PlayerLifeState.cpp.s
 
+entities/PoliceManager.obj: entities/PoliceManager.cpp.obj
+.PHONY : entities/PoliceManager.obj
+
+# target to build an object file
+entities/PoliceManager.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj
+.PHONY : entities/PoliceManager.cpp.obj
+
+entities/PoliceManager.i: entities/PoliceManager.cpp.i
+.PHONY : entities/PoliceManager.i
+
+# target to preprocess a source file
+entities/PoliceManager.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.i
+.PHONY : entities/PoliceManager.cpp.i
+
+entities/PoliceManager.s: entities/PoliceManager.cpp.s
+.PHONY : entities/PoliceManager.s
+
+# target to generate assembly for a file
+entities/PoliceManager.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.s
+.PHONY : entities/PoliceManager.cpp.s
+
 entities/PoliceNpc.obj: entities/PoliceNpc.cpp.obj
 .PHONY : entities/PoliceNpc.obj
 
@@ -586,6 +610,9 @@ help:
 	@echo ... entities/PlayerLifeState.obj
 	@echo ... entities/PlayerLifeState.i
 	@echo ... entities/PlayerLifeState.s
+	@echo ... entities/PoliceManager.obj
+	@echo ... entities/PoliceManager.i
+	@echo ... entities/PoliceManager.s
 	@echo ... entities/PoliceNpc.obj
 	@echo ... entities/PoliceNpc.i
 	@echo ... entities/PoliceNpc.s

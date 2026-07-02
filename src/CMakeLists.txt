@@ -12,6 +12,7 @@ add_executable(ai_npc_sim
     entities/PlayerLifeState.cpp
     entities/NpcState.cpp
     entities/NpcAction.cpp
+    entities/PoliceManager.cpp
     entities/PoliceNpc.cpp
     visualization/SimulationRenderer.cpp
 )

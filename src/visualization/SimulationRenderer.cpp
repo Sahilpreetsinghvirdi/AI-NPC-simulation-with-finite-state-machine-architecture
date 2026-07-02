@@ -142,7 +142,7 @@ void SimulationRenderer::DrawWorldPanel(const Simulation& simulation)
     }
 
     const auto& player = simulation.GetPlayer();
-    const auto& police = simulation.GetPoliceNpc();
+    const auto& policeManager = simulation.GetPoliceManager();
 
     const ScreenPoint hospitalScreen = WorldToScreen(simulation.GetHospitalPosition());
     DrawRectangle(static_cast<int>(hospitalScreen.x - 12.0f), static_cast<int>(hospitalScreen.y - 12.0f),
@@ -152,17 +152,19 @@ void SimulationRenderer::DrawWorldPanel(const Simulation& simulation)
     DrawText("H", static_cast<int>(hospitalScreen.x - 6.0f), static_cast<int>(hospitalScreen.y - 10.0f), 18, RAYWHITE);
 
     const ScreenPoint playerScreen = WorldToScreen(player.GetPosition());
-    const ScreenPoint policeScreen = WorldToScreen(police.GetPosition());
 
     const Color playerDrawColor = player.IsDead() ? Color{100, 100, 110, 255} : kPlayerColor;
     DrawEntity(playerScreen.x, playerScreen.y, 10.0f, playerDrawColor, RAYWHITE, "Player");
-    DrawEntity(policeScreen.x, policeScreen.y, 10.0f, kPoliceColor, RAYWHITE, "Police");
-    DrawLineV({playerScreen.x, playerScreen.y}, {policeScreen.x, policeScreen.y}, {90, 95, 110, 180});
-
     DrawHealthBar(playerScreen.x, playerScreen.y, 40.0f, player.GetHealth(),
                   sim::entities::Player::kMaxHealth, kPlayerColor);
-    DrawHealthBar(policeScreen.x, policeScreen.y, 40.0f, police.GetHealth(),
-                  sim::entities::PoliceNpc::kMaxHealth, kPoliceColor);
+
+    for (const auto& police : policeManager.GetPoliceNpcs()) {
+        const ScreenPoint policeScreen = WorldToScreen(police.GetPosition());
+        DrawEntity(policeScreen.x, policeScreen.y, 10.0f, kPoliceColor, RAYWHITE, "Police");
+        DrawLineV({playerScreen.x, playerScreen.y}, {policeScreen.x, policeScreen.y}, {90, 95, 110, 180});
+        DrawHealthBar(policeScreen.x, policeScreen.y, 40.0f, police.GetHealth(),
+                      sim::entities::PoliceNpc::kMaxHealth, kPoliceColor);
+    }
 
     DrawText("World View", config_.worldMargin + 8, config_.worldMargin + 8, 18, kTextMuted);
 
@@ -195,12 +197,14 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     DrawLine(hudX, 0, hudX, config_.screenHeight, kGridColor);
 
     const auto& player = simulation.GetPlayer();
-    const auto& police = simulation.GetPoliceNpc();
+    const auto& policeManager = simulation.GetPoliceManager();
+    const sim::entities::PoliceNpc* primaryPolice = simulation.GetPrimaryPoliceNpc();
     const auto& timer = simulation.GetTimer();
-    const auto observation = police.GetObservation(player);
-    const auto action = police.GetLastAction();
-    const float reward = police.CalculateReward(player, action);
-    const float distance = sim::math::Distance(player.GetPosition(), police.GetPosition());
+    const auto action = primaryPolice != nullptr ? primaryPolice->GetLastAction() : sim::entities::NpcAction::None;
+    const float reward = primaryPolice != nullptr ? primaryPolice->CalculateReward(player, action) : 0.0f;
+    const float distance = primaryPolice != nullptr
+                               ? sim::math::Distance(player.GetPosition(), primaryPolice->GetPosition())
+                               : 0.0f;
 
     int y = 20;
     const int x = hudX + 16;
@@ -246,20 +250,28 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
 
     y += 8;
     drawSection("Police");
-    std::snprintf(buffer, sizeof(buffer), "Pos: (%.1f, %.1f)", police.GetPosition().x, police.GetPosition().y);
+    std::snprintf(buffer, sizeof(buffer), "Active: %zu", policeManager.GetActiveCount());
     drawLine(buffer, kTextPrimary);
-    std::snprintf(buffer, sizeof(buffer), "HP: %.0f / %.0f", police.GetHealth(), sim::entities::PoliceNpc::kMaxHealth);
-    drawLine(buffer, kTextPrimary);
-    std::snprintf(buffer, sizeof(buffer), "State: %s", sim::entities::ToString(police.GetState()));
-    drawLine(buffer, kTextPrimary);
-    std::snprintf(buffer, sizeof(buffer), "Speed x%.2f", police.GetSpeedMultiplier());
-    drawLine(buffer, police.GetSpeedMultiplier() > 1.0f ? ORANGE : kTextPrimary);
-    std::snprintf(buffer, sizeof(buffer), "Effective Speed: %.1f u/s", police.GetEffectiveMaxSpeed());
-    drawLine(buffer, police.GetCurrentSpeed() > 20.0f ? ORANGE : kTextPrimary);
-    std::snprintf(buffer, sizeof(buffer), "Action: %s", sim::entities::ToString(action));
-    drawLine(buffer, kTextPrimary);
-    std::snprintf(buffer, sizeof(buffer), "Distance: %.1f", distance);
-    drawLine(buffer, distance <= 10.0f ? RED : kTextPrimary);
+    if (primaryPolice != nullptr) {
+        std::snprintf(buffer, sizeof(buffer), "Lead Pos: (%.1f, %.1f)",
+                      primaryPolice->GetPosition().x, primaryPolice->GetPosition().y);
+        drawLine(buffer, kTextPrimary);
+        std::snprintf(buffer, sizeof(buffer), "Lead HP: %.0f / %.0f",
+                      primaryPolice->GetHealth(), sim::entities::PoliceNpc::kMaxHealth);
+        drawLine(buffer, kTextPrimary);
+        std::snprintf(buffer, sizeof(buffer), "State: %s", sim::entities::ToString(primaryPolice->GetState()));
+        drawLine(buffer, kTextPrimary);
+        std::snprintf(buffer, sizeof(buffer), "Speed x%.2f", primaryPolice->GetSpeedMultiplier());
+        drawLine(buffer, primaryPolice->GetSpeedMultiplier() > 1.0f ? ORANGE : kTextPrimary);
+        std::snprintf(buffer, sizeof(buffer), "Effective Speed: %.1f u/s", primaryPolice->GetEffectiveMaxSpeed());
+        drawLine(buffer, primaryPolice->GetCurrentSpeed() > 20.0f ? ORANGE : kTextPrimary);
+        std::snprintf(buffer, sizeof(buffer), "Action: %s", sim::entities::ToString(action));
+        drawLine(buffer, kTextPrimary);
+        std::snprintf(buffer, sizeof(buffer), "Distance: %.1f", distance);
+        drawLine(buffer, distance <= 10.0f ? RED : kTextPrimary);
+    } else {
+        drawLine("Lead: none", kTextMuted);
+    }
 
     y += 8;
     drawSection("RL Signals");
@@ -271,9 +283,12 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
         "Wanted", "Police HP", "State"
     };
 
-    for (std::size_t index = 0; index < observation.features.size() && index < 8; ++index) {
-        std::snprintf(buffer, sizeof(buffer), "%s: %.2f", kFeatureNames[index], observation.features[index]);
-        drawLine(buffer, kTextMuted);
+    if (primaryPolice != nullptr) {
+        const auto observation = primaryPolice->GetObservation(player);
+        for (std::size_t index = 0; index < observation.features.size() && index < 8; ++index) {
+            std::snprintf(buffer, sizeof(buffer), "%s: %.2f", kFeatureNames[index], observation.features[index]);
+            drawLine(buffer, kTextMuted);
+        }
     }
 
     if (!simulation.GetLastEventMessage().empty()) {

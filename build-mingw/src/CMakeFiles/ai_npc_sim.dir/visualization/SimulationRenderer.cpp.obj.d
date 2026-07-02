@@ -242,11 +242,12 @@ src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/tr1/poly_hermite.tcc \
  C:/mingw64/include/c++/16.1.0/tr1/poly_laguerre.tcc \
  C:/mingw64/include/c++/16.1.0/tr1/riemann_zeta.tcc \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/PoliceManager.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/NpcState.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/PoliceNpc.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/NpcFiniteStateMachine.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/NpcAction.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/NpcState.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/BUILD-~1/_deps/RAYLIB~2/src/raylib.h \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/16.1.0/include/stdarg.h \
  C:/mingw64/x86_64-w64-mingw32/include/stdarg.h \

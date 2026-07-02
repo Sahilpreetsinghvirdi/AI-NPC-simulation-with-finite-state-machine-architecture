@@ -18,6 +18,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/NpcState.cpp" "src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/Player.cpp" "src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/PlayerLifeState.cpp" "src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj.d"
+  "D:/Visual Studio Files/ai-npc-simulation/src/entities/PoliceManager.cpp" "src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/PoliceNpc.cpp" "src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/main.cpp" "src/CMakeFiles/ai_npc_sim.dir/main.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/main.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/math/Vec2.cpp" "src/CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj.d"

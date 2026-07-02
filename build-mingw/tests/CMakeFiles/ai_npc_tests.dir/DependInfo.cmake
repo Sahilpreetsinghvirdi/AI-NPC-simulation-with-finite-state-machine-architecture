@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/NpcState.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/NpcState.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/NpcState.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/Player.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/Player.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/Player.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/PlayerLifeState.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PlayerLifeState.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PlayerLifeState.cpp.obj.d"
+  "D:/Visual Studio Files/ai-npc-simulation/src/entities/PoliceManager.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PoliceManager.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PoliceManager.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/PoliceNpc.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PoliceNpc.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/PoliceNpc.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/math/Vec2.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/math/Vec2.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/math/Vec2.cpp.obj.d"
   )

@@ -3,6 +3,7 @@
 #include "sim/core/Logger.hpp"
 #include "sim/core/SimulationTimer.hpp"
 #include "sim/entities/Player.hpp"
+#include "sim/entities/PoliceManager.hpp"
 #include "sim/entities/PoliceNpc.hpp"
 #include "sim/math/Vec2.hpp"
 
@@ -38,7 +39,8 @@ public:
     [[nodiscard]] float GetPursuitFailureSeconds() const;
 
     [[nodiscard]] const sim::entities::Player& GetPlayer() const { return player_; }
-    [[nodiscard]] const sim::entities::PoliceNpc& GetPoliceNpc() const { return police_; }
+    [[nodiscard]] const sim::entities::PoliceManager& GetPoliceManager() const { return policeManager_; }
+    [[nodiscard]] const sim::entities::PoliceNpc* GetPrimaryPoliceNpc() const { return policeManager_.GetPrimaryPolice(); }
     [[nodiscard]] const sim::core::SimulationTimer& GetTimer() const { return timer_; }
     [[nodiscard]] sim::core::SimulationTimer& GetTimer() { return timer_; }
 
@@ -55,7 +57,7 @@ private:
     sim::core::Logger& logger_;
     sim::core::SimulationTimer timer_;
     sim::entities::Player player_;
-    sim::entities::PoliceNpc police_;
+    sim::entities::PoliceManager policeManager_;
     Config config_;
     sim::math::Vec2 hospitalPosition_{15.0f, 15.0f};
     float playerHeadingRadians_{0.0f};
