@@ -21,6 +21,8 @@ constexpr Color kPoliceColor{220, 80, 70, 255};
 constexpr Color kTextPrimary{230, 233, 240, 255};
 constexpr Color kTextMuted{150, 156, 170, 255};
 constexpr Color kAccent{100, 210, 120, 255};
+constexpr Color kInterceptLineColor{250, 210, 90, 180};
+constexpr Color kVelocityColor{80, 220, 255, 220};
 
 void DrawEntity(const float screenX, const float screenY, const float radius, const Color fillColor,
                 const Color outlineColor, const char* label)
@@ -152,18 +154,29 @@ void SimulationRenderer::DrawWorldPanel(const Simulation& simulation)
     DrawText("H", static_cast<int>(hospitalScreen.x - 6.0f), static_cast<int>(hospitalScreen.y - 10.0f), 18, RAYWHITE);
 
     const ScreenPoint playerScreen = WorldToScreen(player.GetPosition());
+    const ScreenPoint velocityEnd = WorldToScreen(player.GetPosition() + (simulation.GetPlayerVelocity() * 1.2f));
 
     const Color playerDrawColor = player.IsDead() ? Color{100, 100, 110, 255} : kPlayerColor;
     DrawEntity(playerScreen.x, playerScreen.y, 10.0f, playerDrawColor, RAYWHITE, "Player");
+    DrawLineEx({playerScreen.x, playerScreen.y}, {velocityEnd.x, velocityEnd.y}, 3.0f, kVelocityColor);
     DrawHealthBar(playerScreen.x, playerScreen.y, 40.0f, player.GetHealth(),
                   sim::entities::Player::kMaxHealth, kPlayerColor);
 
+    std::size_t policeIndex = 0;
     for (const auto& police : policeManager.GetPoliceNpcs()) {
         const ScreenPoint policeScreen = WorldToScreen(police.GetPosition());
+        const ScreenPoint targetScreen = WorldToScreen(police.GetCurrentTarget());
+        DrawLineV({policeScreen.x, policeScreen.y}, {targetScreen.x, targetScreen.y}, kInterceptLineColor);
+        DrawCircleLines(static_cast<int>(targetScreen.x), static_cast<int>(targetScreen.y), 7.0f, kInterceptLineColor);
         DrawEntity(policeScreen.x, policeScreen.y, 10.0f, kPoliceColor, RAYWHITE, "Police");
-        DrawLineV({playerScreen.x, playerScreen.y}, {policeScreen.x, policeScreen.y}, {90, 95, 110, 180});
+        DrawText(policeManager.GetRoleName(policeIndex),
+                 static_cast<int>(policeScreen.x - 34.0f),
+                 static_cast<int>(policeScreen.y - 48.0f),
+                 14,
+                 kAccent);
         DrawHealthBar(policeScreen.x, policeScreen.y, 40.0f, police.GetHealth(),
                       sim::entities::PoliceNpc::kMaxHealth, kPoliceColor);
+        ++policeIndex;
     }
 
     DrawText("World View", config_.worldMargin + 8, config_.worldMargin + 8, 18, kTextMuted);
@@ -278,8 +291,8 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     std::size_t policeIndex = 0;
     for (const auto& police : policeManager.GetPoliceNpcs()) {
         const auto& target = police.GetCurrentTarget();
-        std::snprintf(buffer, sizeof(buffer), "P%zu Target: (%.1f, %.1f)",
-                      policeIndex + 1, target.x, target.y);
+        std::snprintf(buffer, sizeof(buffer), "P%zu %s Target: (%.1f, %.1f)",
+                      policeIndex + 1, policeManager.GetRoleName(policeIndex), target.x, target.y);
         drawLine(buffer, kTextMuted);
         std::snprintf(buffer, sizeof(buffer), "P%zu Speed: %.1f", policeIndex + 1, police.GetCurrentSpeed());
         drawLine(buffer, police.GetCurrentSpeed() > sim::entities::PoliceNpc::kBaseSpeed ? ORANGE : kTextMuted);

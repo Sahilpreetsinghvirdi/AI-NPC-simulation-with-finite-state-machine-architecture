@@ -7,6 +7,7 @@
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <vector>
 
 namespace {
 
@@ -157,6 +158,51 @@ bool PoliceManagerSpawnsAndUpdatesIndependentPolice()
     return countOk && uniqueSpawnOk && updatedOk && shrinkOk;
 }
 
+bool PoliceInterceptionChangesRelativePositions()
+{
+    sim::entities::Player player({20.0f, 20.0f});
+    player.SetWantedLevel(5);
+
+    sim::entities::PoliceManager manager;
+    manager.SyncToWantedLevel(player.GetWantedLevel(), player.GetPosition());
+
+    const sim::math::Vec2 playerVelocity{8.0f, 3.0f};
+    manager.UpdateAll(0.1f, player, playerVelocity);
+
+    const auto& firstFramePolice = manager.GetPoliceNpcs();
+    const bool countOk = Expect(firstFramePolice.size() == 5, "wanted 5 should create five police roles");
+    const bool targetSpreadOk = Expect(!sim::math::ApproxEqual(firstFramePolice[0].GetCurrentTarget(),
+                                                               firstFramePolice[1].GetCurrentTarget()) &&
+                                           !sim::math::ApproxEqual(firstFramePolice[1].GetCurrentTarget(),
+                                                                   firstFramePolice[2].GetCurrentTarget()),
+                                       "interception roles should produce different targets");
+
+    std::vector<sim::math::Vec2> initialOffsets;
+    for (const auto& police : firstFramePolice) {
+        initialOffsets.push_back(police.GetPosition() - player.GetPosition());
+    }
+
+    for (int step = 0; step < 20; ++step) {
+        player.Translate(playerVelocity * 0.1f);
+        manager.UpdateAll(0.1f, player, playerVelocity);
+    }
+
+    bool relativePositionsChanged = false;
+    const auto& finalPolice = manager.GetPoliceNpcs();
+    for (std::size_t index = 0; index < finalPolice.size() && index < initialOffsets.size(); ++index) {
+        const sim::math::Vec2 currentOffset = finalPolice[index].GetPosition() - player.GetPosition();
+        if (!sim::math::ApproxEqual(currentOffset, initialOffsets[index], 0.5f)) {
+            relativePositionsChanged = true;
+            break;
+        }
+    }
+
+    const bool relativeOk = Expect(relativePositionsChanged,
+                                   "police/player relative positions should change during pursuit");
+
+    return countOk && targetSpreadOk && relativeOk;
+}
+
 } // namespace
 
 int main()
@@ -167,7 +213,8 @@ int main()
                     AccumulatesTimeWhileStateIsStable() &&
                     PoliceNpcUsesStateMachineDecision() &&
                     PoliceSpeedScalesWithWantedLevel() &&
-                    PoliceManagerSpawnsAndUpdatesIndependentPolice();
+                    PoliceManagerSpawnsAndUpdatesIndependentPolice() &&
+                    PoliceInterceptionChangesRelativePositions();
 
     if (ok) {
         std::cout << "All NPC FSM tests passed.\n";

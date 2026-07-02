@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 namespace sim::entities {
 
@@ -15,6 +16,8 @@ constexpr float kCutoffDistance = 14.0f;
 constexpr float kSeparationRadius = 12.0f;
 constexpr float kSeparationStrength = 36.0f;
 constexpr float kPlayerDamageInvulnerabilitySeconds = 0.85f;
+constexpr float kMeaningfulDistanceGain = 1.0f;
+constexpr float kNoProgressStrategySeconds = 2.5f;
 
 int ClampWantedLevel(const int wantedLevel)
 {
@@ -29,10 +32,16 @@ void PoliceManager::SyncToWantedLevel(const int wantedLevel, const sim::math::Ve
 
     while (policeNpcs_.size() > targetCount) {
         policeNpcs_.pop_back();
+        lastPlayerDistances_.pop_back();
+        noProgressTimers_.pop_back();
+        strategyRevisions_.pop_back();
     }
 
     while (policeNpcs_.size() < targetCount) {
         policeNpcs_.emplace_back(CalculateSpawnPosition(playerPosition, policeNpcs_.size()));
+        lastPlayerDistances_.push_back(std::numeric_limits<float>::max());
+        noProgressTimers_.push_back(0.0f);
+        strategyRevisions_.push_back(0);
     }
 }
 
@@ -50,6 +59,19 @@ void PoliceManager::UpdateAll(const float deltaTime, Player& player, const sim::
         if (police.Update(deltaTime, player, target, separation, canDamagePlayer)) {
             damageAppliedThisFrame = true;
             playerDamageCooldown_ = kPlayerDamageInvulnerabilitySeconds;
+        }
+
+        const float currentDistance = sim::math::Distance(police.GetPosition(), player.GetPosition());
+        if (lastPlayerDistances_[index] - currentDistance >= kMeaningfulDistanceGain) {
+            noProgressTimers_[index] = 0.0f;
+            lastPlayerDistances_[index] = currentDistance;
+        } else {
+            noProgressTimers_[index] += deltaTime;
+            if (noProgressTimers_[index] >= kNoProgressStrategySeconds) {
+                ++strategyRevisions_[index];
+                noProgressTimers_[index] = 0.0f;
+                lastPlayerDistances_[index] = currentDistance;
+            }
         }
     }
 }
@@ -69,6 +91,19 @@ bool PoliceManager::AnyInState(const NpcState state) const
     return std::any_of(policeNpcs_.begin(), policeNpcs_.end(), [state](const PoliceNpc& police) {
         return police.IsAlive() && police.GetState() == state;
     });
+}
+
+const char* PoliceManager::GetRoleName(const std::size_t index) const
+{
+    static constexpr const char* kRoles[] = {
+        "Lead",
+        "Left Flank",
+        "Right Flank",
+        "Cutoff",
+        "Reserve"
+    };
+
+    return kRoles[index % 5];
 }
 
 const std::vector<PoliceNpc>& PoliceManager::GetPoliceNpcs() const
@@ -137,21 +172,49 @@ sim::math::Vec2 PoliceManager::CalculateInterceptTarget(const PoliceNpc& police,
 {
     const float distance = sim::math::Distance(police.GetPosition(), player.GetPosition());
     const float speed = std::max(police.GetCurrentSpeed(), PoliceNpc::kBaseSpeed);
-    const float predictionSeconds = std::clamp(distance / speed * 0.45f,
+    const int revision = (index < strategyRevisions_.size()) ? strategyRevisions_[index] : 0;
+    const float revisionPredictionBias = 1.0f + (0.12f * static_cast<float>(revision % 3));
+    const float predictionSeconds = std::clamp(distance / speed * 0.45f * revisionPredictionBias,
                                                kPredictionMinSeconds,
                                                kPredictionMaxSeconds);
     const sim::math::Vec2 predictedPosition = player.GetPosition() + (playerVelocity * predictionSeconds);
 
-    if (index == 0 || playerVelocity.LengthSquared() <= sim::math::Vec2::kEpsilon) {
-        return predictedPosition;
+    sim::math::Vec2 forward = playerVelocity.Normalized();
+    if (playerVelocity.LengthSquared() <= sim::math::Vec2::kEpsilon) {
+        forward = (player.GetPosition() - police.GetPosition()).Normalized();
+        if (forward.LengthSquared() <= sim::math::Vec2::kEpsilon) {
+            forward = {1.0f, 0.0f};
+        }
     }
-
-    const sim::math::Vec2 forward = playerVelocity.Normalized();
     const sim::math::Vec2 right{forward.y, -forward.x};
-    const float sideSign = (index % 2 == 0) ? 1.0f : -1.0f;
-    const float ring = 1.0f + static_cast<float>(index / 3);
-    const float ahead = (index == 1 || index == 2) ? kCutoffDistance : kCutoffDistance * 0.45f;
-    const float side = kCutoffDistance * sideSign * ring;
+    const float revisionSide = (revision % 2 == 0) ? 1.0f : -1.0f;
+
+    float ahead = kCutoffDistance * 0.75f;
+    float side = 0.0f;
+
+    switch (index % 5) {
+    case 0:
+        ahead = kCutoffDistance * (1.05f + (0.15f * static_cast<float>(revision % 2)));
+        side = (revision > 0) ? kCutoffDistance * 0.35f * revisionSide : 0.0f;
+        break;
+    case 1:
+        ahead = kCutoffDistance * 1.15f;
+        side = -kCutoffDistance * (1.0f + (0.2f * static_cast<float>(revision % 2)));
+        break;
+    case 2:
+        ahead = kCutoffDistance * 1.15f;
+        side = kCutoffDistance * (1.0f + (0.2f * static_cast<float>(revision % 2)));
+        break;
+    case 3:
+        ahead = kCutoffDistance * (1.85f + (0.15f * static_cast<float>(revision % 3)));
+        side = kCutoffDistance * 0.25f * revisionSide;
+        break;
+    case 4:
+    default:
+        ahead = kCutoffDistance * 0.35f;
+        side = kCutoffDistance * 1.55f * revisionSide;
+        break;
+    }
 
     return predictedPosition + (forward * ahead) + (right * side);
 }

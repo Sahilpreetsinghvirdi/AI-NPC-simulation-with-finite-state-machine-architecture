@@ -36,6 +36,7 @@ public:
     [[nodiscard]] const std::string& GetLastEventMessage() const;
     [[nodiscard]] sim::math::Vec2 GetHospitalPosition() const;
     [[nodiscard]] float GetPlayerCurrentSpeed() const;
+    [[nodiscard]] sim::math::Vec2 GetPlayerVelocity() const { return playerVelocity_; }
     [[nodiscard]] float GetPursuitTimerSeconds() const;
     [[nodiscard]] float GetPursuitFailureSeconds() const;
 

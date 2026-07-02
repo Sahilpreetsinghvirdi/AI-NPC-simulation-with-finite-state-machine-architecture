@@ -18,6 +18,7 @@ public:
     [[nodiscard]] std::size_t GetActiveCount() const;
     [[nodiscard]] bool HasActivePolice() const;
     [[nodiscard]] bool AnyInState(NpcState state) const;
+    [[nodiscard]] const char* GetRoleName(std::size_t index) const;
     [[nodiscard]] const std::vector<PoliceNpc>& GetPoliceNpcs() const;
     [[nodiscard]] const PoliceNpc* GetPrimaryPolice() const;
     [[nodiscard]] const PoliceNpc* GetNearestPolice(sim::math::Vec2 position) const;
@@ -32,6 +33,9 @@ private:
     [[nodiscard]] sim::math::Vec2 CalculateSeparationForce(std::size_t index) const;
 
     std::vector<PoliceNpc> policeNpcs_;
+    std::vector<float> lastPlayerDistances_;
+    std::vector<float> noProgressTimers_;
+    std::vector<int> strategyRevisions_;
     float playerDamageCooldown_{0.0f};
 };
 
