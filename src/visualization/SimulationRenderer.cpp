@@ -238,6 +238,9 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     drawLine(buffer, player.IsDead() ? RED : kTextPrimary);
     std::snprintf(buffer, sizeof(buffer), "Wanted: %d / %d", player.GetWantedLevel(), sim::entities::Player::kMaxWantedLevel);
     drawLine(buffer, player.GetWantedLevel() > 0 ? ORANGE : kTextPrimary);
+    std::snprintf(buffer, sizeof(buffer), "Pursuit: %.1f / %.1fs",
+                  simulation.GetPursuitTimerSeconds(), simulation.GetPursuitFailureSeconds());
+    drawLine(buffer, simulation.GetPursuitTimerSeconds() > 7.0f ? ORANGE : kTextPrimary);
     std::snprintf(buffer, sizeof(buffer), "Speed: %.1f u/s", simulation.GetPlayerCurrentSpeed());
     drawLine(buffer, simulation.GetPlayerCurrentSpeed() > 10.0f ? ORANGE : kTextPrimary);
 
@@ -249,7 +252,9 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     drawLine(buffer, kTextPrimary);
     std::snprintf(buffer, sizeof(buffer), "State: %s", sim::entities::ToString(police.GetState()));
     drawLine(buffer, kTextPrimary);
-    std::snprintf(buffer, sizeof(buffer), "Speed: %.1f u/s", police.GetCurrentSpeed());
+    std::snprintf(buffer, sizeof(buffer), "Speed x%.2f", police.GetSpeedMultiplier());
+    drawLine(buffer, police.GetSpeedMultiplier() > 1.0f ? ORANGE : kTextPrimary);
+    std::snprintf(buffer, sizeof(buffer), "Effective Speed: %.1f u/s", police.GetEffectiveMaxSpeed());
     drawLine(buffer, police.GetCurrentSpeed() > 20.0f ? ORANGE : kTextPrimary);
     std::snprintf(buffer, sizeof(buffer), "Action: %s", sim::entities::ToString(action));
     drawLine(buffer, kTextPrimary);

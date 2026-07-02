@@ -1,5 +1,7 @@
 #include "sim/Simulation.hpp"
 
+#include "sim/entities/NpcState.hpp"
+
 #include <algorithm>
 #include <cmath>
 
@@ -14,6 +16,7 @@ constexpr float kPlayerAccelerationDistance = 40.0f;
 constexpr float kPlayerAttackRange = 8.0f;
 constexpr float kPlayerAttackCooldown = 0.8f;
 constexpr float kPlayerAttackDamage = 8.0f;
+constexpr float kPursuitFailureDuration = 10.0f;
 constexpr float kDeathPauseDuration = 5.0f;
 constexpr int kRespawnWantedLevel = 3;
 
@@ -75,7 +78,9 @@ void Simulation::Tick()
     const float deltaTime = timer_.GetDeltaTime();
     playerAttackCooldown_ = std::max(0.0f, playerAttackCooldown_ - deltaTime);
     UpdatePlayer(deltaTime);
+    const float playerHealthBeforePoliceUpdate = player_.GetHealth();
     UpdatePolice(deltaTime);
+    UpdatePursuitEscalation(deltaTime, playerHealthBeforePoliceUpdate);
     TryPlayerAttackPolice(deltaTime);
 
     if (player_.GetHealth() <= 0.0f && !player_.IsDead()) {
@@ -118,6 +123,16 @@ float Simulation::GetPlayerCurrentSpeed() const
     return playerCurrentSpeed_;
 }
 
+float Simulation::GetPursuitTimerSeconds() const
+{
+    return pursuitTimerSeconds_;
+}
+
+float Simulation::GetPursuitFailureSeconds() const
+{
+    return kPursuitFailureDuration;
+}
+
 void Simulation::UpdatePlayer(const float deltaTime)
 {
     if (player_.IsDead()) {
@@ -144,6 +159,29 @@ void Simulation::UpdatePlayer(const float deltaTime)
 void Simulation::UpdatePolice(const float deltaTime)
 {
     police_.Update(deltaTime, player_);
+}
+
+void Simulation::UpdatePursuitEscalation(const float deltaTime, const float playerHealthBeforePoliceUpdate)
+{
+    const bool policeDamagedPlayer = player_.GetHealth() < playerHealthBeforePoliceUpdate;
+    if (player_.IsDead() || policeDamagedPlayer || police_.GetState() != sim::entities::NpcState::Pursue) {
+        pursuitTimerSeconds_ = 0.0f;
+        return;
+    }
+
+    pursuitTimerSeconds_ += deltaTime;
+    if (pursuitTimerSeconds_ < kPursuitFailureDuration) {
+        return;
+    }
+
+    pursuitTimerSeconds_ = 0.0f;
+
+    if (player_.GetWantedLevel() < sim::entities::Player::kMaxWantedLevel) {
+        player_.IncreaseWantedLevel(1);
+        RecordEvent("Pursuit failed for 10s. Wanted level increased.");
+    } else {
+        RecordEvent("Pursuit failed for 10s. Wanted level is already maxed.");
+    }
 }
 
 void Simulation::TryPlayerAttackPolice(const float /*deltaTime*/)

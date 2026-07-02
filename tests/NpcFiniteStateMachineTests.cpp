@@ -95,6 +95,31 @@ bool PoliceNpcUsesStateMachineDecision()
                   "police should act from FSM or attack when in range");
 }
 
+bool PoliceSpeedScalesWithWantedLevel()
+{
+    sim::entities::Player player({120.0f, 0.0f});
+    sim::entities::PoliceNpc police({0.0f, 0.0f});
+
+    player.SetWantedLevel(3);
+    police.Update(0.1f, player);
+    const bool wantedThreeOk = Expect(AlmostEqual(police.GetCurrentSpeed(), sim::entities::PoliceNpc::kBaseSpeed),
+                                     "wanted 3 should keep base police speed");
+
+    player.SetWantedLevel(4);
+    police.Update(0.1f, player);
+    const float wantedFourSpeed = sim::entities::PoliceNpc::kBaseSpeed *
+                                  (1.0f + sim::entities::PoliceNpc::kSpeedIncreasePerStar);
+    const bool wantedFourOk = Expect(AlmostEqual(police.GetCurrentSpeed(), wantedFourSpeed),
+                                    "wanted 4 should increase police speed by one configured step");
+
+    player.SetWantedLevel(sim::entities::Player::kMaxWantedLevel);
+    police.Update(0.1f, player);
+    const bool wantedFiveOk = Expect(AlmostEqual(police.GetCurrentSpeed(), sim::entities::PoliceNpc::kMaxPoliceSpeed),
+                                    "max wanted should use configured max police speed");
+
+    return wantedThreeOk && wantedFourOk && wantedFiveOk;
+}
+
 } // namespace
 
 int main()
@@ -103,7 +128,8 @@ int main()
                     InvestigatesDistantWantedPlayer() &&
                     PursuesNearbyWantedPlayer() &&
                     AccumulatesTimeWhileStateIsStable() &&
-                    PoliceNpcUsesStateMachineDecision();
+                    PoliceNpcUsesStateMachineDecision() &&
+                    PoliceSpeedScalesWithWantedLevel();
 
     if (ok) {
         std::cout << "All NPC FSM tests passed.\n";

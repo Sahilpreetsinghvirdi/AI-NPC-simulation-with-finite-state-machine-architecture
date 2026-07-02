@@ -8,7 +8,6 @@ namespace sim::entities {
 
 namespace {
 
-constexpr float kBaseSpeed = 8.0f;
 constexpr float kAttackRange = 10.0f;
 constexpr float kAttackCooldown = 0.5f;
 constexpr float kAttackDamage = 20.0f;
@@ -24,7 +23,7 @@ PoliceNpc::PoliceNpc() = default;
 
 PoliceNpc::PoliceNpc(const sim::math::Vec2 startPosition)
     : position_(startPosition)
-    , currentSpeed_(kBaseSpeed)
+    , currentSpeed_(PoliceNpc::kBaseSpeed)
 {
 }
 
@@ -54,6 +53,16 @@ NpcAction PoliceNpc::GetLastAction() const
 }
 
 float PoliceNpc::GetCurrentSpeed() const
+{
+    return currentSpeed_;
+}
+
+float PoliceNpc::GetSpeedMultiplier() const
+{
+    return currentSpeed_ / kBaseSpeed;
+}
+
+float PoliceNpc::GetEffectiveMaxSpeed() const
 {
     return currentSpeed_;
 }
@@ -167,9 +176,20 @@ sim::ai::NpcAiContext PoliceNpc::BuildAiContext(const Player& player) const
     };
 }
 
-void PoliceNpc::UpdateSpeed(const float /*deltaTime*/, const Player& /*player*/)
+void PoliceNpc::UpdateSpeed(const float /*deltaTime*/, const Player& player)
 {
-    currentSpeed_ = kBaseSpeed;
+    if (player.GetWantedLevel() <= 3) {
+        currentSpeed_ = kBaseSpeed;
+        return;
+    }
+
+    const int boostedStars = player.GetWantedLevel() - 3;
+    float speedMultiplier = 1.0f + (kSpeedIncreasePerStar * static_cast<float>(boostedStars));
+    if (player.GetWantedLevel() >= Player::kMaxWantedLevel) {
+        speedMultiplier = std::max(speedMultiplier, kMaxPoliceSpeed / kBaseSpeed);
+    }
+
+    currentSpeed_ = std::min(kBaseSpeed * speedMultiplier, kMaxPoliceSpeed);
 }
 
 void PoliceNpc::TryAttack(Player& player, const float /*deltaTime*/)

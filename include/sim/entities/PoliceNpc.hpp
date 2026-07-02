@@ -15,6 +15,9 @@ namespace sim::entities {
 class PoliceNpc {
 public:
     static constexpr float kMaxHealth = 100.0f;
+    static constexpr float kBaseSpeed = 8.0f;
+    static constexpr float kSpeedIncreasePerStar = 0.10f;
+    static constexpr float kMaxPoliceSpeed = 19.2f;
 
     PoliceNpc();
     explicit PoliceNpc(sim::math::Vec2 startPosition);
@@ -25,6 +28,8 @@ public:
     [[nodiscard]] NpcState GetState() const;
     [[nodiscard]] NpcAction GetLastAction() const;
     [[nodiscard]] float GetCurrentSpeed() const;
+    [[nodiscard]] float GetSpeedMultiplier() const;
+    [[nodiscard]] float GetEffectiveMaxSpeed() const;
 
     void Update(float deltaTime, Player& player);
     void ApplyDamage(float amount);
