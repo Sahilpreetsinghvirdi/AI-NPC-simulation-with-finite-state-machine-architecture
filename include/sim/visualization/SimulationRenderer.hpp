@@ -37,12 +37,15 @@ private:
 
     [[nodiscard]] ScreenPoint WorldToScreen(sim::math::Vec2 worldPosition) const;
     void HandleWindowControls();
+    void HandleDebugPanelScroll();
     void SyncWindowSize();
     void DrawWorldPanel(const Simulation& simulation);
-    void DrawHudPanel(const Simulation& simulation) const;
+    void DrawHudPanel(const Simulation& simulation);
 
     Config config_;
     float tickAccumulator_{0.0f};
+    float debugScrollOffset_{0.0f};
+    float debugContentHeight_{0.0f};
     int windowedWidth_{1280};
     int windowedHeight_{720};
     bool fullscreen_{false};

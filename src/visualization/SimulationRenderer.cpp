@@ -92,6 +92,7 @@ void SimulationRenderer::UpdateSimulation(Simulation& simulation, const float fr
 {
     HandleWindowControls();
     SyncWindowSize();
+    HandleDebugPanelScroll();
 
     simulation.UpdateRealtime(frameDeltaSeconds);
 
@@ -142,6 +143,26 @@ void SimulationRenderer::HandleWindowControls()
     }
 
     SyncWindowSize();
+}
+
+void SimulationRenderer::HandleDebugPanelScroll()
+{
+    const Vector2 mousePosition = GetMousePosition();
+    const float hudX = static_cast<float>(config_.screenWidth - config_.hudWidth);
+    const Rectangle hudBounds{
+        hudX,
+        0.0f,
+        static_cast<float>(config_.hudWidth),
+        static_cast<float>(config_.screenHeight)
+    };
+
+    if (CheckCollisionPointRec(mousePosition, hudBounds)) {
+        const float wheelMove = GetMouseWheelMove();
+        debugScrollOffset_ -= wheelMove * 36.0f;
+    }
+
+    const float maxScroll = std::max(0.0f, debugContentHeight_ - static_cast<float>(config_.screenHeight));
+    debugScrollOffset_ = std::clamp(debugScrollOffset_, 0.0f, maxScroll);
 }
 
 void SimulationRenderer::SyncWindowSize()
@@ -269,7 +290,7 @@ void SimulationRenderer::DrawWorldPanel(const Simulation& simulation)
     }
 }
 
-void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
+void SimulationRenderer::DrawHudPanel(const Simulation& simulation)
 {
     const int hudX = config_.screenWidth - config_.hudWidth;
     const Rectangle hudBounds{
@@ -282,6 +303,11 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     DrawRectangleRec(hudBounds, {28, 30, 38, 255});
     DrawLine(hudX, 0, hudX, config_.screenHeight, kGridColor);
 
+    const float maxScroll = std::max(0.0f, debugContentHeight_ - static_cast<float>(config_.screenHeight));
+    debugScrollOffset_ = std::clamp(debugScrollOffset_, 0.0f, maxScroll);
+
+    BeginScissorMode(hudX, 0, config_.hudWidth, config_.screenHeight);
+
     const auto& player = simulation.GetPlayer();
     const auto& policeManager = simulation.GetPoliceManager();
     const sim::entities::PoliceNpc* primaryPolice = simulation.GetPrimaryPoliceNpc();
@@ -292,7 +318,8 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
                                ? sim::math::Distance(player.GetPosition(), primaryPolice->GetPosition())
                                : 0.0f;
 
-    int y = 20;
+    const int contentTop = 20 - static_cast<int>(debugScrollOffset_);
+    int y = contentTop;
     const int x = hudX + 16;
     const int lineHeight = 22;
 
@@ -437,6 +464,25 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
 
     if (simulation.IsFinished()) {
         DrawText("Simulation complete", x, config_.screenHeight - 36, 18, kAccent);
+    }
+
+    debugContentHeight_ = static_cast<float>(y - contentTop + 20);
+    EndScissorMode();
+
+    if (debugContentHeight_ > static_cast<float>(config_.screenHeight)) {
+        const float visibleHeight = static_cast<float>(config_.screenHeight);
+        const float trackX = static_cast<float>(hudX + config_.hudWidth - 10);
+        const float trackY = 8.0f;
+        const float trackHeight = std::max(32.0f, visibleHeight - 16.0f);
+        const float thumbHeight = std::max(32.0f, trackHeight * (visibleHeight / debugContentHeight_));
+        const float scrollableHeight = std::max(1.0f, debugContentHeight_ - visibleHeight);
+        const float thumbTravel = std::max(0.0f, trackHeight - thumbHeight);
+        const float thumbY = trackY + ((debugScrollOffset_ / scrollableHeight) * thumbTravel);
+
+        DrawRectangle(static_cast<int>(trackX), static_cast<int>(trackY), 4, static_cast<int>(trackHeight),
+                      {55, 60, 72, 190});
+        DrawRectangle(static_cast<int>(trackX), static_cast<int>(thumbY), 4, static_cast<int>(thumbHeight),
+                      kAccent);
     }
 }
 
