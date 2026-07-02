@@ -11,6 +11,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include <vector>
 
 namespace sim {
 
@@ -24,6 +25,14 @@ public:
         float lastSeenSeconds{0.0f};
         bool visible{false};
         bool remembered{false};
+    };
+
+    struct EscapeExperience {
+        sim::math::Vec2 position;
+        sim::math::Vec2 escapeDirection;
+        std::size_t nearbyPoliceCount{0};
+        float timeSurvived{0.0f};
+        bool success{false};
     };
 
     struct Config {
@@ -56,6 +65,10 @@ public:
     [[nodiscard]] std::size_t GetPlayerPerceivedObstacleCount() const;
     [[nodiscard]] float GetPlayerEscapeScore() const { return playerEscapeScore_; }
     [[nodiscard]] float GetPlayerDangerLevel() const { return playerDangerLevel_; }
+    [[nodiscard]] const std::vector<EscapeExperience>& GetPlayerExperiences() const { return playerExperiences_; }
+    [[nodiscard]] std::size_t GetPlayerSuccessfulEscapeCount() const;
+    [[nodiscard]] std::size_t GetPlayerFailedEscapeCount() const;
+    [[nodiscard]] sim::math::Vec2 GetPlayerPreferredEscapeDirection() const { return playerPreferredEscapeDirection_; }
     [[nodiscard]] float GetPursuitTimerSeconds() const;
     [[nodiscard]] float GetPursuitFailureSeconds() const;
 
@@ -68,12 +81,18 @@ public:
 private:
     void UpdatePlayer(float deltaTime);
     void UpdatePlayerPerception(float deltaTime);
+    void UpdatePlayerExperienceMemory(float deltaTime, float bestFreeSpace);
     void UpdatePolice(float deltaTime);
     void UpdatePursuitEscalation(float deltaTime, float playerHealthBeforePoliceUpdate);
     void TryPlayerAttackPolice(float deltaTime);
     [[nodiscard]] float CalculatePlayerTargetSpeed() const;
     void BeginDeathSequence();
     void RespawnPlayer();
+    void RecordEscapeExperience(bool success, float timeSurvived);
+    [[nodiscard]] float CalculateExperienceBias(sim::math::Vec2 position,
+                                                sim::math::Vec2 direction,
+                                                std::size_t nearbyPoliceCount) const;
+    [[nodiscard]] std::size_t CountNearbyPolice(float radius) const;
     void RecordEvent(std::string message);
 
     sim::core::Logger& logger_;
@@ -88,8 +107,13 @@ private:
     sim::math::Vec2 playerSteeringVector_;
     sim::math::Vec2 playerEscapeVector_{1.0f, 0.0f};
     std::array<PerceivedBoundary, 4> playerKnownBoundaries_;
+    std::vector<EscapeExperience> playerExperiences_;
+    sim::math::Vec2 playerPreferredEscapeDirection_{1.0f, 0.0f};
     float playerEscapeScore_{0.0f};
     float playerDangerLevel_{0.0f};
+    float playerTrapTimer_{0.0f};
+    float playerExperienceSurvivalTimer_{0.0f};
+    float playerSuccessRecordCooldown_{0.0f};
     float playerCurrentSpeed_{0.0f};
     float playerAttackCooldown_{0.0f};
     float pursuitTimerSeconds_{0.0f};

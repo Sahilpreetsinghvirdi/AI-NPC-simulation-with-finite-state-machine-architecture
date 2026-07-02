@@ -308,6 +308,15 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     drawLine(buffer, kTextMuted);
     std::snprintf(buffer, sizeof(buffer), "Danger: %.2f", simulation.GetPlayerDangerLevel());
     drawLine(buffer, simulation.GetPlayerDangerLevel() > 1.0f ? ORANGE : kTextMuted);
+    std::snprintf(buffer, sizeof(buffer), "Experiences: %zu", simulation.GetPlayerExperiences().size());
+    drawLine(buffer, kTextMuted);
+    std::snprintf(buffer, sizeof(buffer), "Success/Fail: %zu / %zu",
+                  simulation.GetPlayerSuccessfulEscapeCount(), simulation.GetPlayerFailedEscapeCount());
+    drawLine(buffer, kTextMuted);
+    std::snprintf(buffer, sizeof(buffer), "Preferred: (%.2f, %.2f)",
+                  simulation.GetPlayerPreferredEscapeDirection().x,
+                  simulation.GetPlayerPreferredEscapeDirection().y);
+    drawLine(buffer, kTextMuted);
 
     y += 8;
     drawSection("Police");
