@@ -33,6 +33,7 @@ public:
     [[nodiscard]] float GetDeathPauseRemaining() const;
     [[nodiscard]] const std::string& GetLastEventMessage() const;
     [[nodiscard]] sim::math::Vec2 GetHospitalPosition() const;
+    [[nodiscard]] float GetPlayerCurrentSpeed() const;
 
     [[nodiscard]] const sim::entities::Player& GetPlayer() const { return player_; }
     [[nodiscard]] const sim::entities::PoliceNpc& GetPoliceNpc() const { return police_; }
@@ -42,6 +43,8 @@ public:
 private:
     void UpdatePlayer(float deltaTime);
     void UpdatePolice(float deltaTime);
+    void TryPlayerAttackPolice(float deltaTime);
+    [[nodiscard]] float CalculatePlayerTargetSpeed() const;
     void BeginDeathSequence();
     void RespawnPlayer();
     void RecordEvent(std::string message);
@@ -53,6 +56,8 @@ private:
     Config config_;
     sim::math::Vec2 hospitalPosition_{15.0f, 15.0f};
     float playerHeadingRadians_{0.0f};
+    float playerCurrentSpeed_{0.0f};
+    float playerAttackCooldown_{0.0f};
     float deathPauseRemaining_{0.0f};
     std::string lastEventMessage_;
 };

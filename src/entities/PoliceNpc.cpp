@@ -9,9 +9,6 @@ namespace sim::entities {
 namespace {
 
 constexpr float kBaseSpeed = 8.0f;
-constexpr float kAcceleration = 30.0f;
-constexpr float kHungerDecayPerSecond = 1.5f;
-constexpr float kSprintDistance = 18.0f;
 constexpr float kAttackRange = 10.0f;
 constexpr float kAttackCooldown = 0.5f;
 constexpr float kAttackDamage = 20.0f;
@@ -21,20 +18,13 @@ sim::math::Vec2 DirectionFromAngle(const float radians)
     return {std::cos(radians), std::sin(radians)};
 }
 
-float MoveTowards(const float current, const float target, const float maxDelta)
-{
-    if (current < target) {
-        return std::min(target, current + maxDelta);
-    }
-    return std::max(target, current - maxDelta);
-}
-
 } // namespace
 
 PoliceNpc::PoliceNpc() = default;
 
 PoliceNpc::PoliceNpc(const sim::math::Vec2 startPosition)
     : position_(startPosition)
+    , currentSpeed_(kBaseSpeed)
 {
 }
 
@@ -48,14 +38,9 @@ float PoliceNpc::GetHealth() const
     return health_;
 }
 
-float PoliceNpc::GetHunger() const
+bool PoliceNpc::IsAlive() const
 {
-    return hunger_;
-}
-
-float PoliceNpc::GetMoney() const
-{
-    return money_;
+    return health_ > 0.0f;
 }
 
 NpcState PoliceNpc::GetState() const
@@ -75,9 +60,12 @@ float PoliceNpc::GetCurrentSpeed() const
 
 void PoliceNpc::Update(const float deltaTime, Player& player)
 {
-    attackCooldown_ = std::max(0.0f, attackCooldown_ - deltaTime);
+    if (!IsAlive()) {
+        lastAction_ = NpcAction::Wait;
+        return;
+    }
 
-    ApplyHungerDecay(deltaTime);
+    attackCooldown_ = std::max(0.0f, attackCooldown_ - deltaTime);
 
     const sim::ai::NpcDecision decision = stateMachine_.Update(BuildAiContext(player), deltaTime);
     UpdateSpeed(deltaTime, player);
@@ -105,8 +93,6 @@ sim::ai::Observation PoliceNpc::GetObservation(const Player& player) const
         distance,
         static_cast<float>(player.GetWantedLevel()),
         health_,
-        hunger_,
-        money_,
         static_cast<float>(stateMachine_.GetState())
     };
 
@@ -156,12 +142,19 @@ std::string PoliceNpc::ToString() const
     std::ostringstream stream;
     stream << "Police{pos=" << position_
            << ", health=" << health_
-           << ", hunger=" << hunger_
-           << ", money=" << money_
            << ", speed=" << currentSpeed_
            << ", state=" << sim::entities::ToString(stateMachine_.GetState())
            << '}';
     return stream.str();
+}
+
+void PoliceNpc::ApplyDamage(const float amount)
+{
+    if (amount <= 0.0f) {
+        return;
+    }
+
+    health_ = std::max(0.0f, health_ - amount);
 }
 
 sim::ai::NpcAiContext PoliceNpc::BuildAiContext(const Player& player) const
@@ -174,16 +167,9 @@ sim::ai::NpcAiContext PoliceNpc::BuildAiContext(const Player& player) const
     };
 }
 
-void PoliceNpc::ApplyHungerDecay(const float deltaTime)
+void PoliceNpc::UpdateSpeed(const float /*deltaTime*/, const Player& /*player*/)
 {
-    hunger_ = std::max(0.0f, hunger_ - (kHungerDecayPerSecond * deltaTime));
-}
-
-void PoliceNpc::UpdateSpeed(const float deltaTime, const Player& player)
-{
-    const float distance = sim::math::Distance(position_, player.GetPosition());
-    const float targetSpeed = kBaseSpeed * GetTargetSpeedMultiplier(distance, player);
-    currentSpeed_ = MoveTowards(currentSpeed_, targetSpeed, kAcceleration * deltaTime);
+    currentSpeed_ = kBaseSpeed;
 }
 
 void PoliceNpc::TryAttack(Player& player, const float /*deltaTime*/)
@@ -200,22 +186,6 @@ void PoliceNpc::TryAttack(Player& player, const float /*deltaTime*/)
     player.ApplyDamage(kAttackDamage);
     attackCooldown_ = kAttackCooldown;
     lastAction_ = NpcAction::Attack;
-}
-
-float PoliceNpc::GetTargetSpeedMultiplier(const float distanceToPlayer, const Player& player) const
-{
-    if (player.GetWantedLevel() > 0 && player.IsAlive() && distanceToPlayer <= kSprintDistance &&
-        (stateMachine_.GetState() == NpcState::Pursue || stateMachine_.GetState() == NpcState::Investigate)) {
-        return 4.0f;
-    }
-
-    switch (stateMachine_.GetState()) {
-    case NpcState::Patrol:      return 1.0f;
-    case NpcState::Investigate: return 1.5f;
-    case NpcState::Pursue:      return 3.0f;
-    case NpcState::Idle:
-    default:                    return 0.0f;
-    }
 }
 
 void PoliceNpc::MoveBy(const sim::math::Vec2& offset)

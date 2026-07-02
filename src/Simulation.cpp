@@ -1,13 +1,29 @@
 #include "sim/Simulation.hpp"
 
+#include <algorithm>
 #include <cmath>
 
 namespace sim {
 
 namespace {
 
-constexpr float kPlayerMoveSpeed = 8.0f;
-constexpr float kDeathPauseDuration = 3.0f;
+constexpr float kPlayerBaseSpeed = 6.0f;
+constexpr float kPlayerMaxSpeed = 18.0f;
+constexpr float kPlayerAcceleration = 22.0f;
+constexpr float kPlayerAccelerationDistance = 40.0f;
+constexpr float kPlayerAttackRange = 8.0f;
+constexpr float kPlayerAttackCooldown = 0.8f;
+constexpr float kPlayerAttackDamage = 8.0f;
+constexpr float kDeathPauseDuration = 5.0f;
+constexpr int kRespawnWantedLevel = 3;
+
+float MoveTowards(const float current, const float target, const float maxDelta)
+{
+    if (current < target) {
+        return std::min(target, current + maxDelta);
+    }
+    return std::max(target, current - maxDelta);
+}
 
 } // namespace
 
@@ -57,8 +73,10 @@ void Simulation::Tick()
     timer_.Advance();
 
     const float deltaTime = timer_.GetDeltaTime();
+    playerAttackCooldown_ = std::max(0.0f, playerAttackCooldown_ - deltaTime);
     UpdatePlayer(deltaTime);
     UpdatePolice(deltaTime);
+    TryPlayerAttackPolice(deltaTime);
 
     if (player_.GetHealth() <= 0.0f && !player_.IsDead()) {
         BeginDeathSequence();
@@ -95,15 +113,23 @@ sim::math::Vec2 Simulation::GetHospitalPosition() const
     return hospitalPosition_;
 }
 
+float Simulation::GetPlayerCurrentSpeed() const
+{
+    return playerCurrentSpeed_;
+}
+
 void Simulation::UpdatePlayer(const float deltaTime)
 {
     if (player_.IsDead()) {
+        playerCurrentSpeed_ = 0.0f;
         return;
     }
 
+    playerCurrentSpeed_ = MoveTowards(playerCurrentSpeed_, CalculatePlayerTargetSpeed(), kPlayerAcceleration * deltaTime);
+
     playerHeadingRadians_ += 0.08f;
     const sim::math::Vec2 direction{std::cos(playerHeadingRadians_), std::sin(playerHeadingRadians_)};
-    player_.Translate(direction * (kPlayerMoveSpeed * deltaTime));
+    player_.Translate(direction * (playerCurrentSpeed_ * deltaTime));
 
     const auto tick = timer_.GetTickIndex();
     if (tick == 5) {
@@ -120,6 +146,37 @@ void Simulation::UpdatePolice(const float deltaTime)
     police_.Update(deltaTime, player_);
 }
 
+void Simulation::TryPlayerAttackPolice(const float /*deltaTime*/)
+{
+    if (!player_.IsAlive() || !police_.IsAlive() || playerAttackCooldown_ > 0.0f) {
+        return;
+    }
+
+    const float distance = sim::math::Distance(player_.GetPosition(), police_.GetPosition());
+    if (distance > kPlayerAttackRange) {
+        return;
+    }
+
+    police_.ApplyDamage(kPlayerAttackDamage);
+    playerAttackCooldown_ = kPlayerAttackCooldown;
+    RecordEvent("Player counterattacked police.");
+}
+
+float Simulation::CalculatePlayerTargetSpeed() const
+{
+    if (!police_.IsAlive()) {
+        return kPlayerBaseSpeed;
+    }
+
+    const float distance = sim::math::Distance(player_.GetPosition(), police_.GetPosition());
+    if (distance >= kPlayerAccelerationDistance) {
+        return kPlayerBaseSpeed;
+    }
+
+    const float closeness = 1.0f - (distance / kPlayerAccelerationDistance);
+    return kPlayerBaseSpeed + ((kPlayerMaxSpeed - kPlayerBaseSpeed) * closeness);
+}
+
 void Simulation::BeginDeathSequence()
 {
     player_.MarkDead();
@@ -130,9 +187,9 @@ void Simulation::BeginDeathSequence()
 void Simulation::RespawnPlayer()
 {
     player_.Respawn(hospitalPosition_, sim::entities::Player::kMaxHealth);
-    player_.DecreaseWantedLevel(1);
+    player_.SetWantedLevel(kRespawnWantedLevel);
     deathPauseRemaining_ = 0.0f;
-    RecordEvent("Player respawned at hospital. Wanted level reduced.");
+    RecordEvent("Player respawned at hospital. Wanted level restored to 3 stars.");
 }
 
 void Simulation::RecordEvent(std::string message)

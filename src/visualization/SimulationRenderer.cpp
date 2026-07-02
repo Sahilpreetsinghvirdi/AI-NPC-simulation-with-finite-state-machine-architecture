@@ -238,6 +238,8 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     drawLine(buffer, player.IsDead() ? RED : kTextPrimary);
     std::snprintf(buffer, sizeof(buffer), "Wanted: %d / %d", player.GetWantedLevel(), sim::entities::Player::kMaxWantedLevel);
     drawLine(buffer, player.GetWantedLevel() > 0 ? ORANGE : kTextPrimary);
+    std::snprintf(buffer, sizeof(buffer), "Speed: %.1f u/s", simulation.GetPlayerCurrentSpeed());
+    drawLine(buffer, simulation.GetPlayerCurrentSpeed() > 10.0f ? ORANGE : kTextPrimary);
 
     y += 8;
     drawSection("Police");
@@ -253,8 +255,6 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
     drawLine(buffer, kTextPrimary);
     std::snprintf(buffer, sizeof(buffer), "Distance: %.1f", distance);
     drawLine(buffer, distance <= 10.0f ? RED : kTextPrimary);
-    std::snprintf(buffer, sizeof(buffer), "Hunger: %.1f  Money: %.0f", police.GetHunger(), police.GetMoney());
-    drawLine(buffer, kTextPrimary);
 
     y += 8;
     drawSection("RL Signals");
@@ -263,10 +263,10 @@ void SimulationRenderer::DrawHudPanel(const Simulation& simulation) const
 
     static const char* kFeatureNames[] = {
         "NPC X", "NPC Y", "Player X", "Player Y", "Distance",
-        "Wanted", "Health", "Hunger", "Money", "State"
+        "Wanted", "Police HP", "State"
     };
 
-    for (std::size_t index = 0; index < observation.features.size() && index < 10; ++index) {
+    for (std::size_t index = 0; index < observation.features.size() && index < 8; ++index) {
         std::snprintf(buffer, sizeof(buffer), "%s: %.2f", kFeatureNames[index], observation.features[index]);
         drawLine(buffer, kTextMuted);
     }

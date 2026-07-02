@@ -245,4 +245,8 @@ src/CMakeFiles/ai_npc_sim.dir/Simulation.cpp.obj: \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/NpcFiniteStateMachine.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/NpcAction.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/NpcState.hpp
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/NpcState.hpp \
+ C:/mingw64/include/c++/16.1.0/algorithm \
+ C:/mingw64/include/c++/16.1.0/bits/ranges_algo.h \
+ C:/mingw64/include/c++/16.1.0/pstl/glue_algorithm_defs.h \
+ C:/mingw64/include/c++/16.1.0/pstl/execution_defs.h

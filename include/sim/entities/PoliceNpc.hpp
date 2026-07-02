@@ -15,20 +15,19 @@ namespace sim::entities {
 class PoliceNpc {
 public:
     static constexpr float kMaxHealth = 100.0f;
-    static constexpr float kMaxHunger = 100.0f;
 
     PoliceNpc();
     explicit PoliceNpc(sim::math::Vec2 startPosition);
 
     [[nodiscard]] const sim::math::Vec2& GetPosition() const;
     [[nodiscard]] float GetHealth() const;
-    [[nodiscard]] float GetHunger() const;
-    [[nodiscard]] float GetMoney() const;
+    [[nodiscard]] bool IsAlive() const;
     [[nodiscard]] NpcState GetState() const;
     [[nodiscard]] NpcAction GetLastAction() const;
     [[nodiscard]] float GetCurrentSpeed() const;
 
     void Update(float deltaTime, Player& player);
+    void ApplyDamage(float amount);
 
     // RL interface — stable contract for future policy integration.
     [[nodiscard]] sim::ai::Observation GetObservation(const Player& player) const;
@@ -39,16 +38,12 @@ public:
 
 private:
     [[nodiscard]] sim::ai::NpcAiContext BuildAiContext(const Player& player) const;
-    void ApplyHungerDecay(float deltaTime);
     void UpdateSpeed(float deltaTime, const Player& player);
     void TryAttack(Player& player, float deltaTime);
-    [[nodiscard]] float GetTargetSpeedMultiplier(float distanceToPlayer, const Player& player) const;
     void MoveBy(const sim::math::Vec2& offset);
 
     sim::math::Vec2 position_;
     float health_{kMaxHealth};
-    float hunger_{kMaxHunger};
-    float money_{250.0f};
     sim::ai::NpcFiniteStateMachine stateMachine_;
     NpcAction lastAction_{NpcAction::None};
     float patrolHeadingRadians_{0.0f};
