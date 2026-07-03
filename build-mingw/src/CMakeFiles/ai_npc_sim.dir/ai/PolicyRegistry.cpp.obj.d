@@ -227,7 +227,10 @@ src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/bits/unique_lock.h \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FsmPolicy.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PersistentLearningPolicy.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FeedForwardNetwork.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/ITrainablePolicy.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoOptimizer.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoTrajectoryBuffer.hpp \
  C:/mingw64/include/c++/16.1.0/utility \
  C:/mingw64/include/c++/16.1.0/bits/stl_relops.h \
  C:/mingw64/include/c++/16.1.0/bits/intcmp.h

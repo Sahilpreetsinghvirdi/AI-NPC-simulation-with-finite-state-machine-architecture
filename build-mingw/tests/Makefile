@@ -252,6 +252,30 @@ __/src/Simulation.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.s
 .PHONY : __/src/Simulation.cpp.s
 
+__/src/ai/FeedForwardNetwork.obj: __/src/ai/FeedForwardNetwork.cpp.obj
+.PHONY : __/src/ai/FeedForwardNetwork.obj
+
+# target to build an object file
+__/src/ai/FeedForwardNetwork.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/FeedForwardNetwork.cpp.obj
+.PHONY : __/src/ai/FeedForwardNetwork.cpp.obj
+
+__/src/ai/FeedForwardNetwork.i: __/src/ai/FeedForwardNetwork.cpp.i
+.PHONY : __/src/ai/FeedForwardNetwork.i
+
+# target to preprocess a source file
+__/src/ai/FeedForwardNetwork.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/FeedForwardNetwork.cpp.i
+.PHONY : __/src/ai/FeedForwardNetwork.cpp.i
+
+__/src/ai/FeedForwardNetwork.s: __/src/ai/FeedForwardNetwork.cpp.s
+.PHONY : __/src/ai/FeedForwardNetwork.s
+
+# target to generate assembly for a file
+__/src/ai/FeedForwardNetwork.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/FeedForwardNetwork.cpp.s
+.PHONY : __/src/ai/FeedForwardNetwork.cpp.s
+
 __/src/ai/FsmPolicy.obj: __/src/ai/FsmPolicy.cpp.obj
 .PHONY : __/src/ai/FsmPolicy.obj
 
@@ -395,6 +419,54 @@ __/src/ai/PolicyRegistry.s: __/src/ai/PolicyRegistry.cpp.s
 __/src/ai/PolicyRegistry.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PolicyRegistry.cpp.s
 .PHONY : __/src/ai/PolicyRegistry.cpp.s
+
+__/src/ai/PpoOptimizer.obj: __/src/ai/PpoOptimizer.cpp.obj
+.PHONY : __/src/ai/PpoOptimizer.obj
+
+# target to build an object file
+__/src/ai/PpoOptimizer.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PpoOptimizer.cpp.obj
+.PHONY : __/src/ai/PpoOptimizer.cpp.obj
+
+__/src/ai/PpoOptimizer.i: __/src/ai/PpoOptimizer.cpp.i
+.PHONY : __/src/ai/PpoOptimizer.i
+
+# target to preprocess a source file
+__/src/ai/PpoOptimizer.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PpoOptimizer.cpp.i
+.PHONY : __/src/ai/PpoOptimizer.cpp.i
+
+__/src/ai/PpoOptimizer.s: __/src/ai/PpoOptimizer.cpp.s
+.PHONY : __/src/ai/PpoOptimizer.s
+
+# target to generate assembly for a file
+__/src/ai/PpoOptimizer.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PpoOptimizer.cpp.s
+.PHONY : __/src/ai/PpoOptimizer.cpp.s
+
+__/src/ai/PpoTrajectoryBuffer.obj: __/src/ai/PpoTrajectoryBuffer.cpp.obj
+.PHONY : __/src/ai/PpoTrajectoryBuffer.obj
+
+# target to build an object file
+__/src/ai/PpoTrajectoryBuffer.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PpoTrajectoryBuffer.cpp.obj
+.PHONY : __/src/ai/PpoTrajectoryBuffer.cpp.obj
+
+__/src/ai/PpoTrajectoryBuffer.i: __/src/ai/PpoTrajectoryBuffer.cpp.i
+.PHONY : __/src/ai/PpoTrajectoryBuffer.i
+
+# target to preprocess a source file
+__/src/ai/PpoTrajectoryBuffer.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PpoTrajectoryBuffer.cpp.i
+.PHONY : __/src/ai/PpoTrajectoryBuffer.cpp.i
+
+__/src/ai/PpoTrajectoryBuffer.s: __/src/ai/PpoTrajectoryBuffer.cpp.s
+.PHONY : __/src/ai/PpoTrajectoryBuffer.s
+
+# target to generate assembly for a file
+__/src/ai/PpoTrajectoryBuffer.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PpoTrajectoryBuffer.cpp.s
+.PHONY : __/src/ai/PpoTrajectoryBuffer.cpp.s
 
 __/src/core/LogLevel.obj: __/src/core/LogLevel.cpp.obj
 .PHONY : __/src/core/LogLevel.obj
@@ -706,6 +778,9 @@ help:
 	@echo ... __/src/Simulation.obj
 	@echo ... __/src/Simulation.i
 	@echo ... __/src/Simulation.s
+	@echo ... __/src/ai/FeedForwardNetwork.obj
+	@echo ... __/src/ai/FeedForwardNetwork.i
+	@echo ... __/src/ai/FeedForwardNetwork.s
 	@echo ... __/src/ai/FsmPolicy.obj
 	@echo ... __/src/ai/FsmPolicy.i
 	@echo ... __/src/ai/FsmPolicy.s
@@ -724,6 +799,12 @@ help:
 	@echo ... __/src/ai/PolicyRegistry.obj
 	@echo ... __/src/ai/PolicyRegistry.i
 	@echo ... __/src/ai/PolicyRegistry.s
+	@echo ... __/src/ai/PpoOptimizer.obj
+	@echo ... __/src/ai/PpoOptimizer.i
+	@echo ... __/src/ai/PpoOptimizer.s
+	@echo ... __/src/ai/PpoTrajectoryBuffer.obj
+	@echo ... __/src/ai/PpoTrajectoryBuffer.i
+	@echo ... __/src/ai/PpoTrajectoryBuffer.s
 	@echo ... __/src/core/LogLevel.obj
 	@echo ... __/src/core/LogLevel.i
 	@echo ... __/src/core/LogLevel.s

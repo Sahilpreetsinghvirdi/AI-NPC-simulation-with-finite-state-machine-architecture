@@ -261,6 +261,7 @@ tests/CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/pstl/glue_memory_defs.h \
  C:/mingw64/include/c++/16.1.0/pstl/execution_defs.h \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PersistentLearningPolicy.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FeedForwardNetwork.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FsmPolicy.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/ITrainablePolicy.hpp \
  C:/mingw64/include/c++/16.1.0/unordered_map \
@@ -268,6 +269,8 @@ tests/CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/bits/hashtable.h \
  C:/mingw64/include/c++/16.1.0/bits/hashtable_policy.h \
  C:/mingw64/include/c++/16.1.0/bits/node_handle.h \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoOptimizer.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoTrajectoryBuffer.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/CheckpointManager.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/EpisodeRecorder.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/ITransitionSink.hpp \

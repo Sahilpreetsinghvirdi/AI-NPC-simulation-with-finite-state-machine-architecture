@@ -1,10 +1,16 @@
 #include "sim/ai/PersistentLearningPolicy.hpp"
 
 #include <algorithm>
+#include <cmath>
 
 namespace sim::ai {
 
-PersistentLearningPolicy::PersistentLearningPolicy() = default;
+PersistentLearningPolicy::PersistentLearningPolicy()
+    : network_({.inputSize = 8, .hiddenSize = 16, .outputSize = 5, .seed = 1337})
+    , trajectory_(32)
+    , optimizer_({.learningRate = 0.0008f, .discountFactor = 0.97f, .clipRange = 0.20f, .epochs = 2})
+{
+}
 
 PolicyDescriptor PersistentLearningPolicy::GetDescriptor() const
 {
@@ -25,7 +31,29 @@ void PersistentLearningPolicy::Reset()
 
 PolicyResult PersistentLearningPolicy::Evaluate(const PolicyRequest& request)
 {
-    return baselinePolicy_.Evaluate(request);
+    PolicyResult baselineResult = baselinePolicy_.Evaluate(request);
+    if (!baselineResult.IsOk()) {
+        return baselineResult;
+    }
+
+    std::lock_guard lock(mutex_);
+    const std::vector<float> probabilities = network_.ForwardProbabilities(request.observation.features);
+    const int learnedAction = network_.SelectGreedyAction(request.observation.features);
+    const float confidence = learnedAction >= 0 && static_cast<std::size_t>(learnedAction) < probabilities.size()
+                                 ? probabilities[static_cast<std::size_t>(learnedAction)]
+                                 : 0.0f;
+
+    baselineResult.decision.rawAction = sim::rl::Action::FromDiscrete(learnedAction);
+    baselineResult.decision.confidence = confidence;
+
+    if (trainingState_.learnedPolicyEnabled) {
+        baselineResult.decision.action = static_cast<sim::entities::NpcAction>(learnedAction);
+        baselineResult.decision.state = request.npcContext.playerWantedLevel > 0
+                                            ? sim::entities::NpcState::Pursue
+                                            : sim::entities::NpcState::Patrol;
+    }
+
+    return baselineResult;
 }
 
 TrainingResult PersistentLearningPolicy::ObserveTransition(const sim::rl::Transition& transition)
@@ -44,6 +72,25 @@ TrainingResult PersistentLearningPolicy::ObserveTransition(const sim::rl::Transi
     const float sampleCount = static_cast<float>(estimate.sampleCount);
     estimate.value += (transition.reward - estimate.value) / std::max(sampleCount, 1.0f);
 
+    trajectory_.Add({
+        .observation = transition.observation,
+        .action = std::clamp(action, 0, static_cast<int>(network_.GetConfig().outputSize) - 1),
+        .reward = transition.reward,
+        .oldLogProbability = network_.LogProbability(transition.observation.features, action),
+        .terminal = transition.terminal,
+        .truncated = transition.truncated
+    });
+
+    if (trajectory_.IsReady()) {
+        const PpoUpdateStats stats = optimizer_.Update(network_, trajectory_);
+        if (stats.updated) {
+            ++trainingState_.policyUpdateCount;
+            trainingState_.lastMeanReturn = stats.meanReturn;
+            trainingState_.lastMeanAdvantage = stats.meanAdvantage;
+        }
+        trajectory_.Clear();
+    }
+
     return {
         .updated = true,
         .state = trainingState_
@@ -60,21 +107,35 @@ PolicyCheckpoint PersistentLearningPolicy::ExportCheckpoint() const
 {
     std::lock_guard lock(mutex_);
     return {
-        .formatVersion = 1,
+        .formatVersion = 2,
         .trainingState = trainingState_,
-        .actionValues = actionValues_
+        .actionValues = actionValues_,
+        .network = {
+            .inputSize = network_.GetConfig().inputSize,
+            .hiddenSize = network_.GetConfig().hiddenSize,
+            .outputSize = network_.GetConfig().outputSize,
+            .parameters = network_.ExportParameters()
+        }
     };
 }
 
 bool PersistentLearningPolicy::ImportCheckpoint(const PolicyCheckpoint& checkpoint)
 {
-    if (checkpoint.formatVersion != 1) {
+    if (checkpoint.formatVersion != 1 && checkpoint.formatVersion != 2) {
         return false;
     }
 
     std::lock_guard lock(mutex_);
     trainingState_ = checkpoint.trainingState;
     actionValues_ = checkpoint.actionValues;
+    if (checkpoint.formatVersion >= 2 && !checkpoint.network.parameters.empty()) {
+        if (checkpoint.network.inputSize != network_.GetConfig().inputSize ||
+            checkpoint.network.hiddenSize != network_.GetConfig().hiddenSize ||
+            checkpoint.network.outputSize != network_.GetConfig().outputSize ||
+            !network_.ImportParameters(checkpoint.network.parameters)) {
+            return false;
+        }
+    }
     return true;
 }
 

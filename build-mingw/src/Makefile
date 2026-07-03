@@ -228,6 +228,30 @@ Simulation.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/Simulation.cpp.s
 .PHONY : Simulation.cpp.s
 
+ai/FeedForwardNetwork.obj: ai/FeedForwardNetwork.cpp.obj
+.PHONY : ai/FeedForwardNetwork.obj
+
+# target to build an object file
+ai/FeedForwardNetwork.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj
+.PHONY : ai/FeedForwardNetwork.cpp.obj
+
+ai/FeedForwardNetwork.i: ai/FeedForwardNetwork.cpp.i
+.PHONY : ai/FeedForwardNetwork.i
+
+# target to preprocess a source file
+ai/FeedForwardNetwork.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.i
+.PHONY : ai/FeedForwardNetwork.cpp.i
+
+ai/FeedForwardNetwork.s: ai/FeedForwardNetwork.cpp.s
+.PHONY : ai/FeedForwardNetwork.s
+
+# target to generate assembly for a file
+ai/FeedForwardNetwork.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.s
+.PHONY : ai/FeedForwardNetwork.cpp.s
+
 ai/FsmPolicy.obj: ai/FsmPolicy.cpp.obj
 .PHONY : ai/FsmPolicy.obj
 
@@ -371,6 +395,54 @@ ai/PolicyRegistry.s: ai/PolicyRegistry.cpp.s
 ai/PolicyRegistry.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.s
 .PHONY : ai/PolicyRegistry.cpp.s
+
+ai/PpoOptimizer.obj: ai/PpoOptimizer.cpp.obj
+.PHONY : ai/PpoOptimizer.obj
+
+# target to build an object file
+ai/PpoOptimizer.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.obj
+.PHONY : ai/PpoOptimizer.cpp.obj
+
+ai/PpoOptimizer.i: ai/PpoOptimizer.cpp.i
+.PHONY : ai/PpoOptimizer.i
+
+# target to preprocess a source file
+ai/PpoOptimizer.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.i
+.PHONY : ai/PpoOptimizer.cpp.i
+
+ai/PpoOptimizer.s: ai/PpoOptimizer.cpp.s
+.PHONY : ai/PpoOptimizer.s
+
+# target to generate assembly for a file
+ai/PpoOptimizer.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.s
+.PHONY : ai/PpoOptimizer.cpp.s
+
+ai/PpoTrajectoryBuffer.obj: ai/PpoTrajectoryBuffer.cpp.obj
+.PHONY : ai/PpoTrajectoryBuffer.obj
+
+# target to build an object file
+ai/PpoTrajectoryBuffer.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.obj
+.PHONY : ai/PpoTrajectoryBuffer.cpp.obj
+
+ai/PpoTrajectoryBuffer.i: ai/PpoTrajectoryBuffer.cpp.i
+.PHONY : ai/PpoTrajectoryBuffer.i
+
+# target to preprocess a source file
+ai/PpoTrajectoryBuffer.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.i
+.PHONY : ai/PpoTrajectoryBuffer.cpp.i
+
+ai/PpoTrajectoryBuffer.s: ai/PpoTrajectoryBuffer.cpp.s
+.PHONY : ai/PpoTrajectoryBuffer.s
+
+# target to generate assembly for a file
+ai/PpoTrajectoryBuffer.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.s
+.PHONY : ai/PpoTrajectoryBuffer.cpp.s
 
 core/LogLevel.obj: core/LogLevel.cpp.obj
 .PHONY : core/LogLevel.obj
@@ -727,6 +799,9 @@ help:
 	@echo ... Simulation.obj
 	@echo ... Simulation.i
 	@echo ... Simulation.s
+	@echo ... ai/FeedForwardNetwork.obj
+	@echo ... ai/FeedForwardNetwork.i
+	@echo ... ai/FeedForwardNetwork.s
 	@echo ... ai/FsmPolicy.obj
 	@echo ... ai/FsmPolicy.i
 	@echo ... ai/FsmPolicy.s
@@ -745,6 +820,12 @@ help:
 	@echo ... ai/PolicyRegistry.obj
 	@echo ... ai/PolicyRegistry.i
 	@echo ... ai/PolicyRegistry.s
+	@echo ... ai/PpoOptimizer.obj
+	@echo ... ai/PpoOptimizer.i
+	@echo ... ai/PpoOptimizer.s
+	@echo ... ai/PpoTrajectoryBuffer.obj
+	@echo ... ai/PpoTrajectoryBuffer.i
+	@echo ... ai/PpoTrajectoryBuffer.s
 	@echo ... core/LogLevel.obj
 	@echo ... core/LogLevel.i
 	@echo ... core/LogLevel.s

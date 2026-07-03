@@ -1,6 +1,9 @@
 #include "sim/ai/NpcFiniteStateMachine.hpp"
+#include "sim/ai/FeedForwardNetwork.hpp"
 #include "sim/ai/FsmPolicy.hpp"
 #include "sim/ai/PersistentLearningPolicy.hpp"
+#include "sim/ai/PpoOptimizer.hpp"
+#include "sim/ai/PpoTrajectoryBuffer.hpp"
 #include "sim/ai/PolicyRegistry.hpp"
 #include "sim/Simulation.hpp"
 #include "sim/core/Logger.hpp"
@@ -14,6 +17,7 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
+#include <numeric>
 #include <string>
 #include <vector>
 
@@ -174,6 +178,57 @@ bool PolicyRegistryCreatesBaselinePolicy()
            Expect(result.IsOk(), "created FSM policy should evaluate successfully") &&
            Expect(result.decision.action == sim::entities::NpcAction::MoveTowardPlayer,
                   "created FSM policy should produce the same chase action");
+}
+
+bool FeedForwardNetworkProducesDeterministicActionProbabilities()
+{
+    sim::ai::FeedForwardNetwork network({.inputSize = 8, .hiddenSize = 8, .outputSize = 5, .seed = 7});
+    const std::vector<float> input{10.0f, 20.0f, 30.0f, 40.0f, 12.0f, 1.0f, 100.0f, 2.0f};
+    const std::vector<float> probabilities = network.ForwardProbabilities(input);
+
+    const float sum = std::accumulate(probabilities.begin(), probabilities.end(), 0.0f);
+    const int action = network.SelectGreedyAction(input);
+
+    return Expect(probabilities.size() == 5, "network should output one probability per NPC action") &&
+           Expect(AlmostEqual(sum, 1.0f, 1.0e-4f), "network action probabilities should sum to one") &&
+           Expect(action >= 0 && action < 5, "network greedy action should map into the discrete action space");
+}
+
+bool PpoOptimizerUpdatesNetworkParameters()
+{
+    sim::ai::FeedForwardNetwork network({.inputSize = 8, .hiddenSize = 8, .outputSize = 5, .seed = 11});
+    sim::ai::PpoTrajectoryBuffer trajectory(2);
+    sim::ai::Observation observation;
+    observation.features = {10.0f, 20.0f, 30.0f, 40.0f, 12.0f, 1.0f, 100.0f, 2.0f};
+    trajectory.Add({
+        .observation = observation,
+        .action = static_cast<int>(sim::entities::NpcAction::MoveTowardPlayer),
+        .reward = 25.0f,
+        .oldLogProbability = network.LogProbability(observation.features,
+                                                     static_cast<int>(sim::entities::NpcAction::MoveTowardPlayer)),
+        .terminal = false,
+        .truncated = false
+    });
+    trajectory.Add({
+        .observation = observation,
+        .action = static_cast<int>(sim::entities::NpcAction::MoveTowardPlayer),
+        .reward = 30.0f,
+        .oldLogProbability = network.LogProbability(observation.features,
+                                                     static_cast<int>(sim::entities::NpcAction::MoveTowardPlayer)),
+        .terminal = true,
+        .truncated = false
+    });
+
+    const std::vector<float> before = network.ExportParameters();
+    const sim::ai::PpoUpdateStats stats = sim::ai::PpoOptimizer({.learningRate = 0.001f,
+                                                                 .discountFactor = 0.95f,
+                                                                 .clipRange = 0.2f,
+                                                                 .epochs = 2})
+                                             .Update(network, trajectory);
+    const std::vector<float> after = network.ExportParameters();
+
+    return Expect(stats.updated, "PPO optimizer should report an update for non-empty trajectories") &&
+           Expect(before != after, "PPO optimizer should modify neural network parameters");
 }
 
 bool PoliceSpeedScalesWithWantedLevel()
@@ -438,6 +493,59 @@ bool PersistentPolicyCheckpointRoundTripsTrainingState()
     return saveOk && loadOk && stepOk && episodeOk && rewardOk;
 }
 
+bool PersistentPolicyCheckpointRoundTripsNetworkWeights()
+{
+    const std::filesystem::path checkpointPath = TestCheckpointPath("policy_network_roundtrip_test.policy");
+    std::error_code errorCode;
+    std::filesystem::remove(checkpointPath, errorCode);
+    std::filesystem::remove(checkpointPath.string() + ".tmp", errorCode);
+
+    sim::ai::PersistentLearningPolicy policy;
+    sim::ai::Observation observation;
+    observation.features = {10.0f, 20.0f, 30.0f, 40.0f, 12.0f, 1.0f, 100.0f, 2.0f};
+
+    for (int index = 0; index < 32; ++index) {
+        policy.ObserveTransition({
+            .agent = {
+                .id = 1,
+                .role = "Lead"
+            },
+            .observation = observation,
+            .action = sim::rl::Action::FromDiscrete(static_cast<int>(sim::entities::NpcAction::MoveTowardPlayer)),
+            .reward = 10.0f + static_cast<float>(index),
+            .nextObservation = observation,
+            .terminal = index == 31,
+            .truncated = false,
+            .metadata = {
+                .episodeId = 1,
+                .stepIndex = static_cast<sim::rl::StepIndex>(index + 1),
+                .elapsedSeconds = static_cast<float>(index) * 0.1f
+            }
+        });
+    }
+
+    const sim::ai::PolicyCheckpoint beforeCheckpoint = policy.ExportCheckpoint();
+    const sim::rl::CheckpointManager manager(checkpointPath);
+    const sim::rl::CheckpointResult saveResult = manager.Save(policy);
+
+    sim::ai::PersistentLearningPolicy loadedPolicy;
+    const sim::rl::CheckpointResult loadResult = manager.Load(loadedPolicy);
+    const sim::ai::PolicyCheckpoint afterCheckpoint = loadedPolicy.ExportCheckpoint();
+
+    const bool saveOk = Expect(saveResult.ok, "checkpoint manager should save neural network policy state");
+    const bool loadOk = Expect(loadResult.ok, "checkpoint manager should load neural network policy state");
+    const bool versionOk = Expect(afterCheckpoint.formatVersion == 2,
+                                  "neural policy checkpoints should use format version 2");
+    const bool updateOk = Expect(afterCheckpoint.trainingState.policyUpdateCount > 0,
+                                 "loaded neural policy should preserve optimizer update count");
+    const bool weightsOk = Expect(beforeCheckpoint.network.parameters == afterCheckpoint.network.parameters,
+                                  "loaded neural policy should preserve network weights exactly");
+
+    std::filesystem::remove(checkpointPath, errorCode);
+    std::filesystem::remove(checkpointPath.string() + ".tmp", errorCode);
+    return saveOk && loadOk && versionOk && updateOk && weightsOk;
+}
+
 bool SimulationContinuesLearningFromSavedCheckpoint()
 {
     const std::filesystem::path checkpointPath = TestCheckpointPath("simulation_learning_test.policy");
@@ -516,6 +624,8 @@ int main()
                     PoliceNpcUsesStateMachineDecision() &&
                     FsmPolicyMatchesFiniteStateMachine() &&
                     PolicyRegistryCreatesBaselinePolicy() &&
+                    FeedForwardNetworkProducesDeterministicActionProbabilities() &&
+                    PpoOptimizerUpdatesNetworkParameters() &&
                     PoliceSpeedScalesWithWantedLevel() &&
                     PoliceManagerSpawnsAndUpdatesIndependentPolice() &&
                     PoliceInterceptionChangesRelativePositions() &&
@@ -524,6 +634,7 @@ int main()
                     SimulationRecordsBaselineRlTransitions() &&
                     SimulationCanDisableRlTransitionRecording() &&
                     PersistentPolicyCheckpointRoundTripsTrainingState() &&
+                    PersistentPolicyCheckpointRoundTripsNetworkWeights() &&
                     SimulationContinuesLearningFromSavedCheckpoint();
 
     if (ok) {

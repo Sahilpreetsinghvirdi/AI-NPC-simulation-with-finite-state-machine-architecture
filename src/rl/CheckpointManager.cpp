@@ -1,6 +1,8 @@
 #include "sim/rl/CheckpointManager.hpp"
 
 #include <fstream>
+#include <iomanip>
+#include <limits>
 #include <sstream>
 #include <system_error>
 
@@ -8,7 +10,7 @@ namespace sim::rl {
 
 namespace {
 
-constexpr std::uint32_t kCheckpointFormatVersion = 1;
+constexpr std::uint32_t kCheckpointFormatVersion = 2;
 constexpr const char* kCheckpointHeader = "AI_NPC_POLICY_CHECKPOINT";
 
 bool ParseKeyValue(const std::string& line, std::string& key, std::string& value)
@@ -54,7 +56,7 @@ CheckpointResult CheckpointManager::Load(sim::ai::ITrainablePolicy& policy) cons
     std::string header;
     std::uint32_t version = 0;
     input >> header >> version;
-    if (header != kCheckpointHeader || version != kCheckpointFormatVersion) {
+    if (header != kCheckpointHeader || version < 1 || version > kCheckpointFormatVersion) {
         return {
             .ok = false,
             .message = "Unsupported checkpoint format or version."
@@ -83,6 +85,26 @@ CheckpointResult CheckpointManager::Load(sim::ai::ITrainablePolicy& policy) cons
             checkpoint.trainingState.episodeCount = std::stoull(value);
         } else if (key == "totalReward") {
             checkpoint.trainingState.totalReward = std::stof(value);
+        } else if (key == "policyUpdateCount") {
+            checkpoint.trainingState.policyUpdateCount = std::stoull(value);
+        } else if (key == "lastMeanReturn") {
+            checkpoint.trainingState.lastMeanReturn = std::stof(value);
+        } else if (key == "lastMeanAdvantage") {
+            checkpoint.trainingState.lastMeanAdvantage = std::stof(value);
+        } else if (key == "learnedPolicyEnabled") {
+            checkpoint.trainingState.learnedPolicyEnabled = value == "1";
+        } else if (key == "networkInputSize") {
+            checkpoint.network.inputSize = static_cast<std::size_t>(std::stoull(value));
+        } else if (key == "networkHiddenSize") {
+            checkpoint.network.hiddenSize = static_cast<std::size_t>(std::stoull(value));
+        } else if (key == "networkOutputSize") {
+            checkpoint.network.outputSize = static_cast<std::size_t>(std::stoull(value));
+        } else if (key == "networkParameters") {
+            std::istringstream stream(value);
+            float parameter = 0.0f;
+            while (stream >> parameter) {
+                checkpoint.network.parameters.push_back(parameter);
+            }
         } else if (key.rfind("action.", 0) == 0) {
             std::istringstream stream(value);
             int action = 0;
@@ -128,12 +150,25 @@ CheckpointResult CheckpointManager::Save(const sim::ai::ITrainablePolicy& policy
             };
         }
 
+        output << std::setprecision(std::numeric_limits<float>::max_digits10);
         output << kCheckpointHeader << ' ' << kCheckpointFormatVersion << '\n';
         output << "policyId=" << checkpoint.trainingState.policyId << '\n';
         output << "algorithmId=" << checkpoint.trainingState.algorithmId << '\n';
         output << "trainingStepCount=" << checkpoint.trainingState.trainingStepCount << '\n';
         output << "episodeCount=" << checkpoint.trainingState.episodeCount << '\n';
         output << "totalReward=" << checkpoint.trainingState.totalReward << '\n';
+        output << "policyUpdateCount=" << checkpoint.trainingState.policyUpdateCount << '\n';
+        output << "lastMeanReturn=" << checkpoint.trainingState.lastMeanReturn << '\n';
+        output << "lastMeanAdvantage=" << checkpoint.trainingState.lastMeanAdvantage << '\n';
+        output << "learnedPolicyEnabled=" << (checkpoint.trainingState.learnedPolicyEnabled ? 1 : 0) << '\n';
+        output << "networkInputSize=" << checkpoint.network.inputSize << '\n';
+        output << "networkHiddenSize=" << checkpoint.network.hiddenSize << '\n';
+        output << "networkOutputSize=" << checkpoint.network.outputSize << '\n';
+        output << "networkParameters=";
+        for (const float parameter : checkpoint.network.parameters) {
+            output << parameter << ' ';
+        }
+        output << '\n';
 
         std::size_t index = 0;
         for (const auto& [action, estimate] : checkpoint.actionValues) {

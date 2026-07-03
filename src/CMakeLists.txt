@@ -8,8 +8,11 @@ add_executable(ai_npc_sim
     math/Vec2.cpp
     rl/EpisodeRecorder.cpp
     ai/IPolicy.cpp
+    ai/FeedForwardNetwork.cpp
     ai/FsmPolicy.cpp
     ai/PersistentLearningPolicy.cpp
+    ai/PpoOptimizer.cpp
+    ai/PpoTrajectoryBuffer.cpp
     ai/Observation.cpp
     ai/NpcFiniteStateMachine.cpp
     ai/PolicyRegistry.cpp

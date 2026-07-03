@@ -1,7 +1,10 @@
 #pragma once
 
+#include "sim/ai/FeedForwardNetwork.hpp"
 #include "sim/ai/FsmPolicy.hpp"
 #include "sim/ai/ITrainablePolicy.hpp"
+#include "sim/ai/PpoOptimizer.hpp"
+#include "sim/ai/PpoTrajectoryBuffer.hpp"
 
 #include <mutex>
 #include <unordered_map>
@@ -24,6 +27,9 @@ public:
 private:
     mutable std::mutex mutex_;
     FsmPolicy baselinePolicy_;
+    FeedForwardNetwork network_;
+    PpoTrajectoryBuffer trajectory_;
+    PpoOptimizer optimizer_;
     TrainingState trainingState_;
     std::unordered_map<int, ActionValueEstimate> actionValues_;
 };

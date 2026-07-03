@@ -176,19 +176,20 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/bits/basic_ios.tcc \
  C:/mingw64/include/c++/16.1.0/bits/ostream_print.h \
  C:/mingw64/include/c++/16.1.0/bits/ostream.tcc \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FsmPolicy.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/IPolicy.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PolicyTypes.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FeedForwardNetwork.hpp \
+ C:/mingw64/include/c++/16.1.0/cstdint \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/16.1.0/include/stdint.h \
+ C:/mingw64/x86_64-w64-mingw32/include/stdint.h \
  C:/mingw64/include/c++/16.1.0/vector \
  C:/mingw64/include/c++/16.1.0/bits/stl_uninitialized.h \
  C:/mingw64/include/c++/16.1.0/bits/stl_vector.h \
  C:/mingw64/include/c++/16.1.0/bits/stl_bvector.h \
  C:/mingw64/include/c++/16.1.0/bits/vector.tcc \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FsmPolicy.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/IPolicy.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PolicyTypes.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/RlTypes.hpp \
- C:/mingw64/include/c++/16.1.0/cstdint \
- C:/mingw64/lib/gcc/x86_64-w64-mingw32/16.1.0/include/stdint.h \
- C:/mingw64/x86_64-w64-mingw32/include/stdint.h \
  C:/mingw64/include/c++/16.1.0/mutex \
  C:/mingw64/include/c++/16.1.0/bits/chrono.h \
  C:/mingw64/include/c++/16.1.0/ratio C:/mingw64/include/c++/16.1.0/ctime \
@@ -204,6 +205,8 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/ext/aligned_buffer.h \
  C:/mingw64/include/c++/16.1.0/bits/enable_special_members.h \
  C:/mingw64/include/c++/16.1.0/bits/node_handle.h \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoOptimizer.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoTrajectoryBuffer.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PolicyRegistry.hpp \
  C:/mingw64/include/c++/16.1.0/functional \
  C:/mingw64/include/c++/16.1.0/bits/refwrap.h \
@@ -275,4 +278,7 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/CheckpointManager.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/EpisodeRecorder.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/ITransitionSink.hpp \
- C:/mingw64/include/c++/16.1.0/iostream
+ C:/mingw64/include/c++/16.1.0/iostream \
+ C:/mingw64/include/c++/16.1.0/numeric \
+ C:/mingw64/include/c++/16.1.0/bits/stl_numeric.h \
+ C:/mingw64/include/c++/16.1.0/pstl/glue_numeric_defs.h

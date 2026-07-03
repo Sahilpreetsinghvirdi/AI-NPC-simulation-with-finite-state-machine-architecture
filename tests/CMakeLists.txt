@@ -6,8 +6,11 @@ add_executable(ai_npc_tests
     ../src/core/SimulationTimer.cpp
     ../src/rl/EpisodeRecorder.cpp
     ../src/ai/IPolicy.cpp
+    ../src/ai/FeedForwardNetwork.cpp
     ../src/ai/FsmPolicy.cpp
     ../src/ai/PersistentLearningPolicy.cpp
+    ../src/ai/PpoOptimizer.cpp
+    ../src/ai/PpoTrajectoryBuffer.cpp
     ../src/ai/NpcFiniteStateMachine.cpp
     ../src/ai/PolicyRegistry.cpp
     ../src/rl/CheckpointManager.cpp
