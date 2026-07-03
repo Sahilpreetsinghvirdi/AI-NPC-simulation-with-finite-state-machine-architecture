@@ -1,5 +1,7 @@
 #include "sim/entities/PoliceNpc.hpp"
 
+#include "sim/ai/PolicyRegistry.hpp"
+
 #include <algorithm>
 #include <cmath>
 #include <sstream>
@@ -61,10 +63,21 @@ sim::math::Vec2 RotateTowards(const sim::math::Vec2 current, const sim::math::Ve
 
 } // namespace
 
-PoliceNpc::PoliceNpc() = default;
+PoliceNpc::PoliceNpc()
+    : policy_(sim::ai::PolicyRegistry::Create("fsm"))
+{
+}
 
 PoliceNpc::PoliceNpc(const sim::math::Vec2 startPosition)
     : position_(startPosition)
+    , policy_(sim::ai::PolicyRegistry::Create("fsm"))
+    , currentSpeed_(PoliceNpc::kBaseSpeed)
+{
+}
+
+PoliceNpc::PoliceNpc(const sim::math::Vec2 startPosition, std::unique_ptr<sim::ai::IPolicy> policy)
+    : position_(startPosition)
+    , policy_(policy != nullptr ? std::move(policy) : sim::ai::PolicyRegistry::Create("fsm"))
     , currentSpeed_(PoliceNpc::kBaseSpeed)
 {
 }
@@ -86,7 +99,7 @@ bool PoliceNpc::IsAlive() const
 
 NpcState PoliceNpc::GetState() const
 {
-    return stateMachine_.GetState();
+    return lastPolicyDecision_.state;
 }
 
 NpcAction PoliceNpc::GetLastAction() const
@@ -153,7 +166,25 @@ bool PoliceNpc::Update(const float deltaTime,
     attackCooldown_ = std::max(0.0f, attackCooldown_ - deltaTime);
     currentTarget_ = interceptTarget;
 
-    const sim::ai::NpcDecision decision = stateMachine_.Update(BuildAiContext(player), deltaTime);
+    const sim::ai::PolicyRequest policyRequest{
+        .agent = {
+            .id = 0,
+            .role = "Police"
+        },
+        .observation = GetObservation(player),
+        .npcContext = BuildAiContext(player),
+        .deltaTime = deltaTime,
+        .context = {
+            .mode = sim::rl::RunMode::Inference,
+            .metadata = {},
+            .deterministic = true,
+            .allowAsync = false,
+            .partOfBatch = false
+        }
+    };
+    const sim::ai::PolicyResult policyResult = policy_->Evaluate(policyRequest);
+    const sim::ai::PolicyDecision decision = policyResult.IsOk() ? policyResult.decision : sim::ai::PolicyDecision{};
+    lastPolicyDecision_ = decision;
     UpdateSpeed(deltaTime, player);
 
     const float distance = sim::math::Distance(position_, player.GetPosition());
@@ -192,7 +223,7 @@ sim::ai::Observation PoliceNpc::GetObservation(const Player& player) const
         distance,
         static_cast<float>(player.GetWantedLevel()),
         health_,
-        static_cast<float>(stateMachine_.GetState())
+        static_cast<float>(GetState())
     };
 
     return observation;
@@ -200,7 +231,7 @@ sim::ai::Observation PoliceNpc::GetObservation(const Player& player) const
 
 void PoliceNpc::ApplyAction(const NpcAction action, const float deltaTime, const Player& player)
 {
-    // TODO: Route all locomotion through a learned policy once RL is integrated.
+    // Executes the action chosen by the active policy.
     switch (action) {
     case NpcAction::Wait:
         break;
@@ -242,7 +273,7 @@ std::string PoliceNpc::ToString() const
     stream << "Police{pos=" << position_
            << ", health=" << health_
            << ", speed=" << currentSpeed_
-           << ", state=" << sim::entities::ToString(stateMachine_.GetState())
+           << ", state=" << sim::entities::ToString(GetState())
            << '}';
     return stream.str();
 }

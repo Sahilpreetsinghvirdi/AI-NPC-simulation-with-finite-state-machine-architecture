@@ -4,6 +4,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <filesystem>
+#include <memory>
 
 namespace sim {
 
@@ -96,6 +98,15 @@ sim::math::Vec2 DirectionFromAngle(const float radians)
     return {std::cos(radians), std::sin(radians)};
 }
 
+std::filesystem::path ResolveCheckpointPath(const Simulation::Config& config)
+{
+    if (!config.checkpointPath.empty()) {
+        return config.checkpointPath;
+    }
+
+    return std::filesystem::path(SIM_MODELS_DIR) / "police_persistent_learning.policy";
+}
+
 } // namespace
 
 Simulation::Simulation(sim::core::Logger& logger)
@@ -113,7 +124,9 @@ Simulation::Simulation(sim::core::Logger& logger, const Config config)
           .maxStoredTransitions = config.maxStoredRlTransitions,
           .keepTransitionsInMemory = true
       })
+    , checkpointManager_(std::make_unique<sim::rl::CheckpointManager>(ResolveCheckpointPath(config)))
 {
+    LoadLearningCheckpoint();
     rlEpisodeRecorder_.BeginEpisode(1);
     player_.SetWantedLevel(kInitialWantedLevel);
     playerKnownBoundaries_ = {
@@ -123,6 +136,11 @@ Simulation::Simulation(sim::core::Logger& logger, const Config config)
         PerceivedBoundary{{kWorldMin, kWorldMax}, {kWorldMax, kWorldMax}, {0.0f, -1.0f}}
     };
     policeManager_.SyncToWantedLevel(player_.GetWantedLevel(), player_.GetPosition());
+}
+
+Simulation::~Simulation()
+{
+    SaveLearningCheckpoint("shutdown");
 }
 
 void Simulation::Run()
@@ -472,7 +490,7 @@ void Simulation::RecordPoliceRlTransitions(const std::vector<sim::ai::Observatio
         const auto& police = policeNpcs[index];
         const sim::entities::NpcAction action = police.GetLastAction();
 
-        rlEpisodeRecorder_.RecordTransition({
+        sim::rl::Transition transition{
             .agent = {
                 .id = static_cast<sim::rl::AgentId>(index + 1),
                 .role = policeManager_.GetRoleName(index)
@@ -488,8 +506,64 @@ void Simulation::RecordPoliceRlTransitions(const std::vector<sim::ai::Observatio
                 .stepIndex = timer_.GetTickIndex(),
                 .elapsedSeconds = timer_.GetElapsedTime()
             }
-        });
+        };
+
+        rlEpisodeRecorder_.RecordTransition(transition);
+        learningPolicy_.ObserveTransition(transition);
     }
+
+    MaybeAutosaveLearningCheckpoint();
+}
+
+void Simulation::LoadLearningCheckpoint()
+{
+    if (config_.rlMode == sim::rl::RunMode::Disabled || checkpointManager_ == nullptr) {
+        return;
+    }
+
+    const sim::rl::CheckpointResult result = checkpointManager_->Load(learningPolicy_);
+    if (result.ok) {
+        lastCheckpointStep_ = learningPolicy_.GetTrainingState().trainingStepCount;
+        logger_.Info(result.message);
+        return;
+    }
+
+    lastCheckpointStep_ = 0;
+    logger_.Warn("Starting new learning policy. " + result.message);
+}
+
+void Simulation::SaveLearningCheckpoint(const std::string_view reason)
+{
+    if (config_.rlMode == sim::rl::RunMode::Disabled || checkpointManager_ == nullptr) {
+        return;
+    }
+
+    const sim::ai::TrainingState state = learningPolicy_.GetTrainingState();
+    if (state.trainingStepCount == 0) {
+        return;
+    }
+
+    const sim::rl::CheckpointResult result = checkpointManager_->Save(learningPolicy_);
+    if (result.ok) {
+        lastCheckpointStep_ = state.trainingStepCount;
+        logger_.Info(std::string("Learning checkpoint saved on ") + std::string(reason) + ". " + result.message);
+    } else {
+        logger_.Warn(std::string("Learning checkpoint save failed on ") + std::string(reason) + ". " + result.message);
+    }
+}
+
+void Simulation::MaybeAutosaveLearningCheckpoint()
+{
+    if (config_.checkpointAutosaveIntervalSteps == 0) {
+        return;
+    }
+
+    const sim::ai::TrainingState state = learningPolicy_.GetTrainingState();
+    if (state.trainingStepCount < lastCheckpointStep_ + config_.checkpointAutosaveIntervalSteps) {
+        return;
+    }
+
+    SaveLearningCheckpoint("autosave");
 }
 
 void Simulation::UpdatePursuitEscalation(const float deltaTime, const float playerHealthBeforePoliceUpdate)

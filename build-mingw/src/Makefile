@@ -228,6 +228,54 @@ Simulation.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/Simulation.cpp.s
 .PHONY : Simulation.cpp.s
 
+ai/FsmPolicy.obj: ai/FsmPolicy.cpp.obj
+.PHONY : ai/FsmPolicy.obj
+
+# target to build an object file
+ai/FsmPolicy.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj
+.PHONY : ai/FsmPolicy.cpp.obj
+
+ai/FsmPolicy.i: ai/FsmPolicy.cpp.i
+.PHONY : ai/FsmPolicy.i
+
+# target to preprocess a source file
+ai/FsmPolicy.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.i
+.PHONY : ai/FsmPolicy.cpp.i
+
+ai/FsmPolicy.s: ai/FsmPolicy.cpp.s
+.PHONY : ai/FsmPolicy.s
+
+# target to generate assembly for a file
+ai/FsmPolicy.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.s
+.PHONY : ai/FsmPolicy.cpp.s
+
+ai/IPolicy.obj: ai/IPolicy.cpp.obj
+.PHONY : ai/IPolicy.obj
+
+# target to build an object file
+ai/IPolicy.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj
+.PHONY : ai/IPolicy.cpp.obj
+
+ai/IPolicy.i: ai/IPolicy.cpp.i
+.PHONY : ai/IPolicy.i
+
+# target to preprocess a source file
+ai/IPolicy.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.i
+.PHONY : ai/IPolicy.cpp.i
+
+ai/IPolicy.s: ai/IPolicy.cpp.s
+.PHONY : ai/IPolicy.s
+
+# target to generate assembly for a file
+ai/IPolicy.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.s
+.PHONY : ai/IPolicy.cpp.s
+
 ai/NpcFiniteStateMachine.obj: ai/NpcFiniteStateMachine.cpp.obj
 .PHONY : ai/NpcFiniteStateMachine.obj
 
@@ -275,6 +323,54 @@ ai/Observation.s: ai/Observation.cpp.s
 ai/Observation.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.s
 .PHONY : ai/Observation.cpp.s
+
+ai/PersistentLearningPolicy.obj: ai/PersistentLearningPolicy.cpp.obj
+.PHONY : ai/PersistentLearningPolicy.obj
+
+# target to build an object file
+ai/PersistentLearningPolicy.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.obj
+.PHONY : ai/PersistentLearningPolicy.cpp.obj
+
+ai/PersistentLearningPolicy.i: ai/PersistentLearningPolicy.cpp.i
+.PHONY : ai/PersistentLearningPolicy.i
+
+# target to preprocess a source file
+ai/PersistentLearningPolicy.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.i
+.PHONY : ai/PersistentLearningPolicy.cpp.i
+
+ai/PersistentLearningPolicy.s: ai/PersistentLearningPolicy.cpp.s
+.PHONY : ai/PersistentLearningPolicy.s
+
+# target to generate assembly for a file
+ai/PersistentLearningPolicy.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.s
+.PHONY : ai/PersistentLearningPolicy.cpp.s
+
+ai/PolicyRegistry.obj: ai/PolicyRegistry.cpp.obj
+.PHONY : ai/PolicyRegistry.obj
+
+# target to build an object file
+ai/PolicyRegistry.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj
+.PHONY : ai/PolicyRegistry.cpp.obj
+
+ai/PolicyRegistry.i: ai/PolicyRegistry.cpp.i
+.PHONY : ai/PolicyRegistry.i
+
+# target to preprocess a source file
+ai/PolicyRegistry.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.i
+.PHONY : ai/PolicyRegistry.cpp.i
+
+ai/PolicyRegistry.s: ai/PolicyRegistry.cpp.s
+.PHONY : ai/PolicyRegistry.s
+
+# target to generate assembly for a file
+ai/PolicyRegistry.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.s
+.PHONY : ai/PolicyRegistry.cpp.s
 
 core/LogLevel.obj: core/LogLevel.cpp.obj
 .PHONY : core/LogLevel.obj
@@ -540,6 +636,30 @@ math/Vec2.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.s
 .PHONY : math/Vec2.cpp.s
 
+rl/CheckpointManager.obj: rl/CheckpointManager.cpp.obj
+.PHONY : rl/CheckpointManager.obj
+
+# target to build an object file
+rl/CheckpointManager.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj
+.PHONY : rl/CheckpointManager.cpp.obj
+
+rl/CheckpointManager.i: rl/CheckpointManager.cpp.i
+.PHONY : rl/CheckpointManager.i
+
+# target to preprocess a source file
+rl/CheckpointManager.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.i
+.PHONY : rl/CheckpointManager.cpp.i
+
+rl/CheckpointManager.s: rl/CheckpointManager.cpp.s
+.PHONY : rl/CheckpointManager.s
+
+# target to generate assembly for a file
+rl/CheckpointManager.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.s
+.PHONY : rl/CheckpointManager.cpp.s
+
 rl/EpisodeRecorder.obj: rl/EpisodeRecorder.cpp.obj
 .PHONY : rl/EpisodeRecorder.obj
 
@@ -607,12 +727,24 @@ help:
 	@echo ... Simulation.obj
 	@echo ... Simulation.i
 	@echo ... Simulation.s
+	@echo ... ai/FsmPolicy.obj
+	@echo ... ai/FsmPolicy.i
+	@echo ... ai/FsmPolicy.s
+	@echo ... ai/IPolicy.obj
+	@echo ... ai/IPolicy.i
+	@echo ... ai/IPolicy.s
 	@echo ... ai/NpcFiniteStateMachine.obj
 	@echo ... ai/NpcFiniteStateMachine.i
 	@echo ... ai/NpcFiniteStateMachine.s
 	@echo ... ai/Observation.obj
 	@echo ... ai/Observation.i
 	@echo ... ai/Observation.s
+	@echo ... ai/PersistentLearningPolicy.obj
+	@echo ... ai/PersistentLearningPolicy.i
+	@echo ... ai/PersistentLearningPolicy.s
+	@echo ... ai/PolicyRegistry.obj
+	@echo ... ai/PolicyRegistry.i
+	@echo ... ai/PolicyRegistry.s
 	@echo ... core/LogLevel.obj
 	@echo ... core/LogLevel.i
 	@echo ... core/LogLevel.s
@@ -646,6 +778,9 @@ help:
 	@echo ... math/Vec2.obj
 	@echo ... math/Vec2.i
 	@echo ... math/Vec2.s
+	@echo ... rl/CheckpointManager.obj
+	@echo ... rl/CheckpointManager.i
+	@echo ... rl/CheckpointManager.s
 	@echo ... rl/EpisodeRecorder.obj
 	@echo ... rl/EpisodeRecorder.i
 	@echo ... rl/EpisodeRecorder.s

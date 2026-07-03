@@ -1,13 +1,19 @@
 #include "sim/ai/NpcFiniteStateMachine.hpp"
+#include "sim/ai/FsmPolicy.hpp"
+#include "sim/ai/PersistentLearningPolicy.hpp"
+#include "sim/ai/PolicyRegistry.hpp"
 #include "sim/Simulation.hpp"
 #include "sim/core/Logger.hpp"
 #include "sim/entities/Player.hpp"
 #include "sim/entities/PoliceManager.hpp"
 #include "sim/entities/PoliceNpc.hpp"
 #include "sim/math/Vec2.hpp"
+#include "sim/rl/CheckpointManager.hpp"
 
 #include <cmath>
+#include <filesystem>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -25,6 +31,11 @@ bool Expect(const bool condition, const std::string& message)
 bool AlmostEqual(const float a, const float b, const float epsilon = 1e-4f)
 {
     return std::fabs(a - b) <= epsilon;
+}
+
+std::filesystem::path TestCheckpointPath(const std::string& fileName)
+{
+    return std::filesystem::current_path() / fileName;
 }
 
 sim::ai::NpcAiContext MakeContext(const sim::math::Vec2 npcPosition,
@@ -97,6 +108,72 @@ bool PoliceNpcUsesStateMachineDecision()
            Expect(police.GetLastAction() == sim::entities::NpcAction::MoveTowardPlayer ||
                       police.GetLastAction() == sim::entities::NpcAction::Attack,
                   "police should act from FSM or attack when in range");
+}
+
+bool FsmPolicyMatchesFiniteStateMachine()
+{
+    sim::ai::NpcFiniteStateMachine fsm;
+    sim::ai::FsmPolicy policy;
+    const sim::ai::NpcAiContext context = MakeContext({0.0f, 0.0f}, {20.0f, 0.0f}, 1);
+
+    const sim::ai::NpcDecision fsmDecision = fsm.Update(context, 0.1f);
+    const sim::ai::PolicyResult policyResult = policy.Evaluate({
+        .agent = {
+            .id = 1,
+            .role = "Lead"
+        },
+        .observation = {},
+        .npcContext = context,
+        .deltaTime = 0.1f,
+        .context = {
+            .mode = sim::rl::RunMode::Inference,
+            .metadata = {},
+            .deterministic = true,
+            .allowAsync = false,
+            .partOfBatch = false
+        }
+    });
+
+    return Expect(policyResult.IsOk(), "FSM policy should evaluate successfully") &&
+           Expect(policyResult.decision.state == fsmDecision.state,
+                  "FSM policy should preserve the FSM state decision") &&
+           Expect(policyResult.decision.action == fsmDecision.action,
+                  "FSM policy should preserve the FSM action decision") &&
+           Expect(policyResult.decision.rawAction.discrete == static_cast<int>(fsmDecision.action),
+                  "FSM policy should expose the selected action as a generic discrete action");
+}
+
+bool PolicyRegistryCreatesBaselinePolicy()
+{
+    std::unique_ptr<sim::ai::IPolicy> policy = sim::ai::PolicyRegistry::Create("fsm");
+    const bool createdOk = Expect(policy != nullptr, "policy registry should create the built-in FSM policy");
+    if (!createdOk) {
+        return false;
+    }
+
+    const sim::ai::PolicyDescriptor descriptor = policy->GetDescriptor();
+    const bool descriptorOk = Expect(descriptor.id == "fsm", "built-in policy descriptor should identify FSM policy");
+    const sim::ai::PolicyResult result = policy->Evaluate({
+        .agent = {
+            .id = 1,
+            .role = "Lead"
+        },
+        .observation = {},
+        .npcContext = MakeContext({0.0f, 0.0f}, {20.0f, 0.0f}, 1),
+        .deltaTime = 0.1f,
+        .context = {
+            .mode = sim::rl::RunMode::Inference,
+            .metadata = {},
+            .deterministic = true,
+            .allowAsync = false,
+            .partOfBatch = false
+        }
+    });
+
+    return descriptorOk &&
+           Expect(result.IsOk(), "created FSM policy should evaluate successfully") &&
+           Expect(result.decision.action == sim::entities::NpcAction::MoveTowardPlayer,
+                  "created FSM policy should produce the same chase action");
 }
 
 bool PoliceSpeedScalesWithWantedLevel()
@@ -315,6 +392,119 @@ bool SimulationCanDisableRlTransitionRecording()
                   "disabled RL mode should not record transitions");
 }
 
+bool PersistentPolicyCheckpointRoundTripsTrainingState()
+{
+    const std::filesystem::path checkpointPath = TestCheckpointPath("policy_roundtrip_test.policy");
+    std::error_code errorCode;
+    std::filesystem::remove(checkpointPath, errorCode);
+    std::filesystem::remove(checkpointPath.string() + ".tmp", errorCode);
+
+    sim::ai::PersistentLearningPolicy policy;
+    policy.ObserveTransition({
+        .agent = {
+            .id = 1,
+            .role = "Lead"
+        },
+        .observation = {},
+        .action = sim::rl::Action::FromDiscrete(static_cast<int>(sim::entities::NpcAction::MoveTowardPlayer)),
+        .reward = 42.0f,
+        .nextObservation = {},
+        .terminal = true,
+        .truncated = false,
+        .metadata = {
+            .episodeId = 1,
+            .stepIndex = 1,
+            .elapsedSeconds = 0.1f
+        }
+    });
+
+    const sim::rl::CheckpointManager manager(checkpointPath);
+    const sim::rl::CheckpointResult saveResult = manager.Save(policy);
+    const bool saveOk = Expect(saveResult.ok, "checkpoint manager should save a trained policy");
+
+    sim::ai::PersistentLearningPolicy loadedPolicy;
+    const sim::rl::CheckpointResult loadResult = manager.Load(loadedPolicy);
+    const sim::ai::TrainingState loadedState = loadedPolicy.GetTrainingState();
+    const bool loadOk = Expect(loadResult.ok, "checkpoint manager should load a saved policy");
+    const bool stepOk = Expect(loadedState.trainingStepCount == 1,
+                               "loaded policy should preserve training step count");
+    const bool episodeOk = Expect(loadedState.episodeCount == 1,
+                                  "loaded policy should preserve episode count");
+    const bool rewardOk = Expect(AlmostEqual(loadedState.totalReward, 42.0f),
+                                 "loaded policy should preserve accumulated reward");
+
+    std::filesystem::remove(checkpointPath, errorCode);
+    std::filesystem::remove(checkpointPath.string() + ".tmp", errorCode);
+    return saveOk && loadOk && stepOk && episodeOk && rewardOk;
+}
+
+bool SimulationContinuesLearningFromSavedCheckpoint()
+{
+    const std::filesystem::path checkpointPath = TestCheckpointPath("simulation_learning_test.policy");
+    std::error_code errorCode;
+    std::filesystem::remove(checkpointPath, errorCode);
+    std::filesystem::remove(checkpointPath.string() + ".tmp", errorCode);
+
+    std::uint64_t firstRunSteps = 0;
+    {
+        sim::core::Logger::Config logConfig;
+        logConfig.logToConsole = false;
+        logConfig.logToFile = false;
+        sim::core::Logger logger(logConfig);
+
+        sim::Simulation simulation(logger, {
+            .maxTicks = 0,
+            .tickRateHz = 10.0f,
+            .realTimePacing = false,
+            .rlMode = sim::rl::RunMode::Training,
+            .maxStoredRlTransitions = 16,
+            .checkpointPath = checkpointPath,
+            .checkpointAutosaveIntervalSteps = 2
+        });
+
+        simulation.Tick();
+        simulation.Tick();
+        firstRunSteps = simulation.GetLearningPolicy().GetTrainingState().trainingStepCount;
+    }
+
+    const bool checkpointExistsOk = Expect(std::filesystem::exists(checkpointPath),
+                                           "simulation should save a learning checkpoint on shutdown");
+
+    std::uint64_t loadedSteps = 0;
+    std::uint64_t continuedSteps = 0;
+    {
+        sim::core::Logger::Config logConfig;
+        logConfig.logToConsole = false;
+        logConfig.logToFile = false;
+        sim::core::Logger logger(logConfig);
+
+        sim::Simulation simulation(logger, {
+            .maxTicks = 0,
+            .tickRateHz = 10.0f,
+            .realTimePacing = false,
+            .rlMode = sim::rl::RunMode::Training,
+            .maxStoredRlTransitions = 16,
+            .checkpointPath = checkpointPath,
+            .checkpointAutosaveIntervalSteps = 2
+        });
+
+        loadedSteps = simulation.GetLearningPolicy().GetTrainingState().trainingStepCount;
+        simulation.Tick();
+        continuedSteps = simulation.GetLearningPolicy().GetTrainingState().trainingStepCount;
+    }
+
+    const bool firstRunOk = Expect(firstRunSteps == 2,
+                                   "first simulation run should train for two steps");
+    const bool loadedOk = Expect(loadedSteps >= firstRunSteps,
+                                 "second simulation run should load previous training progress");
+    const bool continuedOk = Expect(continuedSteps == loadedSteps + 1,
+                                    "second simulation run should continue learning after load");
+
+    std::filesystem::remove(checkpointPath, errorCode);
+    std::filesystem::remove(checkpointPath.string() + ".tmp", errorCode);
+    return checkpointExistsOk && firstRunOk && loadedOk && continuedOk;
+}
+
 } // namespace
 
 int main()
@@ -324,13 +514,17 @@ int main()
                     PursuesNearbyWantedPlayer() &&
                     AccumulatesTimeWhileStateIsStable() &&
                     PoliceNpcUsesStateMachineDecision() &&
+                    FsmPolicyMatchesFiniteStateMachine() &&
+                    PolicyRegistryCreatesBaselinePolicy() &&
                     PoliceSpeedScalesWithWantedLevel() &&
                     PoliceManagerSpawnsAndUpdatesIndependentPolice() &&
                     PoliceInterceptionChangesRelativePositions() &&
                     PoliceSteeringDoesNotInstantlySnap() &&
                     SimulationStartsWithOneWantedStarAndOnePolice() &&
                     SimulationRecordsBaselineRlTransitions() &&
-                    SimulationCanDisableRlTransitionRecording();
+                    SimulationCanDisableRlTransitionRecording() &&
+                    PersistentPolicyCheckpointRoundTripsTrainingState() &&
+                    SimulationContinuesLearningFromSavedCheckpoint();
 
     if (ok) {
         std::cout << "All NPC FSM tests passed.\n";

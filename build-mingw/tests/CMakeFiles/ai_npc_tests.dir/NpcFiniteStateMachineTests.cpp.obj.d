@@ -176,17 +176,63 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/bits/basic_ios.tcc \
  C:/mingw64/include/c++/16.1.0/bits/ostream_print.h \
  C:/mingw64/include/c++/16.1.0/bits/ostream.tcc \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FsmPolicy.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/IPolicy.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PolicyTypes.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
+ C:/mingw64/include/c++/16.1.0/vector \
+ C:/mingw64/include/c++/16.1.0/bits/stl_uninitialized.h \
+ C:/mingw64/include/c++/16.1.0/bits/stl_vector.h \
+ C:/mingw64/include/c++/16.1.0/bits/stl_bvector.h \
+ C:/mingw64/include/c++/16.1.0/bits/vector.tcc \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/RlTypes.hpp \
+ C:/mingw64/include/c++/16.1.0/cstdint \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/16.1.0/include/stdint.h \
+ C:/mingw64/x86_64-w64-mingw32/include/stdint.h \
+ C:/mingw64/include/c++/16.1.0/mutex \
+ C:/mingw64/include/c++/16.1.0/bits/chrono.h \
+ C:/mingw64/include/c++/16.1.0/ratio C:/mingw64/include/c++/16.1.0/ctime \
+ C:/mingw64/include/c++/16.1.0/bits/parse_numbers.h \
+ C:/mingw64/include/c++/16.1.0/bits/std_mutex.h \
+ C:/mingw64/include/c++/16.1.0/bits/unique_lock.h \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PersistentLearningPolicy.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/ITrainablePolicy.hpp \
+ C:/mingw64/include/c++/16.1.0/unordered_map \
+ C:/mingw64/include/c++/16.1.0/bits/unordered_map.h \
+ C:/mingw64/include/c++/16.1.0/bits/hashtable.h \
+ C:/mingw64/include/c++/16.1.0/bits/hashtable_policy.h \
+ C:/mingw64/include/c++/16.1.0/ext/aligned_buffer.h \
+ C:/mingw64/include/c++/16.1.0/bits/enable_special_members.h \
+ C:/mingw64/include/c++/16.1.0/bits/node_handle.h \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PolicyRegistry.hpp \
+ C:/mingw64/include/c++/16.1.0/functional \
+ C:/mingw64/include/c++/16.1.0/bits/refwrap.h \
+ C:/mingw64/include/c++/16.1.0/bits/std_function.h \
+ C:/mingw64/include/c++/16.1.0/array \
+ C:/mingw64/include/c++/16.1.0/bits/binders.h \
+ C:/mingw64/include/c++/16.1.0/memory \
+ C:/mingw64/include/c++/16.1.0/bits/stl_tempbuf.h \
+ C:/mingw64/include/c++/16.1.0/bits/stl_raw_storage_iter.h \
+ C:/mingw64/include/c++/16.1.0/bits/align.h \
+ C:/mingw64/include/c++/16.1.0/bits/unique_ptr.h \
+ C:/mingw64/include/c++/16.1.0/bits/shared_ptr.h \
+ C:/mingw64/include/c++/16.1.0/bits/shared_ptr_base.h \
+ C:/mingw64/include/c++/16.1.0/bits/allocated_ptr.h \
+ C:/mingw64/include/c++/16.1.0/ext/concurrence.h \
+ C:/mingw64/include/c++/16.1.0/bits/shared_ptr_atomic.h \
+ C:/mingw64/include/c++/16.1.0/bits/atomic_base.h \
+ C:/mingw64/include/c++/16.1.0/bits/atomic_lockfree_defines.h \
+ C:/mingw64/include/c++/16.1.0/bits/atomic_wait.h \
+ C:/mingw64/include/c++/16.1.0/backward/auto_ptr.h \
+ C:/mingw64/include/c++/16.1.0/bits/ranges_uninitialized.h \
+ C:/mingw64/include/c++/16.1.0/bits/ranges_algobase.h \
+ C:/mingw64/include/c++/16.1.0/pstl/glue_memory_defs.h \
+ C:/mingw64/include/c++/16.1.0/pstl/execution_defs.h \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/Simulation.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/core/Logger.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/core/LogLevel.hpp \
  C:/mingw64/include/c++/16.1.0/filesystem \
  C:/mingw64/include/c++/16.1.0/bits/fs_fwd.h \
- C:/mingw64/include/c++/16.1.0/cstdint \
- C:/mingw64/lib/gcc/x86_64-w64-mingw32/16.1.0/include/stdint.h \
- C:/mingw64/x86_64-w64-mingw32/include/stdint.h \
- C:/mingw64/include/c++/16.1.0/bits/chrono.h \
- C:/mingw64/include/c++/16.1.0/ratio C:/mingw64/include/c++/16.1.0/ctime \
- C:/mingw64/include/c++/16.1.0/bits/parse_numbers.h \
  C:/mingw64/include/c++/16.1.0/bits/fs_path.h \
  C:/mingw64/include/c++/16.1.0/locale \
  C:/mingw64/include/c++/16.1.0/bits/locale_facets_nonio.h \
@@ -202,51 +248,31 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/bits/istream.tcc \
  C:/mingw64/include/c++/16.1.0/bits/sstream.tcc \
  C:/mingw64/include/c++/16.1.0/codecvt \
- C:/mingw64/include/c++/16.1.0/ext/concurrence.h \
- C:/mingw64/include/c++/16.1.0/bits/shared_ptr.h \
- C:/mingw64/include/c++/16.1.0/bits/shared_ptr_base.h \
- C:/mingw64/include/c++/16.1.0/bits/allocated_ptr.h \
- C:/mingw64/include/c++/16.1.0/bits/refwrap.h \
- C:/mingw64/include/c++/16.1.0/bits/unique_ptr.h \
- C:/mingw64/include/c++/16.1.0/ext/aligned_buffer.h \
- C:/mingw64/include/c++/16.1.0/bits/align.h \
- C:/mingw64/include/c++/16.1.0/bits/stl_uninitialized.h \
  C:/mingw64/include/c++/16.1.0/bits/fs_dir.h \
  C:/mingw64/include/c++/16.1.0/bits/fs_ops.h \
  C:/mingw64/include/c++/16.1.0/fstream \
  C:/mingw64/include/c++/16.1.0/x86_64-w64-mingw32/bits/basic_file.h \
  C:/mingw64/include/c++/16.1.0/x86_64-w64-mingw32/bits/c++io.h \
  C:/mingw64/include/c++/16.1.0/bits/fstream.tcc \
- C:/mingw64/include/c++/16.1.0/mutex \
- C:/mingw64/include/c++/16.1.0/bits/std_mutex.h \
- C:/mingw64/include/c++/16.1.0/bits/unique_lock.h \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/core/SimulationTimer.hpp \
  C:/mingw64/include/c++/16.1.0/chrono \
  C:/mingw64/include/c++/16.1.0/bits/stl_algo.h \
  C:/mingw64/include/c++/16.1.0/bits/algorithmfwd.h \
  C:/mingw64/include/c++/16.1.0/bits/stl_heap.h \
  C:/mingw64/include/c++/16.1.0/bits/uniform_int_dist.h \
- C:/mingw64/include/c++/16.1.0/bits/stl_tempbuf.h \
- C:/mingw64/include/c++/16.1.0/vector \
- C:/mingw64/include/c++/16.1.0/bits/stl_vector.h \
- C:/mingw64/include/c++/16.1.0/bits/stl_bvector.h \
- C:/mingw64/include/c++/16.1.0/bits/vector.tcc \
  C:/mingw64/include/c++/16.1.0/bits/chrono_io.h \
- C:/mingw64/include/c++/16.1.0/format C:/mingw64/include/c++/16.1.0/array \
+ C:/mingw64/include/c++/16.1.0/format \
  C:/mingw64/include/c++/16.1.0/charconv \
  C:/mingw64/include/c++/16.1.0/optional \
- C:/mingw64/include/c++/16.1.0/bits/enable_special_members.h \
  C:/mingw64/include/c++/16.1.0/span \
  C:/mingw64/include/c++/16.1.0/bits/monostate.h \
  C:/mingw64/include/c++/16.1.0/bits/formatfwd.h \
- C:/mingw64/include/c++/16.1.0/bits/ranges_algobase.h \
  C:/mingw64/include/c++/16.1.0/bits/unicode.h \
  C:/mingw64/include/c++/16.1.0/bits/unicode-data.h \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/Player.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/PoliceManager.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/PoliceNpc.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/CheckpointManager.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/EpisodeRecorder.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/ITransitionSink.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/RlTypes.hpp \
  C:/mingw64/include/c++/16.1.0/iostream

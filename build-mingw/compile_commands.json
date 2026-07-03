@@ -211,6 +211,24 @@
 },
 {
   "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\ai\\IPolicy.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\IPolicy.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/IPolicy.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\ai\\FsmPolicy.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\FsmPolicy.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/FsmPolicy.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\ai\\PersistentLearningPolicy.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\PersistentLearningPolicy.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/PersistentLearningPolicy.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
   "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\ai\\Observation.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\Observation.cpp\"",
   "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/Observation.cpp",
   "output": "src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj"
@@ -220,6 +238,18 @@
   "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\ai\\NpcFiniteStateMachine.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\NpcFiniteStateMachine.cpp\"",
   "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/NpcFiniteStateMachine.cpp",
   "output": "src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\ai\\PolicyRegistry.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\PolicyRegistry.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/PolicyRegistry.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\rl\\CheckpointManager.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\rl\\CheckpointManager.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/rl/CheckpointManager.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj"
 },
 {
   "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
@@ -301,9 +331,39 @@
 },
 {
   "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests",
+  "command": "C:\\mingw64\\bin\\c++.exe -DNOMINMAX -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_tests.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_tests.dir\\__\\src\\ai\\IPolicy.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\IPolicy.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/IPolicy.cpp",
+  "output": "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/IPolicy.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests",
+  "command": "C:\\mingw64\\bin\\c++.exe -DNOMINMAX -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_tests.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_tests.dir\\__\\src\\ai\\FsmPolicy.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\FsmPolicy.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/FsmPolicy.cpp",
+  "output": "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/FsmPolicy.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests",
+  "command": "C:\\mingw64\\bin\\c++.exe -DNOMINMAX -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_tests.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_tests.dir\\__\\src\\ai\\PersistentLearningPolicy.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\PersistentLearningPolicy.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/PersistentLearningPolicy.cpp",
+  "output": "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PersistentLearningPolicy.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests",
   "command": "C:\\mingw64\\bin\\c++.exe -DNOMINMAX -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_tests.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_tests.dir\\__\\src\\ai\\NpcFiniteStateMachine.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\NpcFiniteStateMachine.cpp\"",
   "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/NpcFiniteStateMachine.cpp",
   "output": "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/NpcFiniteStateMachine.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests",
+  "command": "C:\\mingw64\\bin\\c++.exe -DNOMINMAX -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_tests.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_tests.dir\\__\\src\\ai\\PolicyRegistry.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\PolicyRegistry.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/PolicyRegistry.cpp",
+  "output": "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PolicyRegistry.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests",
+  "command": "C:\\mingw64\\bin\\c++.exe -DNOMINMAX -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_tests.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_tests.dir\\__\\src\\rl\\CheckpointManager.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\rl\\CheckpointManager.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/rl/CheckpointManager.cpp",
+  "output": "tests/CMakeFiles/ai_npc_tests.dir/__/src/rl/CheckpointManager.cpp.obj"
 },
 {
   "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests",

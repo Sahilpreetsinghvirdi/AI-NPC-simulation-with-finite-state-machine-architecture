@@ -1,12 +1,14 @@
 #pragma once
 
 #include "sim/ai/Observation.hpp"
-#include "sim/ai/NpcFiniteStateMachine.hpp"
+#include "sim/ai/IPolicy.hpp"
+#include "sim/ai/PolicyTypes.hpp"
 #include "sim/entities/NpcAction.hpp"
 #include "sim/entities/NpcState.hpp"
 #include "sim/entities/Player.hpp"
 #include "sim/math/Vec2.hpp"
 
+#include <memory>
 #include <string>
 
 namespace sim::entities {
@@ -21,6 +23,12 @@ public:
 
     PoliceNpc();
     explicit PoliceNpc(sim::math::Vec2 startPosition);
+    PoliceNpc(sim::math::Vec2 startPosition, std::unique_ptr<sim::ai::IPolicy> policy);
+
+    PoliceNpc(const PoliceNpc&) = delete;
+    PoliceNpc& operator=(const PoliceNpc&) = delete;
+    PoliceNpc(PoliceNpc&&) noexcept = default;
+    PoliceNpc& operator=(PoliceNpc&&) noexcept = default;
 
     [[nodiscard]] const sim::math::Vec2& GetPosition() const;
     [[nodiscard]] float GetHealth() const;
@@ -64,7 +72,8 @@ private:
     sim::math::Vec2 steeringVector_;
     sim::math::Vec2 pursuitVector_;
     float health_{kMaxHealth};
-    sim::ai::NpcFiniteStateMachine stateMachine_;
+    std::unique_ptr<sim::ai::IPolicy> policy_;
+    sim::ai::PolicyDecision lastPolicyDecision_;
     NpcAction lastAction_{NpcAction::None};
     float patrolHeadingRadians_{0.0f};
     float currentSpeed_{0.0f};

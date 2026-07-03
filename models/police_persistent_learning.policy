@@ -1,0 +1,9 @@
+AI_NPC_POLICY_CHECKPOINT 1
+policyId=persistent_learning_fsm
+algorithmId=incremental_action_value
+trainingStepCount=5505
+episodeCount=0
+totalReward=419945
+action.0=3 76.2114 5474
+action.1=4 91.2532 26
+action.2=2 78.2614 5

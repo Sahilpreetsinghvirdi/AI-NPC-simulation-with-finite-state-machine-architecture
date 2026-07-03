@@ -6,13 +6,18 @@
 #include "sim/entities/PoliceManager.hpp"
 #include "sim/entities/PoliceNpc.hpp"
 #include "sim/math/Vec2.hpp"
+#include "sim/ai/PersistentLearningPolicy.hpp"
+#include "sim/rl/CheckpointManager.hpp"
 #include "sim/rl/EpisodeRecorder.hpp"
 #include "sim/rl/RlTypes.hpp"
 
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
+#include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace sim {
@@ -43,10 +48,13 @@ public:
         bool realTimePacing{false};
         sim::rl::RunMode rlMode{sim::rl::RunMode::Training};
         std::size_t maxStoredRlTransitions{4096};
+        std::filesystem::path checkpointPath{};
+        std::uint64_t checkpointAutosaveIntervalSteps{50};
     };
 
     Simulation(sim::core::Logger& logger);
     Simulation(sim::core::Logger& logger, Config config);
+    ~Simulation();
 
     void Run();
     void Tick();
@@ -82,6 +90,7 @@ public:
     [[nodiscard]] const sim::core::SimulationTimer& GetTimer() const { return timer_; }
     [[nodiscard]] sim::core::SimulationTimer& GetTimer() { return timer_; }
     [[nodiscard]] const sim::rl::EpisodeRecorder& GetRlEpisodeRecorder() const { return rlEpisodeRecorder_; }
+    [[nodiscard]] const sim::ai::PersistentLearningPolicy& GetLearningPolicy() const { return learningPolicy_; }
 
 private:
     void UpdatePlayer(float deltaTime);
@@ -89,6 +98,9 @@ private:
     void UpdatePlayerExperienceMemory(float deltaTime, float bestFreeSpace);
     void UpdatePolice(float deltaTime);
     void RecordPoliceRlTransitions(const std::vector<sim::ai::Observation>& observationsBeforeUpdate);
+    void LoadLearningCheckpoint();
+    void SaveLearningCheckpoint(std::string_view reason);
+    void MaybeAutosaveLearningCheckpoint();
     void UpdatePursuitEscalation(float deltaTime, float playerHealthBeforePoliceUpdate);
     void TryPlayerAttackPolice(float deltaTime);
     [[nodiscard]] float CalculatePlayerTargetSpeed() const;
@@ -107,6 +119,9 @@ private:
     sim::entities::PoliceManager policeManager_;
     Config config_;
     sim::rl::EpisodeRecorder rlEpisodeRecorder_;
+    sim::ai::PersistentLearningPolicy learningPolicy_;
+    std::unique_ptr<sim::rl::CheckpointManager> checkpointManager_;
+    std::uint64_t lastCheckpointStep_{0};
     sim::math::Vec2 hospitalPosition_{15.0f, 15.0f};
     sim::math::Vec2 playerVelocity_;
     sim::math::Vec2 playerCurrentHeading_{1.0f, 0.0f};

@@ -5,7 +5,12 @@ add_executable(ai_npc_tests
     ../src/core/LogLevel.cpp
     ../src/core/SimulationTimer.cpp
     ../src/rl/EpisodeRecorder.cpp
+    ../src/ai/IPolicy.cpp
+    ../src/ai/FsmPolicy.cpp
+    ../src/ai/PersistentLearningPolicy.cpp
     ../src/ai/NpcFiniteStateMachine.cpp
+    ../src/ai/PolicyRegistry.cpp
+    ../src/rl/CheckpointManager.cpp
     ../src/entities/NpcState.cpp
     ../src/entities/NpcAction.cpp
     ../src/entities/PoliceManager.cpp

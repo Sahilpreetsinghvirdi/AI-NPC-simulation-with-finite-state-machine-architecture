@@ -7,8 +7,13 @@ add_executable(ai_npc_sim
     core/SimulationTimer.cpp
     math/Vec2.cpp
     rl/EpisodeRecorder.cpp
+    ai/IPolicy.cpp
+    ai/FsmPolicy.cpp
+    ai/PersistentLearningPolicy.cpp
     ai/Observation.cpp
     ai/NpcFiniteStateMachine.cpp
+    ai/PolicyRegistry.cpp
+    rl/CheckpointManager.cpp
     entities/Player.cpp
     entities/PlayerLifeState.cpp
     entities/NpcState.cpp
