@@ -9,8 +9,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Visual Studio Files/ai-npc-simulation/tests/NpcFiniteStateMachineTests.cpp" "tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj.d"
+  "D:/Visual Studio Files/ai-npc-simulation/src/Simulation.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/ai/NpcFiniteStateMachine.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/NpcFiniteStateMachine.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/NpcFiniteStateMachine.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/ai/Observation.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/Observation.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/Observation.cpp.obj.d"
+  "D:/Visual Studio Files/ai-npc-simulation/src/core/LogLevel.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/core/LogLevel.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/core/LogLevel.cpp.obj.d"
+  "D:/Visual Studio Files/ai-npc-simulation/src/core/Logger.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/core/Logger.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/core/Logger.cpp.obj.d"
+  "D:/Visual Studio Files/ai-npc-simulation/src/core/SimulationTimer.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/core/SimulationTimer.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/core/SimulationTimer.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/NpcAction.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/NpcAction.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/NpcAction.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/NpcState.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/NpcState.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/NpcState.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/entities/Player.cpp" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/Player.cpp.obj" "gcc" "tests/CMakeFiles/ai_npc_tests.dir/__/src/entities/Player.cpp.obj.d"

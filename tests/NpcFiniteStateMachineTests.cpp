@@ -1,4 +1,6 @@
 #include "sim/ai/NpcFiniteStateMachine.hpp"
+#include "sim/Simulation.hpp"
+#include "sim/core/Logger.hpp"
 #include "sim/entities/Player.hpp"
 #include "sim/entities/PoliceManager.hpp"
 #include "sim/entities/PoliceNpc.hpp"
@@ -221,6 +223,36 @@ bool PoliceSteeringDoesNotInstantlySnap()
     return desiredOk && currentOk && steeringOk;
 }
 
+bool SimulationStartsWithOneWantedStarAndOnePolice()
+{
+    sim::core::Logger::Config logConfig;
+    logConfig.logToConsole = false;
+    logConfig.logToFile = false;
+    sim::core::Logger logger(logConfig);
+
+    sim::Simulation simulation(logger, {
+        .maxTicks = 0,
+        .tickRateHz = 10.0f,
+        .realTimePacing = false
+    });
+
+    const bool initialWantedOk = Expect(simulation.GetPlayer().GetWantedLevel() == 1,
+                                        "simulation should start at wanted level 1");
+    const bool initialPoliceOk = Expect(simulation.GetPoliceManager().GetActiveCount() == 1,
+                                        "simulation should start with exactly one police NPC");
+
+    for (int tick = 0; tick < 16; ++tick) {
+        simulation.Tick();
+    }
+
+    const bool noForcedWantedOk = Expect(simulation.GetPlayer().GetWantedLevel() == 1,
+                                         "early simulation ticks should not force wanted level to 3");
+    const bool noForcedPoliceOk = Expect(simulation.GetPoliceManager().GetActiveCount() == 1,
+                                         "early simulation ticks should not spawn extra police");
+
+    return initialWantedOk && initialPoliceOk && noForcedWantedOk && noForcedPoliceOk;
+}
+
 } // namespace
 
 int main()
@@ -233,7 +265,8 @@ int main()
                     PoliceSpeedScalesWithWantedLevel() &&
                     PoliceManagerSpawnsAndUpdatesIndependentPolice() &&
                     PoliceInterceptionChangesRelativePositions() &&
-                    PoliceSteeringDoesNotInstantlySnap();
+                    PoliceSteeringDoesNotInstantlySnap() &&
+                    SimulationStartsWithOneWantedStarAndOnePolice();
 
     if (ok) {
         std::cout << "All NPC FSM tests passed.\n";

@@ -228,6 +228,30 @@ NpcFiniteStateMachineTests.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.s
 .PHONY : NpcFiniteStateMachineTests.cpp.s
 
+__/src/Simulation.obj: __/src/Simulation.cpp.obj
+.PHONY : __/src/Simulation.obj
+
+# target to build an object file
+__/src/Simulation.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.obj
+.PHONY : __/src/Simulation.cpp.obj
+
+__/src/Simulation.i: __/src/Simulation.cpp.i
+.PHONY : __/src/Simulation.i
+
+# target to preprocess a source file
+__/src/Simulation.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.i
+.PHONY : __/src/Simulation.cpp.i
+
+__/src/Simulation.s: __/src/Simulation.cpp.s
+.PHONY : __/src/Simulation.s
+
+# target to generate assembly for a file
+__/src/Simulation.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.s
+.PHONY : __/src/Simulation.cpp.s
+
 __/src/ai/NpcFiniteStateMachine.obj: __/src/ai/NpcFiniteStateMachine.cpp.obj
 .PHONY : __/src/ai/NpcFiniteStateMachine.obj
 
@@ -275,6 +299,78 @@ __/src/ai/Observation.s: __/src/ai/Observation.cpp.s
 __/src/ai/Observation.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/Observation.cpp.s
 .PHONY : __/src/ai/Observation.cpp.s
+
+__/src/core/LogLevel.obj: __/src/core/LogLevel.cpp.obj
+.PHONY : __/src/core/LogLevel.obj
+
+# target to build an object file
+__/src/core/LogLevel.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/core/LogLevel.cpp.obj
+.PHONY : __/src/core/LogLevel.cpp.obj
+
+__/src/core/LogLevel.i: __/src/core/LogLevel.cpp.i
+.PHONY : __/src/core/LogLevel.i
+
+# target to preprocess a source file
+__/src/core/LogLevel.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/core/LogLevel.cpp.i
+.PHONY : __/src/core/LogLevel.cpp.i
+
+__/src/core/LogLevel.s: __/src/core/LogLevel.cpp.s
+.PHONY : __/src/core/LogLevel.s
+
+# target to generate assembly for a file
+__/src/core/LogLevel.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/core/LogLevel.cpp.s
+.PHONY : __/src/core/LogLevel.cpp.s
+
+__/src/core/Logger.obj: __/src/core/Logger.cpp.obj
+.PHONY : __/src/core/Logger.obj
+
+# target to build an object file
+__/src/core/Logger.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/core/Logger.cpp.obj
+.PHONY : __/src/core/Logger.cpp.obj
+
+__/src/core/Logger.i: __/src/core/Logger.cpp.i
+.PHONY : __/src/core/Logger.i
+
+# target to preprocess a source file
+__/src/core/Logger.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/core/Logger.cpp.i
+.PHONY : __/src/core/Logger.cpp.i
+
+__/src/core/Logger.s: __/src/core/Logger.cpp.s
+.PHONY : __/src/core/Logger.s
+
+# target to generate assembly for a file
+__/src/core/Logger.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/core/Logger.cpp.s
+.PHONY : __/src/core/Logger.cpp.s
+
+__/src/core/SimulationTimer.obj: __/src/core/SimulationTimer.cpp.obj
+.PHONY : __/src/core/SimulationTimer.obj
+
+# target to build an object file
+__/src/core/SimulationTimer.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/core/SimulationTimer.cpp.obj
+.PHONY : __/src/core/SimulationTimer.cpp.obj
+
+__/src/core/SimulationTimer.i: __/src/core/SimulationTimer.cpp.i
+.PHONY : __/src/core/SimulationTimer.i
+
+# target to preprocess a source file
+__/src/core/SimulationTimer.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/core/SimulationTimer.cpp.i
+.PHONY : __/src/core/SimulationTimer.cpp.i
+
+__/src/core/SimulationTimer.s: __/src/core/SimulationTimer.cpp.s
+.PHONY : __/src/core/SimulationTimer.s
+
+# target to generate assembly for a file
+__/src/core/SimulationTimer.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/core/SimulationTimer.cpp.s
+.PHONY : __/src/core/SimulationTimer.cpp.s
 
 __/src/entities/NpcAction.obj: __/src/entities/NpcAction.cpp.obj
 .PHONY : __/src/entities/NpcAction.obj
@@ -463,12 +559,24 @@ help:
 	@echo ... NpcFiniteStateMachineTests.obj
 	@echo ... NpcFiniteStateMachineTests.i
 	@echo ... NpcFiniteStateMachineTests.s
+	@echo ... __/src/Simulation.obj
+	@echo ... __/src/Simulation.i
+	@echo ... __/src/Simulation.s
 	@echo ... __/src/ai/NpcFiniteStateMachine.obj
 	@echo ... __/src/ai/NpcFiniteStateMachine.i
 	@echo ... __/src/ai/NpcFiniteStateMachine.s
 	@echo ... __/src/ai/Observation.obj
 	@echo ... __/src/ai/Observation.i
 	@echo ... __/src/ai/Observation.s
+	@echo ... __/src/core/LogLevel.obj
+	@echo ... __/src/core/LogLevel.i
+	@echo ... __/src/core/LogLevel.s
+	@echo ... __/src/core/Logger.obj
+	@echo ... __/src/core/Logger.i
+	@echo ... __/src/core/Logger.s
+	@echo ... __/src/core/SimulationTimer.obj
+	@echo ... __/src/core/SimulationTimer.i
+	@echo ... __/src/core/SimulationTimer.s
 	@echo ... __/src/entities/NpcAction.obj
 	@echo ... __/src/entities/NpcAction.i
 	@echo ... __/src/entities/NpcAction.s

@@ -1,5 +1,9 @@
 add_executable(ai_npc_tests
     NpcFiniteStateMachineTests.cpp
+    ../src/Simulation.cpp
+    ../src/core/Logger.cpp
+    ../src/core/LogLevel.cpp
+    ../src/core/SimulationTimer.cpp
     ../src/ai/NpcFiniteStateMachine.cpp
     ../src/entities/NpcState.cpp
     ../src/entities/NpcAction.cpp
@@ -12,6 +16,11 @@ add_executable(ai_npc_tests
 )
 
 target_include_directories(ai_npc_tests PRIVATE "${PROJECT_SOURCE_DIR}/include")
+target_compile_definitions(ai_npc_tests PRIVATE
+    SIM_DATA_DIR="${SIM_DATA_DIR}"
+    SIM_LOGS_DIR="${SIM_LOGS_DIR}"
+    SIM_MODELS_DIR="${SIM_MODELS_DIR}"
+)
 
 if(WIN32)
     target_compile_definitions(ai_npc_tests PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)

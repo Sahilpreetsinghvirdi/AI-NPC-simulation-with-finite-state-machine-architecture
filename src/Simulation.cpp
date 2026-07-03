@@ -30,7 +30,8 @@ constexpr float kPlayerAttackCooldown = 0.8f;
 constexpr float kPlayerAttackDamage = 8.0f;
 constexpr float kPursuitFailureDuration = 10.0f;
 constexpr float kDeathPauseDuration = 5.0f;
-constexpr int kRespawnWantedLevel = 3;
+constexpr int kInitialWantedLevel = 1;
+constexpr int kRespawnWantedLevel = kInitialWantedLevel;
 
 float MoveTowards(const float current, const float target, const float maxDelta)
 {
@@ -108,7 +109,7 @@ Simulation::Simulation(sim::core::Logger& logger, const Config config)
     , player_({20.0f, 20.0f})
     , config_(config)
 {
-    player_.SetWantedLevel(1);
+    player_.SetWantedLevel(kInitialWantedLevel);
     playerKnownBoundaries_ = {
         PerceivedBoundary{{kWorldMin, kWorldMin}, {kWorldMin, kWorldMax}, {1.0f, 0.0f}},
         PerceivedBoundary{{kWorldMax, kWorldMin}, {kWorldMax, kWorldMax}, {-1.0f, 0.0f}},
@@ -435,14 +436,6 @@ void Simulation::UpdatePlayer(const float deltaTime)
         std::clamp(player_.GetPosition().y, kWorldMin, kWorldMax)
     });
 
-    const auto tick = timer_.GetTickIndex();
-    if (tick == 5) {
-        player_.IncreaseWantedLevel(2);
-        RecordEvent("Player committed a crime — wanted level increased.");
-    } else if (tick == 15) {
-        player_.IncreaseWantedLevel(1);
-        RecordEvent("Player committed another offense — wanted level increased.");
-    }
 }
 
 void Simulation::UpdatePolice(const float deltaTime)
@@ -531,7 +524,7 @@ void Simulation::RespawnPlayer()
     playerExperienceSurvivalTimer_ = 0.0f;
     playerSuccessRecordCooldown_ = 0.0f;
     deathPauseRemaining_ = 0.0f;
-    RecordEvent("Player respawned at hospital. Wanted level restored to 3 stars.");
+    RecordEvent("Player respawned at hospital. Wanted level restored to 1 star.");
 }
 
 void Simulation::RecordEvent(std::string message)
