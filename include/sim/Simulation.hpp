@@ -6,6 +6,8 @@
 #include "sim/entities/PoliceManager.hpp"
 #include "sim/entities/PoliceNpc.hpp"
 #include "sim/math/Vec2.hpp"
+#include "sim/rl/EpisodeRecorder.hpp"
+#include "sim/rl/RlTypes.hpp"
 
 #include <array>
 #include <cstddef>
@@ -39,6 +41,8 @@ public:
         std::uint64_t maxTicks{0}; // 0 = run until the window closes
         float tickRateHz{10.0f};
         bool realTimePacing{false};
+        sim::rl::RunMode rlMode{sim::rl::RunMode::Training};
+        std::size_t maxStoredRlTransitions{4096};
     };
 
     Simulation(sim::core::Logger& logger);
@@ -77,12 +81,14 @@ public:
     [[nodiscard]] const sim::entities::PoliceNpc* GetPrimaryPoliceNpc() const { return policeManager_.GetPrimaryPolice(); }
     [[nodiscard]] const sim::core::SimulationTimer& GetTimer() const { return timer_; }
     [[nodiscard]] sim::core::SimulationTimer& GetTimer() { return timer_; }
+    [[nodiscard]] const sim::rl::EpisodeRecorder& GetRlEpisodeRecorder() const { return rlEpisodeRecorder_; }
 
 private:
     void UpdatePlayer(float deltaTime);
     void UpdatePlayerPerception(float deltaTime);
     void UpdatePlayerExperienceMemory(float deltaTime, float bestFreeSpace);
     void UpdatePolice(float deltaTime);
+    void RecordPoliceRlTransitions(const std::vector<sim::ai::Observation>& observationsBeforeUpdate);
     void UpdatePursuitEscalation(float deltaTime, float playerHealthBeforePoliceUpdate);
     void TryPlayerAttackPolice(float deltaTime);
     [[nodiscard]] float CalculatePlayerTargetSpeed() const;
@@ -100,6 +106,7 @@ private:
     sim::entities::Player player_;
     sim::entities::PoliceManager policeManager_;
     Config config_;
+    sim::rl::EpisodeRecorder rlEpisodeRecorder_;
     sim::math::Vec2 hospitalPosition_{15.0f, 15.0f};
     sim::math::Vec2 playerVelocity_;
     sim::math::Vec2 playerCurrentHeading_{1.0f, 0.0f};

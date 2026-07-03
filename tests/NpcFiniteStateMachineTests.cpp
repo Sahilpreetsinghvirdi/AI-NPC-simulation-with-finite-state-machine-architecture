@@ -253,6 +253,68 @@ bool SimulationStartsWithOneWantedStarAndOnePolice()
     return initialWantedOk && initialPoliceOk && noForcedWantedOk && noForcedPoliceOk;
 }
 
+bool SimulationRecordsBaselineRlTransitions()
+{
+    sim::core::Logger::Config logConfig;
+    logConfig.logToConsole = false;
+    logConfig.logToFile = false;
+    sim::core::Logger logger(logConfig);
+
+    sim::Simulation simulation(logger, {
+        .maxTicks = 0,
+        .tickRateHz = 10.0f,
+        .realTimePacing = false,
+        .rlMode = sim::rl::RunMode::Training,
+        .maxStoredRlTransitions = 16
+    });
+
+    simulation.Tick();
+
+    const auto& recorder = simulation.GetRlEpisodeRecorder();
+    const bool countOk = Expect(recorder.GetTransitionCount() == 1,
+                                "one active police should produce one RL transition per simulation tick");
+    const bool storedOk = Expect(recorder.GetTransitions().size() == 1,
+                                 "training recorder should keep the transition in memory");
+
+    if (recorder.GetTransitions().empty()) {
+        return false;
+    }
+
+    const auto& transition = recorder.GetTransitions().front();
+    const bool agentOk = Expect(transition.agent.id == 1 && transition.agent.role == "Lead",
+                                "first police transition should belong to the Lead agent");
+    const bool observationOk = Expect(transition.observation.Size() == transition.nextObservation.Size() &&
+                                          transition.observation.Size() > 0,
+                                      "RL transition should contain observation and next observation vectors");
+    const bool actionOk = Expect(transition.action.type == sim::rl::ActionSpaceType::Discrete,
+                                 "baseline NPC action should be represented as a discrete RL action");
+    const bool metadataOk = Expect(transition.metadata.episodeId == 1 && transition.metadata.stepIndex == 1,
+                                   "RL transition should include episode and step metadata");
+
+    return countOk && storedOk && agentOk && observationOk && actionOk && metadataOk;
+}
+
+bool SimulationCanDisableRlTransitionRecording()
+{
+    sim::core::Logger::Config logConfig;
+    logConfig.logToConsole = false;
+    logConfig.logToFile = false;
+    sim::core::Logger logger(logConfig);
+
+    sim::Simulation simulation(logger, {
+        .maxTicks = 0,
+        .tickRateHz = 10.0f,
+        .realTimePacing = false,
+        .rlMode = sim::rl::RunMode::Disabled,
+        .maxStoredRlTransitions = 16
+    });
+
+    simulation.Tick();
+
+    return Expect(simulation.GetRlEpisodeRecorder().GetTransitionCount() == 0,
+                  "disabled RL mode should not record transitions");
+}
+
 } // namespace
 
 int main()
@@ -266,7 +328,9 @@ int main()
                     PoliceManagerSpawnsAndUpdatesIndependentPolice() &&
                     PoliceInterceptionChangesRelativePositions() &&
                     PoliceSteeringDoesNotInstantlySnap() &&
-                    SimulationStartsWithOneWantedStarAndOnePolice();
+                    SimulationStartsWithOneWantedStarAndOnePolice() &&
+                    SimulationRecordsBaselineRlTransitions() &&
+                    SimulationCanDisableRlTransitionRecording();
 
     if (ok) {
         std::cout << "All NPC FSM tests passed.\n";

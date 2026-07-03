@@ -540,6 +540,30 @@ __/src/math/Vec2.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/math/Vec2.cpp.s
 .PHONY : __/src/math/Vec2.cpp.s
 
+__/src/rl/EpisodeRecorder.obj: __/src/rl/EpisodeRecorder.cpp.obj
+.PHONY : __/src/rl/EpisodeRecorder.obj
+
+# target to build an object file
+__/src/rl/EpisodeRecorder.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/rl/EpisodeRecorder.cpp.obj
+.PHONY : __/src/rl/EpisodeRecorder.cpp.obj
+
+__/src/rl/EpisodeRecorder.i: __/src/rl/EpisodeRecorder.cpp.i
+.PHONY : __/src/rl/EpisodeRecorder.i
+
+# target to preprocess a source file
+__/src/rl/EpisodeRecorder.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/rl/EpisodeRecorder.cpp.i
+.PHONY : __/src/rl/EpisodeRecorder.cpp.i
+
+__/src/rl/EpisodeRecorder.s: __/src/rl/EpisodeRecorder.cpp.s
+.PHONY : __/src/rl/EpisodeRecorder.s
+
+# target to generate assembly for a file
+__/src/rl/EpisodeRecorder.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/rl/EpisodeRecorder.cpp.s
+.PHONY : __/src/rl/EpisodeRecorder.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -598,6 +622,9 @@ help:
 	@echo ... __/src/math/Vec2.obj
 	@echo ... __/src/math/Vec2.i
 	@echo ... __/src/math/Vec2.s
+	@echo ... __/src/rl/EpisodeRecorder.obj
+	@echo ... __/src/rl/EpisodeRecorder.i
+	@echo ... __/src/rl/EpisodeRecorder.s
 .PHONY : help
 
 

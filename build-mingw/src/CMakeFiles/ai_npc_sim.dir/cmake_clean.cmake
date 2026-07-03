@@ -30,6 +30,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ai_npc_sim.dir/main.cpp.obj.d"
   "CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj"
   "CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj.d"
+  "CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.obj"
+  "CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.obj.d"
   "CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj"
   "CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj.d"
   "libai_npc_sim.dll.a"

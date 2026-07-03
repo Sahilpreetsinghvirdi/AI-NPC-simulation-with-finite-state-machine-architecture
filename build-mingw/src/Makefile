@@ -540,6 +540,30 @@ math/Vec2.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.s
 .PHONY : math/Vec2.cpp.s
 
+rl/EpisodeRecorder.obj: rl/EpisodeRecorder.cpp.obj
+.PHONY : rl/EpisodeRecorder.obj
+
+# target to build an object file
+rl/EpisodeRecorder.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.obj
+.PHONY : rl/EpisodeRecorder.cpp.obj
+
+rl/EpisodeRecorder.i: rl/EpisodeRecorder.cpp.i
+.PHONY : rl/EpisodeRecorder.i
+
+# target to preprocess a source file
+rl/EpisodeRecorder.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.i
+.PHONY : rl/EpisodeRecorder.cpp.i
+
+rl/EpisodeRecorder.s: rl/EpisodeRecorder.cpp.s
+.PHONY : rl/EpisodeRecorder.s
+
+# target to generate assembly for a file
+rl/EpisodeRecorder.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.s
+.PHONY : rl/EpisodeRecorder.cpp.s
+
 visualization/SimulationRenderer.obj: visualization/SimulationRenderer.cpp.obj
 .PHONY : visualization/SimulationRenderer.obj
 
@@ -622,6 +646,9 @@ help:
 	@echo ... math/Vec2.obj
 	@echo ... math/Vec2.i
 	@echo ... math/Vec2.s
+	@echo ... rl/EpisodeRecorder.obj
+	@echo ... rl/EpisodeRecorder.i
+	@echo ... rl/EpisodeRecorder.s
 	@echo ... visualization/SimulationRenderer.obj
 	@echo ... visualization/SimulationRenderer.i
 	@echo ... visualization/SimulationRenderer.s

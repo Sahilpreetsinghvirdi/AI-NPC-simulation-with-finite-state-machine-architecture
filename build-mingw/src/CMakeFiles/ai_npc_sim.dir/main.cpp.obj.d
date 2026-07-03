@@ -247,4 +247,7 @@ src/CMakeFiles/ai_npc_sim.dir/main.cpp.obj: \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/NpcFiniteStateMachine.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/NpcAction.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/EpisodeRecorder.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/ITransitionSink.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/RlTypes.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/visualization/SimulationRenderer.hpp

@@ -246,4 +246,7 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/PoliceManager.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/entities/PoliceNpc.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/Observation.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/EpisodeRecorder.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/ITransitionSink.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/rl/RlTypes.hpp \
  C:/mingw64/include/c++/16.1.0/iostream

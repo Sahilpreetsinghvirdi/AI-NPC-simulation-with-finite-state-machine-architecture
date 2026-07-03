@@ -1,19 +1,19 @@
-Start testing: Jul 04 00:04 India Standard Time
+Start testing: Jul 04 00:20 India Standard Time
 ----------------------------------------------------------
 1/1 Testing: ai_npc_fsm_tests
 1/1 Test: ai_npc_fsm_tests
 Command: "D:/Visual Studio Files/ai-npc-simulation/build-mingw/bin/ai_npc_tests.exe"
-Directory: C:/Users/CodexSandboxOffline/.codex/.sandbox/cwd/59d857d08377b504/build-mingw/tests
-"ai_npc_fsm_tests" start time: Jul 04 00:04 India Standard Time
+Directory: D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests
+"ai_npc_fsm_tests" start time: Jul 04 00:20 India Standard Time
 Output:
 ----------------------------------------------------------
 All NPC FSM tests passed.
 <end of output>
-Test time =   0.04 sec
+Test time =   0.03 sec
 ----------------------------------------------------------
 Test Passed.
-"ai_npc_fsm_tests" end time: Jul 04 00:04 India Standard Time
+"ai_npc_fsm_tests" end time: Jul 04 00:20 India Standard Time
 "ai_npc_fsm_tests" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Jul 04 00:04 India Standard Time
+End testing: Jul 04 00:20 India Standard Time

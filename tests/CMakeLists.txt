@@ -4,6 +4,7 @@ add_executable(ai_npc_tests
     ../src/core/Logger.cpp
     ../src/core/LogLevel.cpp
     ../src/core/SimulationTimer.cpp
+    ../src/rl/EpisodeRecorder.cpp
     ../src/ai/NpcFiniteStateMachine.cpp
     ../src/entities/NpcState.cpp
     ../src/entities/NpcAction.cpp

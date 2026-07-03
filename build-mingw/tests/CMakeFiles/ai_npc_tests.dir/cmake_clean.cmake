@@ -30,6 +30,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ai_npc_tests.dir/__/src/entities/PoliceNpc.cpp.obj.d"
   "CMakeFiles/ai_npc_tests.dir/__/src/math/Vec2.cpp.obj"
   "CMakeFiles/ai_npc_tests.dir/__/src/math/Vec2.cpp.obj.d"
+  "CMakeFiles/ai_npc_tests.dir/__/src/rl/EpisodeRecorder.cpp.obj"
+  "CMakeFiles/ai_npc_tests.dir/__/src/rl/EpisodeRecorder.cpp.obj.d"
   "libai_npc_tests.dll.a"
 )
 

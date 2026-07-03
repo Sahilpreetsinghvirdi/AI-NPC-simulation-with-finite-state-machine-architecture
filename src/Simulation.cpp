@@ -108,7 +108,13 @@ Simulation::Simulation(sim::core::Logger& logger, const Config config)
     , timer_({.tickRateHz = config.tickRateHz, .realTimePacing = config.realTimePacing})
     , player_({20.0f, 20.0f})
     , config_(config)
+    , rlEpisodeRecorder_({
+          .mode = config.rlMode,
+          .maxStoredTransitions = config.maxStoredRlTransitions,
+          .keepTransitionsInMemory = true
+      })
 {
+    rlEpisodeRecorder_.BeginEpisode(1);
     player_.SetWantedLevel(kInitialWantedLevel);
     playerKnownBoundaries_ = {
         PerceivedBoundary{{kWorldMin, kWorldMin}, {kWorldMin, kWorldMax}, {1.0f, 0.0f}},
@@ -441,7 +447,49 @@ void Simulation::UpdatePlayer(const float deltaTime)
 void Simulation::UpdatePolice(const float deltaTime)
 {
     policeManager_.SyncToWantedLevel(player_.GetWantedLevel(), player_.GetPosition());
+
+    std::vector<sim::ai::Observation> observationsBeforeUpdate;
+    if (rlEpisodeRecorder_.IsEnabled()) {
+        observationsBeforeUpdate.reserve(policeManager_.GetPoliceNpcs().size());
+        for (const auto& police : policeManager_.GetPoliceNpcs()) {
+            observationsBeforeUpdate.push_back(police.GetObservation(player_));
+        }
+    }
+
     policeManager_.UpdateAll(deltaTime, player_, playerVelocity_);
+
+    if (rlEpisodeRecorder_.IsEnabled()) {
+        RecordPoliceRlTransitions(observationsBeforeUpdate);
+    }
+}
+
+void Simulation::RecordPoliceRlTransitions(const std::vector<sim::ai::Observation>& observationsBeforeUpdate)
+{
+    const auto& policeNpcs = policeManager_.GetPoliceNpcs();
+    const std::size_t transitionCount = std::min(observationsBeforeUpdate.size(), policeNpcs.size());
+
+    for (std::size_t index = 0; index < transitionCount; ++index) {
+        const auto& police = policeNpcs[index];
+        const sim::entities::NpcAction action = police.GetLastAction();
+
+        rlEpisodeRecorder_.RecordTransition({
+            .agent = {
+                .id = static_cast<sim::rl::AgentId>(index + 1),
+                .role = policeManager_.GetRoleName(index)
+            },
+            .observation = observationsBeforeUpdate[index],
+            .action = sim::rl::Action::FromDiscrete(static_cast<int>(action)),
+            .reward = police.CalculateReward(player_, action),
+            .nextObservation = police.GetObservation(player_),
+            .terminal = player_.IsDead() || !police.IsAlive(),
+            .truncated = IsFinished(),
+            .metadata = {
+                .episodeId = rlEpisodeRecorder_.GetCurrentEpisodeId(),
+                .stepIndex = timer_.GetTickIndex(),
+                .elapsedSeconds = timer_.GetElapsedTime()
+            }
+        });
+    }
 }
 
 void Simulation::UpdatePursuitEscalation(const float deltaTime, const float playerHealthBeforePoliceUpdate)
