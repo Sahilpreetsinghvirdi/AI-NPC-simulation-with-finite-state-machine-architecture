@@ -143,3 +143,5 @@ Rather than focusing on graphics first, the project prioritizes simulation, deci
 ## License
 
 This project is currently under active development.
+
+![AI NPC Simulation Screenshot](Screenshot%202026-07-03%20160046.png)
