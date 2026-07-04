@@ -1,2 +1,2 @@
-ai_npc_fsm_tests 19 0.029625
+ai_npc_fsm_tests 20 0.00866772
 ---

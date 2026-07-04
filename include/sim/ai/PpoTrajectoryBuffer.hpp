@@ -12,6 +12,8 @@ struct PpoTrajectoryStep {
     int action{0};
     float reward{0.0f};
     float oldLogProbability{0.0f};
+    float value{0.0f};
+    float nextValue{0.0f};
     bool terminal{false};
     bool truncated{false};
 };

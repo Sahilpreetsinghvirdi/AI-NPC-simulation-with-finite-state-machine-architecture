@@ -8,7 +8,14 @@ namespace sim::ai {
 PersistentLearningPolicy::PersistentLearningPolicy()
     : network_({.inputSize = 8, .hiddenSize = 16, .outputSize = 5, .seed = 1337})
     , trajectory_(32)
-    , optimizer_({.learningRate = 0.0008f, .discountFactor = 0.97f, .clipRange = 0.20f, .epochs = 2})
+    , optimizer_({.learningRate = 0.0008f,
+                  .discountFactor = 0.97f,
+                  .gaeLambda = 0.95f,
+                  .clipRange = 0.20f,
+                  .valueLossCoefficient = 0.50f,
+                  .entropyCoefficient = 0.01f,
+                  .minibatchSize = 8,
+                  .epochs = 4})
 {
 }
 
@@ -67,6 +74,7 @@ TrainingResult PersistentLearningPolicy::ObserveTransition(const sim::rl::Transi
     }
 
     const int action = transition.action.discrete;
+    const int clampedAction = std::clamp(action, 0, static_cast<int>(network_.GetConfig().outputSize) - 1);
     ActionValueEstimate& estimate = actionValues_[action];
     ++estimate.sampleCount;
     const float sampleCount = static_cast<float>(estimate.sampleCount);
@@ -74,9 +82,11 @@ TrainingResult PersistentLearningPolicy::ObserveTransition(const sim::rl::Transi
 
     trajectory_.Add({
         .observation = transition.observation,
-        .action = std::clamp(action, 0, static_cast<int>(network_.GetConfig().outputSize) - 1),
+        .action = clampedAction,
         .reward = transition.reward,
-        .oldLogProbability = network_.LogProbability(transition.observation.features, action),
+        .oldLogProbability = network_.LogProbability(transition.observation.features, clampedAction),
+        .value = network_.ForwardValue(transition.observation.features),
+        .nextValue = network_.ForwardValue(transition.nextObservation.features),
         .terminal = transition.terminal,
         .truncated = transition.truncated
     });
@@ -87,6 +97,9 @@ TrainingResult PersistentLearningPolicy::ObserveTransition(const sim::rl::Transi
             ++trainingState_.policyUpdateCount;
             trainingState_.lastMeanReturn = stats.meanReturn;
             trainingState_.lastMeanAdvantage = stats.meanAdvantage;
+            trainingState_.lastPolicyLoss = stats.meanPolicyLoss;
+            trainingState_.lastValueLoss = stats.meanValueLoss;
+            trainingState_.lastEntropy = stats.meanEntropy;
         }
         trajectory_.Clear();
     }

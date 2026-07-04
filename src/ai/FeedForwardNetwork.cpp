@@ -56,6 +56,7 @@ FeedForwardNetwork::FeedForwardNetwork(Config config)
     hiddenBias_.resize(config_.hiddenSize);
     hiddenOutputWeights_.resize(config_.hiddenSize * config_.outputSize);
     outputBias_.resize(config_.outputSize);
+    hiddenValueWeights_.resize(config_.hiddenSize);
     InitializeParameters(config_.seed);
 }
 
@@ -64,7 +65,7 @@ const FeedForwardNetwork::Config& FeedForwardNetwork::GetConfig() const
     return config_;
 }
 
-std::vector<float> FeedForwardNetwork::ForwardLogits(const std::vector<float>& input) const
+NetworkEvaluation FeedForwardNetwork::Evaluate(const std::vector<float>& input) const
 {
     const std::vector<float> normalizedInput = NormalizeInput(input);
     std::vector<float> hidden(config_.hiddenSize, 0.0f);
@@ -76,21 +77,44 @@ std::vector<float> FeedForwardNetwork::ForwardLogits(const std::vector<float>& i
         hidden[hiddenIndex] = std::tanh(value);
     }
 
-    std::vector<float> logits(config_.outputSize, 0.0f);
+    NetworkEvaluation evaluation;
+    evaluation.logits.resize(config_.outputSize, 0.0f);
     for (std::size_t outputIndex = 0; outputIndex < config_.outputSize; ++outputIndex) {
         float value = outputBias_[outputIndex];
         for (std::size_t hiddenIndex = 0; hiddenIndex < config_.hiddenSize; ++hiddenIndex) {
             value += hidden[hiddenIndex] * hiddenOutputWeights_[outputIndex * config_.hiddenSize + hiddenIndex];
         }
-        logits[outputIndex] = value;
+        evaluation.logits[outputIndex] = value;
     }
 
-    return logits;
+    evaluation.probabilities = Softmax(evaluation.logits);
+    for (const float probability : evaluation.probabilities) {
+        if (probability > 1.0e-6f) {
+            evaluation.entropy -= probability * std::log(probability);
+        }
+    }
+
+    evaluation.value = valueBias_;
+    for (std::size_t hiddenIndex = 0; hiddenIndex < config_.hiddenSize; ++hiddenIndex) {
+        evaluation.value += hidden[hiddenIndex] * hiddenValueWeights_[hiddenIndex];
+    }
+
+    return evaluation;
+}
+
+std::vector<float> FeedForwardNetwork::ForwardLogits(const std::vector<float>& input) const
+{
+    return Evaluate(input).logits;
 }
 
 std::vector<float> FeedForwardNetwork::ForwardProbabilities(const std::vector<float>& input) const
 {
-    return Softmax(ForwardLogits(input));
+    return Evaluate(input).probabilities;
+}
+
+float FeedForwardNetwork::ForwardValue(const std::vector<float>& input) const
+{
+    return Evaluate(input).value;
 }
 
 int FeedForwardNetwork::SelectGreedyAction(const std::vector<float>& input) const
@@ -119,6 +143,17 @@ void FeedForwardNetwork::ApplyPolicyGradient(const std::vector<float>& input,
                                              const float advantage,
                                              const float learningRate)
 {
+    ApplyActorCriticGradient(input, action, advantage, 0.0f, 0.0f, 0.0f, learningRate);
+}
+
+void FeedForwardNetwork::ApplyActorCriticGradient(const std::vector<float>& input,
+                                                  const int action,
+                                                  const float policyGradientScale,
+                                                  const float valueTarget,
+                                                  const float valueLossCoefficient,
+                                                  const float entropyCoefficient,
+                                                  const float learningRate)
+{
     if (action < 0 || static_cast<std::size_t>(action) >= config_.outputSize) {
         return;
     }
@@ -144,11 +179,17 @@ void FeedForwardNetwork::ApplyPolicyGradient(const std::vector<float>& input,
         logits[outputIndex] = value;
     }
 
+    float value = valueBias_;
+    for (std::size_t hiddenIndex = 0; hiddenIndex < config_.hiddenSize; ++hiddenIndex) {
+        value += hidden[hiddenIndex] * hiddenValueWeights_[hiddenIndex];
+    }
+
     std::vector<float> probabilities = Softmax(logits);
     std::vector<float> outputGradient(config_.outputSize, 0.0f);
     for (std::size_t outputIndex = 0; outputIndex < config_.outputSize; ++outputIndex) {
         const float target = outputIndex == static_cast<std::size_t>(action) ? 1.0f : 0.0f;
-        outputGradient[outputIndex] = (target - probabilities[outputIndex]) * advantage;
+        const float entropyGradient = entropyCoefficient * (-(std::log(std::max(probabilities[outputIndex], 1.0e-6f)) + 1.0f));
+        outputGradient[outputIndex] = ((target - probabilities[outputIndex]) * policyGradientScale) + entropyGradient;
     }
 
     std::vector<float> hiddenGradient(config_.hiddenSize, 0.0f);
@@ -161,6 +202,14 @@ void FeedForwardNetwork::ApplyPolicyGradient(const std::vector<float>& input,
         }
         outputBias_[outputIndex] += learningRate * outputGradient[outputIndex];
     }
+
+    const float valueError = valueTarget - value;
+    const float valueGradient = valueLossCoefficient * valueError;
+    for (std::size_t hiddenIndex = 0; hiddenIndex < config_.hiddenSize; ++hiddenIndex) {
+        hiddenGradient[hiddenIndex] += valueGradient * hiddenValueWeights_[hiddenIndex];
+        hiddenValueWeights_[hiddenIndex] += learningRate * valueGradient * hidden[hiddenIndex];
+    }
+    valueBias_ += learningRate * valueGradient;
 
     for (std::size_t hiddenIndex = 0; hiddenIndex < config_.hiddenSize; ++hiddenIndex) {
         const float tanhDerivative = 1.0f - (hidden[hiddenIndex] * hidden[hiddenIndex]);
@@ -181,6 +230,8 @@ std::vector<float> FeedForwardNetwork::ExportParameters() const
     parameters.insert(parameters.end(), hiddenBias_.begin(), hiddenBias_.end());
     parameters.insert(parameters.end(), hiddenOutputWeights_.begin(), hiddenOutputWeights_.end());
     parameters.insert(parameters.end(), outputBias_.begin(), outputBias_.end());
+    parameters.insert(parameters.end(), hiddenValueWeights_.begin(), hiddenValueWeights_.end());
+    parameters.push_back(valueBias_);
     return parameters;
 }
 
@@ -202,12 +253,15 @@ bool FeedForwardNetwork::ImportParameters(const std::vector<float>& parameters)
     copyInto(hiddenBias_);
     copyInto(hiddenOutputWeights_);
     copyInto(outputBias_);
+    copyInto(hiddenValueWeights_);
+    valueBias_ = parameters[offset];
     return true;
 }
 
 std::size_t FeedForwardNetwork::ParameterCount() const
 {
-    return inputHiddenWeights_.size() + hiddenBias_.size() + hiddenOutputWeights_.size() + outputBias_.size();
+    return inputHiddenWeights_.size() + hiddenBias_.size() + hiddenOutputWeights_.size() + outputBias_.size() +
+           hiddenValueWeights_.size() + 1;
 }
 
 std::vector<float> FeedForwardNetwork::NormalizeInput(const std::vector<float>& input) const
@@ -231,6 +285,10 @@ void FeedForwardNetwork::InitializeParameters(std::uint32_t seed)
         weight = NextRandom(seed) * hiddenScale;
     }
     std::fill(outputBias_.begin(), outputBias_.end(), 0.0f);
+    for (float& weight : hiddenValueWeights_) {
+        weight = NextRandom(seed) * hiddenScale;
+    }
+    valueBias_ = 0.0f;
 }
 
 } // namespace sim::ai

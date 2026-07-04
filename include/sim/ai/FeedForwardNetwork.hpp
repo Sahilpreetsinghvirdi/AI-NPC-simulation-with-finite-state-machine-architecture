@@ -6,6 +6,13 @@
 
 namespace sim::ai {
 
+struct NetworkEvaluation {
+    std::vector<float> logits;
+    std::vector<float> probabilities;
+    float value{0.0f};
+    float entropy{0.0f};
+};
+
 class FeedForwardNetwork {
 public:
     struct Config {
@@ -19,12 +26,21 @@ public:
     explicit FeedForwardNetwork(Config config);
 
     [[nodiscard]] const Config& GetConfig() const;
+    [[nodiscard]] NetworkEvaluation Evaluate(const std::vector<float>& input) const;
     [[nodiscard]] std::vector<float> ForwardLogits(const std::vector<float>& input) const;
     [[nodiscard]] std::vector<float> ForwardProbabilities(const std::vector<float>& input) const;
+    [[nodiscard]] float ForwardValue(const std::vector<float>& input) const;
     [[nodiscard]] int SelectGreedyAction(const std::vector<float>& input) const;
     [[nodiscard]] float LogProbability(const std::vector<float>& input, int action) const;
 
     void ApplyPolicyGradient(const std::vector<float>& input, int action, float advantage, float learningRate);
+    void ApplyActorCriticGradient(const std::vector<float>& input,
+                                  int action,
+                                  float policyGradientScale,
+                                  float valueTarget,
+                                  float valueLossCoefficient,
+                                  float entropyCoefficient,
+                                  float learningRate);
 
     [[nodiscard]] std::vector<float> ExportParameters() const;
     bool ImportParameters(const std::vector<float>& parameters);
@@ -39,6 +55,8 @@ private:
     std::vector<float> hiddenBias_;
     std::vector<float> hiddenOutputWeights_;
     std::vector<float> outputBias_;
+    std::vector<float> hiddenValueWeights_;
+    float valueBias_{0.0f};
 };
 
 } // namespace sim::ai

@@ -148,4 +148,7 @@ tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/PpoOptimizer.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/tr1/modified_bessel_func.tcc \
  C:/mingw64/include/c++/16.1.0/tr1/poly_hermite.tcc \
  C:/mingw64/include/c++/16.1.0/tr1/poly_laguerre.tcc \
- C:/mingw64/include/c++/16.1.0/tr1/riemann_zeta.tcc
+ C:/mingw64/include/c++/16.1.0/tr1/riemann_zeta.tcc \
+ C:/mingw64/include/c++/16.1.0/numeric \
+ C:/mingw64/include/c++/16.1.0/bits/stl_numeric.h \
+ C:/mingw64/include/c++/16.1.0/pstl/glue_numeric_defs.h

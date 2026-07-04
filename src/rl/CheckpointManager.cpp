@@ -91,6 +91,12 @@ CheckpointResult CheckpointManager::Load(sim::ai::ITrainablePolicy& policy) cons
             checkpoint.trainingState.lastMeanReturn = std::stof(value);
         } else if (key == "lastMeanAdvantage") {
             checkpoint.trainingState.lastMeanAdvantage = std::stof(value);
+        } else if (key == "lastPolicyLoss") {
+            checkpoint.trainingState.lastPolicyLoss = std::stof(value);
+        } else if (key == "lastValueLoss") {
+            checkpoint.trainingState.lastValueLoss = std::stof(value);
+        } else if (key == "lastEntropy") {
+            checkpoint.trainingState.lastEntropy = std::stof(value);
         } else if (key == "learnedPolicyEnabled") {
             checkpoint.trainingState.learnedPolicyEnabled = value == "1";
         } else if (key == "networkInputSize") {
@@ -160,6 +166,9 @@ CheckpointResult CheckpointManager::Save(const sim::ai::ITrainablePolicy& policy
         output << "policyUpdateCount=" << checkpoint.trainingState.policyUpdateCount << '\n';
         output << "lastMeanReturn=" << checkpoint.trainingState.lastMeanReturn << '\n';
         output << "lastMeanAdvantage=" << checkpoint.trainingState.lastMeanAdvantage << '\n';
+        output << "lastPolicyLoss=" << checkpoint.trainingState.lastPolicyLoss << '\n';
+        output << "lastValueLoss=" << checkpoint.trainingState.lastValueLoss << '\n';
+        output << "lastEntropy=" << checkpoint.trainingState.lastEntropy << '\n';
         output << "learnedPolicyEnabled=" << (checkpoint.trainingState.learnedPolicyEnabled ? 1 : 0) << '\n';
         output << "networkInputSize=" << checkpoint.network.inputSize << '\n';
         output << "networkHiddenSize=" << checkpoint.network.hiddenSize << '\n';

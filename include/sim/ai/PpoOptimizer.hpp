@@ -10,7 +10,11 @@ namespace sim::ai {
 struct PpoOptimizerConfig {
     float learningRate{0.0008f};
     float discountFactor{0.97f};
+    float gaeLambda{0.95f};
     float clipRange{0.20f};
+    float valueLossCoefficient{0.50f};
+    float entropyCoefficient{0.01f};
+    std::size_t minibatchSize{8};
     std::size_t epochs{2};
 };
 
@@ -19,6 +23,9 @@ struct PpoUpdateStats {
     std::size_t sampleCount{0};
     float meanReturn{0.0f};
     float meanAdvantage{0.0f};
+    float meanPolicyLoss{0.0f};
+    float meanValueLoss{0.0f};
+    float meanEntropy{0.0f};
 };
 
 class PpoOptimizer {
