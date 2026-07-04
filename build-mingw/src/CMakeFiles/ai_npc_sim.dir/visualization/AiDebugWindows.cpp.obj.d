@@ -241,6 +241,8 @@ src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/deque \
  C:/mingw64/include/c++/16.1.0/bits/stl_deque.h \
  C:/mingw64/include/c++/16.1.0/bits/deque.tcc \
+ C:/mingw64/include/c++/16.1.0/iterator \
+ C:/mingw64/include/c++/16.1.0/bits/stream_iterator.h \
  D:/Visual\ Studio\ Files/AI-NPC~1/BUILD-~1/_deps/RAYLIB~2/src/raylib.h \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/16.1.0/include/stdarg.h \
  C:/mingw64/x86_64-w64-mingw32/include/stdarg.h \

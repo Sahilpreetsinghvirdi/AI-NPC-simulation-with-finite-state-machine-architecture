@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstdio>
 #include <deque>
+#include <iterator>
 #include <raylib.h>
 #include <string>
 #include <vector>
@@ -22,10 +23,169 @@ constexpr Color kGood{80, 210, 140, 230};
 constexpr Color kBad{245, 100, 110, 230};
 constexpr Color kAccent{105, 180, 255, 235};
 constexpr Color kWarn{255, 190, 80, 235};
+constexpr float kMinZoom = 0.35f;
+constexpr float kMaxZoom = 2.50f;
+
+struct CanvasNavigation {
+    Vector2 target{0.0f, 0.0f};
+    Vector2 velocity{0.0f, 0.0f};
+    bool draggingCanvas{false};
+    bool draggingHorizontalBar{false};
+    bool draggingVerticalBar{false};
+    Vector2 lastMouse{0.0f, 0.0f};
+    float zoom{1.0f};
+};
 
 float Clamp01(const float value)
 {
     return std::clamp(value, 0.0f, 1.0f);
+}
+
+float MaxTargetX(const Vector2 canvasSize, const Vector2 viewportSize, const float zoom)
+{
+    return std::max(0.0f, canvasSize.x - (viewportSize.x / std::max(zoom, 0.001f)));
+}
+
+float MaxTargetY(const Vector2 canvasSize, const Vector2 viewportSize, const float zoom)
+{
+    return std::max(0.0f, canvasSize.y - (viewportSize.y / std::max(zoom, 0.001f)));
+}
+
+void ClampNavigation(CanvasNavigation& nav, const Vector2 canvasSize, const Vector2 viewportSize)
+{
+    nav.zoom = std::clamp(nav.zoom, kMinZoom, kMaxZoom);
+    nav.target.x = std::clamp(nav.target.x, 0.0f, MaxTargetX(canvasSize, viewportSize, nav.zoom));
+    nav.target.y = std::clamp(nav.target.y, 0.0f, MaxTargetY(canvasSize, viewportSize, nav.zoom));
+}
+
+Rectangle HorizontalScrollbarThumb(const CanvasNavigation& nav, const Vector2 canvasSize, const Vector2 viewportSize)
+{
+    const float barHeight = 12.0f;
+    const float visibleWorldWidth = viewportSize.x / std::max(nav.zoom, 0.001f);
+    const float ratio = std::clamp(visibleWorldWidth / std::max(canvasSize.x, 1.0f), 0.0f, 1.0f);
+    const float thumbWidth = std::max(36.0f, (viewportSize.x - 14.0f) * ratio);
+    const float travel = std::max(1.0f, viewportSize.x - 14.0f - thumbWidth);
+    const float maxTarget = MaxTargetX(canvasSize, viewportSize, nav.zoom);
+    const float x = maxTarget > 0.0f ? (nav.target.x / maxTarget) * travel : 0.0f;
+    return {x, viewportSize.y - barHeight, thumbWidth, barHeight};
+}
+
+Rectangle VerticalScrollbarThumb(const CanvasNavigation& nav, const Vector2 canvasSize, const Vector2 viewportSize)
+{
+    const float barWidth = 12.0f;
+    const float visibleWorldHeight = viewportSize.y / std::max(nav.zoom, 0.001f);
+    const float ratio = std::clamp(visibleWorldHeight / std::max(canvasSize.y, 1.0f), 0.0f, 1.0f);
+    const float thumbHeight = std::max(36.0f, (viewportSize.y - 14.0f) * ratio);
+    const float travel = std::max(1.0f, viewportSize.y - 14.0f - thumbHeight);
+    const float maxTarget = MaxTargetY(canvasSize, viewportSize, nav.zoom);
+    const float y = maxTarget > 0.0f ? (nav.target.y / maxTarget) * travel : 0.0f;
+    return {viewportSize.x - barWidth, y, barWidth, thumbHeight};
+}
+
+void UpdateNavigation(CanvasNavigation& nav, const Vector2 canvasSize, const bool allowLeftDrag)
+{
+    const Vector2 viewport{static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight())};
+    const Vector2 mouse = GetMousePosition();
+    const float dt = std::min(GetFrameTime(), 1.0f / 20.0f);
+    const bool ctrlDown = IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL);
+    const Rectangle horizontalThumb = HorizontalScrollbarThumb(nav, canvasSize, viewport);
+    const Rectangle verticalThumb = VerticalScrollbarThumb(nav, canvasSize, viewport);
+
+    if (ctrlDown) {
+        const float wheel = GetMouseWheelMove();
+        if (std::fabs(wheel) > 0.01f) {
+            const Vector2 worldBefore{mouse.x / nav.zoom + nav.target.x, mouse.y / nav.zoom + nav.target.y};
+            const float zoomFactor = 1.0f + (wheel * 0.10f);
+            nav.zoom = std::clamp(nav.zoom * std::max(0.2f, zoomFactor), kMinZoom, kMaxZoom);
+            nav.target = {worldBefore.x - (mouse.x / nav.zoom), worldBefore.y - (mouse.y / nav.zoom)};
+        }
+    } else {
+        const Vector2 wheel = GetMouseWheelMoveV();
+        const float verticalWheel = std::fabs(wheel.y) > 0.01f ? wheel.y : GetMouseWheelMove();
+        nav.velocity.x -= wheel.x * 120.0f / std::max(nav.zoom, 0.001f);
+        nav.velocity.y -= verticalWheel * 120.0f / std::max(nav.zoom, 0.001f);
+    }
+
+    const float keyStep = 720.0f * dt / std::max(nav.zoom, 0.001f);
+    if (IsKeyDown(KEY_RIGHT)) nav.velocity.x += keyStep * 8.0f;
+    if (IsKeyDown(KEY_LEFT)) nav.velocity.x -= keyStep * 8.0f;
+    if (IsKeyDown(KEY_DOWN)) nav.velocity.y += keyStep * 8.0f;
+    if (IsKeyDown(KEY_UP)) nav.velocity.y -= keyStep * 8.0f;
+    if (IsKeyPressed(KEY_PAGE_DOWN)) nav.velocity.y += viewport.y / std::max(nav.zoom, 0.001f);
+    if (IsKeyPressed(KEY_PAGE_UP)) nav.velocity.y -= viewport.y / std::max(nav.zoom, 0.001f);
+    if (IsKeyPressed(KEY_HOME)) nav.target = {0.0f, 0.0f};
+    if (IsKeyPressed(KEY_END)) {
+        nav.target = {MaxTargetX(canvasSize, viewport, nav.zoom), MaxTargetY(canvasSize, viewport, nav.zoom)};
+    }
+
+    const bool leftDragAllowed = allowLeftDrag && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
+                                 !CheckCollisionPointRec(mouse, horizontalThumb) &&
+                                 !CheckCollisionPointRec(mouse, verticalThumb);
+    if (IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) || leftDragAllowed) {
+        nav.draggingCanvas = true;
+        nav.lastMouse = mouse;
+        nav.velocity = {0.0f, 0.0f};
+    }
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && CheckCollisionPointRec(mouse, horizontalThumb)) {
+        nav.draggingHorizontalBar = true;
+        nav.lastMouse = mouse;
+        nav.velocity = {0.0f, 0.0f};
+    }
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && CheckCollisionPointRec(mouse, verticalThumb)) {
+        nav.draggingVerticalBar = true;
+        nav.lastMouse = mouse;
+        nav.velocity = {0.0f, 0.0f};
+    }
+
+    if (nav.draggingCanvas) {
+        const Vector2 delta{mouse.x - nav.lastMouse.x, mouse.y - nav.lastMouse.y};
+        nav.target.x -= delta.x / std::max(nav.zoom, 0.001f);
+        nav.target.y -= delta.y / std::max(nav.zoom, 0.001f);
+        nav.lastMouse = mouse;
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && !IsMouseButtonDown(MOUSE_BUTTON_RIGHT) && !IsMouseButtonDown(MOUSE_BUTTON_MIDDLE)) {
+            nav.draggingCanvas = false;
+        }
+        if (IsMouseButtonReleased(MOUSE_BUTTON_RIGHT) || IsMouseButtonReleased(MOUSE_BUTTON_MIDDLE)) {
+            nav.draggingCanvas = false;
+        }
+    }
+
+    if (nav.draggingHorizontalBar) {
+        const float travel = std::max(1.0f, viewport.x - 14.0f - horizontalThumb.width);
+        nav.target.x += ((mouse.x - nav.lastMouse.x) / travel) * MaxTargetX(canvasSize, viewport, nav.zoom);
+        nav.lastMouse = mouse;
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) nav.draggingHorizontalBar = false;
+    }
+    if (nav.draggingVerticalBar) {
+        const float travel = std::max(1.0f, viewport.y - 14.0f - verticalThumb.height);
+        nav.target.y += ((mouse.y - nav.lastMouse.y) / travel) * MaxTargetY(canvasSize, viewport, nav.zoom);
+        nav.lastMouse = mouse;
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) nav.draggingVerticalBar = false;
+    }
+
+    nav.target.x += nav.velocity.x * dt;
+    nav.target.y += nav.velocity.y * dt;
+    nav.velocity.x *= std::pow(0.08f, dt);
+    nav.velocity.y *= std::pow(0.08f, dt);
+    if (std::fabs(nav.velocity.x) < 0.01f) nav.velocity.x = 0.0f;
+    if (std::fabs(nav.velocity.y) < 0.01f) nav.velocity.y = 0.0f;
+    ClampNavigation(nav, canvasSize, viewport);
+}
+
+Camera2D NavigationCamera(const CanvasNavigation& nav)
+{
+    return {.offset = {0.0f, 0.0f}, .target = nav.target, .rotation = 0.0f, .zoom = nav.zoom};
+}
+
+void DrawNavigationOverlay(const CanvasNavigation& nav, const Vector2 canvasSize)
+{
+    const Vector2 viewport{static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight())};
+    DrawRectangle(0, GetScreenHeight() - 12, GetScreenWidth() - 12, 12, {10, 12, 18, 220});
+    DrawRectangle(GetScreenWidth() - 12, 0, 12, GetScreenHeight() - 12, {10, 12, 18, 220});
+    DrawRectangleRec(HorizontalScrollbarThumb(nav, canvasSize, viewport), {100, 112, 132, 230});
+    DrawRectangleRec(VerticalScrollbarThumb(nav, canvasSize, viewport), {100, 112, 132, 230});
+    DrawRectangle(GetScreenWidth() - 12, GetScreenHeight() - 12, 12, 12, {10, 12, 18, 255});
+    DrawText(TextFormat("Zoom %.0f%%", nav.zoom * 100.0f), 16, GetScreenHeight() - 34, 16, kMuted);
 }
 
 void DrawMetric(const char* label, const char* value, const int x, int& y, const Color color = kText)
@@ -109,24 +269,31 @@ int RunNeuralNetworkWindow(const std::filesystem::path& snapshotPath)
     SetTargetFPS(60);
 
     sim::ai::AiDebugSnapshot snapshot;
+    CanvasNavigation nav;
     int selectedLayer = -1;
     int selectedIndex = -1;
     while (!WindowShouldClose()) {
         sim::ai::ReadAiDebugSnapshot(snapshotPath, snapshot);
+        const int inputCount = static_cast<int>(std::max<std::size_t>(snapshot.normalizedObservation.size(), 1));
+        const int hiddenCount = static_cast<int>(std::max<std::size_t>(snapshot.hiddenActivations.size(), 1));
+        const int outputCount = static_cast<int>(std::max<std::size_t>(snapshot.actionProbabilities.size(), 1));
+        const int largestLayer = std::max({inputCount, hiddenCount, outputCount});
+        const Vector2 canvasSize{std::max(1220.0f, 360.0f + static_cast<float>(largestLayer) * 18.0f),
+                                 std::max(860.0f, 210.0f + static_cast<float>(largestLayer) * 64.0f)};
+        UpdateNavigation(nav, canvasSize, false);
+
         BeginDrawing();
         ClearBackground(kBg);
+        BeginMode2D(NavigationCamera(nav));
 
         DrawText("Neural Network Brain Scanner", 24, 18, 24, kText);
         DrawText("Actor head: action logits/probabilities    Critic head: state value", 24, 48, 16, kMuted);
 
-        const int inputCount = static_cast<int>(std::max<std::size_t>(snapshot.normalizedObservation.size(), 1));
-        const int hiddenCount = static_cast<int>(std::max<std::size_t>(snapshot.hiddenActivations.size(), 1));
-        const int outputCount = static_cast<int>(std::max<std::size_t>(snapshot.actionProbabilities.size(), 1));
-        const float inputX = 120.0f;
-        const float hiddenX = 500.0f;
-        const float outputX = 880.0f;
+        const float inputX = 140.0f;
+        const float hiddenX = canvasSize.x * 0.50f;
+        const float outputX = canvasSize.x - 250.0f;
         const float top = 105.0f;
-        const float height = 470.0f;
+        const float height = canvasSize.y - 310.0f;
 
         std::vector<Vector2> inputs;
         std::vector<Vector2> hidden;
@@ -143,9 +310,19 @@ int RunNeuralNetworkWindow(const std::filesystem::path& snapshotPath)
 
         const std::vector<float>& params = snapshot.networkParameters;
         std::size_t paramIndex = 0;
+        const Rectangle visibleWorld{nav.target.x - 80.0f,
+                                     nav.target.y - 80.0f,
+                                     static_cast<float>(GetScreenWidth()) / nav.zoom + 160.0f,
+                                     static_cast<float>(GetScreenHeight()) / nav.zoom + 160.0f};
+        auto isVisible = [&](const Vector2 point) {
+            return CheckCollisionPointRec(point, visibleWorld);
+        };
         for (const Vector2& from : inputs) {
             for (const Vector2& to : hidden) {
                 const float weight = paramIndex < params.size() ? params[paramIndex++] : 0.0f;
+                if (!isVisible(from) && !isVisible(to)) {
+                    continue;
+                }
                 const float mag = Clamp01(std::fabs(weight) / std::max(snapshot.weightStats.meanAbsWeight * 4.0f, 0.001f));
                 Color c = weight >= 0.0f ? kGood : kBad;
                 c.a = static_cast<unsigned char>(45 + mag * 180.0f);
@@ -155,6 +332,9 @@ int RunNeuralNetworkWindow(const std::filesystem::path& snapshotPath)
         for (const Vector2& from : hidden) {
             for (const Vector2& to : outputs) {
                 const float weight = paramIndex < params.size() ? params[paramIndex++] : 0.0f;
+                if (!isVisible(from) && !isVisible(to)) {
+                    continue;
+                }
                 const float mag = Clamp01(std::fabs(weight) / std::max(snapshot.weightStats.meanAbsWeight * 4.0f, 0.001f));
                 Color c = weight >= 0.0f ? kGood : kBad;
                 c.a = static_cast<unsigned char>(45 + mag * 180.0f);
@@ -162,9 +342,12 @@ int RunNeuralNetworkWindow(const std::filesystem::path& snapshotPath)
             }
         }
 
-        const Vector2 mouse = GetMousePosition();
+        const Vector2 mouse = GetScreenToWorld2D(GetMousePosition(), NavigationCamera(nav));
         const bool clicked = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
         auto drawNeuron = [&](const Vector2 p, const float activation, const char* label) {
+            if (!isVisible(p)) {
+                return;
+            }
             const float brightness = Clamp01((activation + 1.0f) * 0.5f);
             const Color fill{static_cast<unsigned char>(45 + brightness * 130.0f),
                              static_cast<unsigned char>(75 + brightness * 150.0f),
@@ -272,6 +455,8 @@ int RunNeuralNetworkWindow(const std::filesystem::path& snapshotPath)
             DrawText("Click a neuron to inspect activation, bias, and update stats.", 738, 654, 16, kMuted);
         }
 
+        EndMode2D();
+        DrawNavigationOverlay(nav, canvasSize);
         EndDrawing();
     }
 
@@ -286,6 +471,7 @@ int RunPpoDashboardWindow(const std::filesystem::path& snapshotPath)
     SetTargetFPS(30);
 
     sim::ai::AiDebugSnapshot snapshot;
+    CanvasNavigation nav;
     std::vector<float> rewardHistory;
     std::vector<float> policyLossHistory;
     std::vector<float> valueLossHistory;
@@ -338,131 +524,160 @@ int RunPpoDashboardWindow(const std::filesystem::path& snapshotPath)
                           snapshot.lastAdvantage,
                           snapshot.lastReturn);
             decisionHistory.emplace_front(decision);
-            while (decisionHistory.size() > 9) {
+            while (decisionHistory.size() > 30) {
                 decisionHistory.pop_back();
             }
         }
 
+        const float viewportWorldWidth = static_cast<float>(GetScreenWidth()) / std::max(nav.zoom, 0.001f);
+        const float contentWidth = std::max(1120.0f, viewportWorldWidth - 48.0f);
+        const float graphWidth = std::max(260.0f, (contentWidth - 72.0f) / 3.0f);
+        const float graphHeight = 130.0f;
+        const float historyHeight = 80.0f + static_cast<float>(decisionHistory.size()) * 20.0f;
+        const Vector2 canvasSize{contentWidth + 48.0f, 1240.0f + historyHeight};
+        UpdateNavigation(nav, canvasSize, true);
+
         BeginDrawing();
         ClearBackground(kBg);
+        BeginMode2D(NavigationCamera(nav));
+
         DrawText("PPO Reinforcement Learning Dashboard", 24, 18, 24, kText);
         DrawText("Live training state from the running simulation process", 24, 48, 16, kMuted);
 
-        DrawRectangle(20, 82, 390, 330, kPanel);
+        const float gap = 20.0f;
+        const float panelTop = 82.0f;
+        const float panelWidth = (contentWidth - (gap * 2.0f)) / 3.0f;
+        DrawRectangleRec({24.0f, panelTop, panelWidth, 330.0f}, kPanel);
         int y = 102;
         char buffer[128];
         std::snprintf(buffer, sizeof(buffer), "%llu", static_cast<unsigned long long>(snapshot.simulationTick));
-        DrawMetric("Simulation Tick", buffer, 38, y);
+        DrawMetric("Simulation Tick", buffer, 42, y);
         std::snprintf(buffer, sizeof(buffer), "%.1f", snapshot.fps);
-        DrawMetric("FPS", buffer, 38, y);
+        DrawMetric("FPS", buffer, 42, y);
         std::snprintf(buffer, sizeof(buffer), "%llu", static_cast<unsigned long long>(snapshot.trainingState.trainingStepCount));
-        DrawMetric("Total Timesteps", buffer, 38, y);
+        DrawMetric("Total Timesteps", buffer, 42, y);
         std::snprintf(buffer, sizeof(buffer), "%llu", static_cast<unsigned long long>(snapshot.trainingState.policyUpdateCount));
-        DrawMetric("PPO Updates", buffer, 38, y);
+        DrawMetric("PPO Updates", buffer, 42, y);
         std::snprintf(buffer, sizeof(buffer), "%zu / %zu", snapshot.rolloutSize, snapshot.rolloutCapacity);
-        DrawMetric("Rollout Buffer", buffer, 38, y, kAccent);
+        DrawMetric("Rollout Buffer", buffer, 42, y, kAccent);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.lastReward);
-        DrawMetric("Current Reward", buffer, 38, y);
+        DrawMetric("Current Reward", buffer, 42, y);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.trainingState.totalReward);
-        DrawMetric("Cumulative Reward", buffer, 38, y);
+        DrawMetric("Cumulative Reward", buffer, 42, y);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.lastTdError);
-        DrawMetric("TD Error", buffer, 38, y, snapshot.lastTdError >= 0.0f ? kGood : kBad);
+        DrawMetric("TD Error", buffer, 42, y, snapshot.lastTdError >= 0.0f ? kGood : kBad);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.trainingState.lastMeanAdvantage);
-        DrawMetric("GAE Advantage", buffer, 38, y);
+        DrawMetric("GAE Advantage", buffer, 42, y);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.trainingState.lastEntropy);
-        DrawMetric("Entropy", buffer, 38, y);
+        DrawMetric("Entropy", buffer, 42, y);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.lastLogProbability);
-        DrawMetric("Log Probability", buffer, 38, y);
+        DrawMetric("Log Probability", buffer, 42, y);
 
-        DrawRectangle(430, 82, 330, 330, kPanel);
+        const int middleX = static_cast<int>(24.0f + panelWidth + gap);
+        DrawRectangleRec({static_cast<float>(middleX), panelTop, panelWidth, 330.0f}, kPanel);
         y = 102;
         std::snprintf(buffer, sizeof(buffer), "%.5f", snapshot.trainingState.lastPolicyLoss);
-        DrawMetric("Policy Loss", buffer, 448, y, kWarn);
+        DrawMetric("Policy Loss", buffer, middleX + 18, y, kWarn);
         std::snprintf(buffer, sizeof(buffer), "%.5f", snapshot.trainingState.lastValueLoss);
-        DrawMetric("Value Loss", buffer, 448, y, kWarn);
+        DrawMetric("Value Loss", buffer, middleX + 18, y, kWarn);
         std::snprintf(buffer, sizeof(buffer), "%.5f", snapshot.trainingState.lastTotalLoss);
-        DrawMetric("Total PPO Loss", buffer, 448, y, kBad);
+        DrawMetric("Total PPO Loss", buffer, middleX + 18, y, kBad);
         std::snprintf(buffer, sizeof(buffer), "%.5f", snapshot.trainingState.lastEntropy * 0.01f);
-        DrawMetric("Entropy Bonus", buffer, 448, y, kGood);
+        DrawMetric("Entropy Bonus", buffer, middleX + 18, y, kGood);
         std::snprintf(buffer, sizeof(buffer), "%.5f", snapshot.learningRate);
-        DrawMetric("Learning Rate", buffer, 448, y);
+        DrawMetric("Learning Rate", buffer, middleX + 18, y);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.trainingState.lastClipFraction);
-        DrawMetric("Clip Fraction", buffer, 448, y);
+        DrawMetric("Clip Fraction", buffer, middleX + 18, y);
         std::snprintf(buffer, sizeof(buffer), "%.5f", snapshot.trainingState.lastKlDivergence);
-        DrawMetric("KL Divergence", buffer, 448, y);
+        DrawMetric("KL Divergence", buffer, middleX + 18, y);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.trainingState.lastExplainedVariance);
-        DrawMetric("Explained Var", buffer, 448, y);
+        DrawMetric("Explained Var", buffer, middleX + 18, y);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.lastValue);
-        DrawMetric("Value Estimate", buffer, 448, y);
+        DrawMetric("Value Estimate", buffer, middleX + 18, y);
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.lastNextValue);
-        DrawMetric("Next Value", buffer, 448, y);
+        DrawMetric("Next Value", buffer, middleX + 18, y);
 
-        DrawRectangle(780, 82, 370, 330, kPanel);
-        DrawText("Action Distribution", 798, 102, 18, kText);
+        const int rightX = static_cast<int>(24.0f + (panelWidth + gap) * 2.0f);
+        DrawRectangleRec({static_cast<float>(rightX), panelTop, panelWidth, 330.0f}, kPanel);
+        DrawText("Action Distribution", rightX + 18, 102, 18, kText);
+        const int actionBarX = rightX + 60;
+        const int actionBarWidth = static_cast<int>(std::max(120.0f, panelWidth - 115.0f));
         for (std::size_t i = 0; i < snapshot.actionProbabilities.size(); ++i) {
             const float p = snapshot.actionProbabilities[i];
-            const int barW = static_cast<int>(p * 270.0f);
+            const int barW = static_cast<int>(p * static_cast<float>(actionBarWidth));
             const int barY = 138 + static_cast<int>(i) * 42;
-            DrawText(TextFormat("A%zu", i), 798, barY, 16, kMuted);
-            DrawRectangle(840, barY, 280, 20, {42, 45, 56, 255});
-            DrawRectangle(840, barY, barW, 20, i == static_cast<std::size_t>(snapshot.lastAction) ? kWarn : kAccent);
-            DrawText(TextFormat("%.2f", p), 1125, barY, 16, kText);
+            DrawText(TextFormat("A%zu", i), rightX + 18, barY, 16, kMuted);
+            DrawRectangle(actionBarX, barY, actionBarWidth, 20, {42, 45, 56, 255});
+            DrawRectangle(actionBarX, barY, barW, 20, i == static_cast<std::size_t>(snapshot.lastAction) ? kWarn : kAccent);
+            DrawText(TextFormat("%.2f", p), actionBarX + actionBarWidth + 8, barY, 16, kText);
         }
         y = 314;
         std::snprintf(buffer, sizeof(buffer), "%.3f", snapshot.trainingState.lastGradientNorm);
-        DrawMetric("Gradient Norm", buffer, 798, y);
+        DrawMetric("Gradient Norm", buffer, rightX + 18, y);
         std::snprintf(buffer, sizeof(buffer), "%.5f", snapshot.trainingState.lastParameterUpdateNorm);
-        DrawMetric("Update Norm", buffer, 798, y);
+        DrawMetric("Update Norm", buffer, rightX + 18, y);
         std::snprintf(buffer, sizeof(buffer), "%zu / %zu", snapshot.trainingState.lastPpoEpoch,
                       snapshot.trainingState.lastPpoMinibatch);
-        DrawMetric("Epoch / Batch", buffer, 798, y);
+        DrawMetric("Epoch / Batch", buffer, rightX + 18, y);
         std::snprintf(buffer, sizeof(buffer), "%s", snapshot.trainingState.learnedPolicyEnabled ? "Learned" : "FSM Fallback");
-        DrawMetric("Action Source", buffer, 798, y, snapshot.trainingState.learnedPolicyEnabled ? kGood : kAccent);
+        DrawMetric("Action Source", buffer, rightX + 18, y, snapshot.trainingState.learnedPolicyEnabled ? kGood : kAccent);
 
-        DrawText("Reward", 24, 440, 18, kText);
-        DrawGraph(rewardHistory, {24, 466, 170, 95}, kGood);
-        DrawText("Policy Loss", 314, 440, 18, kText);
-        DrawGraph(policyLossHistory, {214, 466, 170, 95}, kWarn);
-        DrawText("Value Loss", 604, 440, 18, kText);
-        DrawGraph(valueLossHistory, {404, 466, 170, 95}, kBad);
-        DrawText("Entropy", 894, 440, 18, kText);
-        DrawGraph(entropyHistory, {594, 466, 170, 95}, kAccent);
-        DrawText("Advantage", 784, 440, 18, kText);
-        DrawGraph(advantageHistory, {784, 466, 170, 95}, kAccent);
-        DrawText("Value", 974, 440, 18, kText);
-        DrawGraph(valueEstimateHistory, {974, 466, 170, 95}, kGood);
+        const float graphTop = 450.0f;
+        struct GraphSpec {
+            const char* title;
+            const std::vector<float>* values;
+            Color color;
+        };
+        const GraphSpec graphs[] = {
+            {"Reward", &rewardHistory, kGood},
+            {"Policy Loss", &policyLossHistory, kWarn},
+            {"Value Loss", &valueLossHistory, kBad},
+            {"Entropy", &entropyHistory, kAccent},
+            {"Advantage", &advantageHistory, kAccent},
+            {"Value Estimate", &valueEstimateHistory, kGood},
+            {"Learning Rate", &learningRateHistory, kAccent},
+            {"Gradient Norm", &gradientNormHistory, kWarn},
+            {"KL Divergence", &klHistory, kBad},
+            {"Clip Fraction", &clipHistory, kAccent},
+            {"Weight Norm", &weightNormHistory, kGood},
+            {"Parameter Drift", &parameterDriftHistory, kWarn}
+        };
+        for (std::size_t index = 0; index < std::size(graphs); ++index) {
+            const float column = static_cast<float>(index % 3);
+            const float row = static_cast<float>(index / 3);
+            const float graphX = 24.0f + column * (graphWidth + gap);
+            const float titleY = graphTop + row * (graphHeight + 54.0f);
+            DrawText(graphs[index].title, static_cast<int>(graphX), static_cast<int>(titleY), 18, kText);
+            DrawGraph(*graphs[index].values, {graphX, titleY + 26.0f, graphWidth, graphHeight}, graphs[index].color);
+        }
 
-        DrawText("Learning Rate", 24, 580, 18, kText);
-        DrawGraph(learningRateHistory, {24, 606, 170, 95}, kAccent);
-        DrawText("Gradient", 214, 580, 18, kText);
-        DrawGraph(gradientNormHistory, {214, 606, 170, 95}, kWarn);
-        DrawText("KL", 404, 580, 18, kText);
-        DrawGraph(klHistory, {404, 606, 170, 95}, kBad);
-        DrawText("Clip", 594, 580, 18, kText);
-        DrawGraph(clipHistory, {594, 606, 170, 95}, kAccent);
-        DrawText("Weight Norm", 784, 580, 18, kText);
-        DrawGraph(weightNormHistory, {784, 606, 170, 95}, kGood);
-        DrawText("Param Drift", 974, 580, 18, kText);
-        DrawGraph(parameterDriftHistory, {974, 606, 170, 95}, kWarn);
+        const float histogramTop = graphTop + 4.0f * (graphHeight + 54.0f) + 12.0f;
+        DrawRectangleRec({24.0f, histogramTop, contentWidth, 170.0f}, kPanel);
+        DrawText("Weight Histogram and Parameter Evolution", 42, static_cast<int>(histogramTop + 18.0f), 18, kText);
+        DrawHistogram(snapshot.networkParameters, {42.0f, histogramTop + 52.0f, contentWidth - 36.0f, 90.0f}, kAccent);
+        DrawText(TextFormat("min %.4f   max %.4f   mean|w| %.4f   L2 %.4f   drift %.6f   max update %.6f",
+                            snapshot.weightStats.minWeight,
+                            snapshot.weightStats.maxWeight,
+                            snapshot.weightStats.meanAbsWeight,
+                            snapshot.weightStats.l2Norm,
+                            snapshot.weightStats.parameterDrift,
+                            snapshot.weightStats.maxParameterUpdate),
+                 42, static_cast<int>(histogramTop + 146.0f), 16, kMuted);
 
-        DrawRectangle(20, 718, 390, 82, kPanel);
-        DrawText("Weight Histogram", 38, 734, 18, kText);
-        DrawHistogram(snapshot.networkParameters, {38, 760, 350, 28}, kAccent);
-
-        DrawRectangle(430, 718, 720, 82, kPanel);
-        DrawText("Decision History", 448, 734, 18, kText);
-        int historyY = 760;
+        const float historyTop = histogramTop + 190.0f;
+        DrawRectangleRec({24.0f, historyTop, contentWidth, historyHeight}, kPanel);
+        DrawText("Decision History", 42, static_cast<int>(historyTop + 18.0f), 18, kText);
+        int historyY = static_cast<int>(historyTop + 52.0f);
         for (const std::string& decision : decisionHistory) {
-            DrawText(decision.c_str(), 448, historyY, 14, kMuted);
-            historyY += 18;
-            if (historyY > 790) {
-                break;
-            }
+            DrawText(decision.c_str(), 42, historyY, 14, kMuted);
+            historyY += 20;
         }
 
         DrawText("Training Flow: Observation -> Forward Pass -> Action -> Environment Step -> Reward -> Trajectory -> GAE -> PPO Update -> Checkpoint",
-                 24, 706, 14, kMuted);
+                 42, static_cast<int>(historyTop + historyHeight - 24.0f), 14, kMuted);
 
+        EndMode2D();
+        DrawNavigationOverlay(nav, canvasSize);
         EndDrawing();
     }
 
