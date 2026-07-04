@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Visual Studio Files/ai-npc-simulation/src/Simulation.cpp" "src/CMakeFiles/ai_npc_sim.dir/Simulation.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/Simulation.cpp.obj.d"
+  "D:/Visual Studio Files/ai-npc-simulation/src/ai/AiDebugSnapshot.cpp" "src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/ai/FeedForwardNetwork.cpp" "src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/ai/FsmPolicy.cpp" "src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/ai/IPolicy.cpp" "src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj.d"
@@ -31,6 +32,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Visual Studio Files/ai-npc-simulation/src/math/Vec2.cpp" "src/CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/rl/CheckpointManager.cpp" "src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/rl/EpisodeRecorder.cpp" "src/CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.obj.d"
+  "D:/Visual Studio Files/ai-npc-simulation/src/visualization/AiDebugWindows.cpp" "src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj.d"
   "D:/Visual Studio Files/ai-npc-simulation/src/visualization/SimulationRenderer.cpp" "src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj" "gcc" "src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj.d"
   )
 

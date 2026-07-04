@@ -9,8 +9,16 @@ namespace sim::ai {
 struct NetworkEvaluation {
     std::vector<float> logits;
     std::vector<float> probabilities;
+    std::vector<float> normalizedInput;
+    std::vector<float> hiddenActivations;
     float value{0.0f};
     float entropy{0.0f};
+};
+
+struct GradientUpdateStats {
+    float gradientL2Norm{0.0f};
+    float parameterUpdateL2Norm{0.0f};
+    float maxParameterUpdate{0.0f};
 };
 
 class FeedForwardNetwork {
@@ -33,14 +41,17 @@ public:
     [[nodiscard]] int SelectGreedyAction(const std::vector<float>& input) const;
     [[nodiscard]] float LogProbability(const std::vector<float>& input, int action) const;
 
-    void ApplyPolicyGradient(const std::vector<float>& input, int action, float advantage, float learningRate);
-    void ApplyActorCriticGradient(const std::vector<float>& input,
-                                  int action,
-                                  float policyGradientScale,
-                                  float valueTarget,
-                                  float valueLossCoefficient,
-                                  float entropyCoefficient,
-                                  float learningRate);
+    [[nodiscard]] GradientUpdateStats ApplyPolicyGradient(const std::vector<float>& input,
+                                                          int action,
+                                                          float advantage,
+                                                          float learningRate);
+    [[nodiscard]] GradientUpdateStats ApplyActorCriticGradient(const std::vector<float>& input,
+                                                              int action,
+                                                              float policyGradientScale,
+                                                              float valueTarget,
+                                                              float valueLossCoefficient,
+                                                              float entropyCoefficient,
+                                                              float learningRate);
 
     [[nodiscard]] std::vector<float> ExportParameters() const;
     bool ImportParameters(const std::vector<float>& parameters);

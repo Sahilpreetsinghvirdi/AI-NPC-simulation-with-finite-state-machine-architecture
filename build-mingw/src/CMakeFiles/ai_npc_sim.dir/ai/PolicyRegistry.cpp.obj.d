@@ -227,8 +227,28 @@ src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/bits/unique_lock.h \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FsmPolicy.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PersistentLearningPolicy.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FeedForwardNetwork.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/AiDebugSnapshot.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/ITrainablePolicy.hpp \
+ C:/mingw64/include/c++/16.1.0/filesystem \
+ C:/mingw64/include/c++/16.1.0/bits/fs_fwd.h \
+ C:/mingw64/include/c++/16.1.0/bits/fs_path.h \
+ C:/mingw64/include/c++/16.1.0/locale \
+ C:/mingw64/include/c++/16.1.0/bits/locale_facets_nonio.h \
+ C:/mingw64/include/c++/16.1.0/x86_64-w64-mingw32/bits/time_members.h \
+ C:/mingw64/include/c++/16.1.0/x86_64-w64-mingw32/bits/messages_members.h \
+ C:/mingw64/include/c++/16.1.0/bits/codecvt.h \
+ C:/mingw64/include/c++/16.1.0/bits/locale_facets_nonio.tcc \
+ C:/mingw64/include/c++/16.1.0/bits/locale_conv.h \
+ C:/mingw64/include/c++/16.1.0/iomanip \
+ C:/mingw64/include/c++/16.1.0/bits/quoted_string.h \
+ C:/mingw64/include/c++/16.1.0/sstream \
+ C:/mingw64/include/c++/16.1.0/istream \
+ C:/mingw64/include/c++/16.1.0/bits/istream.tcc \
+ C:/mingw64/include/c++/16.1.0/bits/sstream.tcc \
+ C:/mingw64/include/c++/16.1.0/codecvt \
+ C:/mingw64/include/c++/16.1.0/bits/fs_dir.h \
+ C:/mingw64/include/c++/16.1.0/bits/fs_ops.h \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/FeedForwardNetwork.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoOptimizer.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoTrajectoryBuffer.hpp \
  C:/mingw64/include/c++/16.1.0/utility \

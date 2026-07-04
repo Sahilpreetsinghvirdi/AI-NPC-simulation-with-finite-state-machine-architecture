@@ -228,6 +228,30 @@ Simulation.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/Simulation.cpp.s
 .PHONY : Simulation.cpp.s
 
+ai/AiDebugSnapshot.obj: ai/AiDebugSnapshot.cpp.obj
+.PHONY : ai/AiDebugSnapshot.obj
+
+# target to build an object file
+ai/AiDebugSnapshot.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj
+.PHONY : ai/AiDebugSnapshot.cpp.obj
+
+ai/AiDebugSnapshot.i: ai/AiDebugSnapshot.cpp.i
+.PHONY : ai/AiDebugSnapshot.i
+
+# target to preprocess a source file
+ai/AiDebugSnapshot.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.i
+.PHONY : ai/AiDebugSnapshot.cpp.i
+
+ai/AiDebugSnapshot.s: ai/AiDebugSnapshot.cpp.s
+.PHONY : ai/AiDebugSnapshot.s
+
+# target to generate assembly for a file
+ai/AiDebugSnapshot.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.s
+.PHONY : ai/AiDebugSnapshot.cpp.s
+
 ai/FeedForwardNetwork.obj: ai/FeedForwardNetwork.cpp.obj
 .PHONY : ai/FeedForwardNetwork.obj
 
@@ -756,6 +780,30 @@ rl/EpisodeRecorder.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.s
 .PHONY : rl/EpisodeRecorder.cpp.s
 
+visualization/AiDebugWindows.obj: visualization/AiDebugWindows.cpp.obj
+.PHONY : visualization/AiDebugWindows.obj
+
+# target to build an object file
+visualization/AiDebugWindows.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj
+.PHONY : visualization/AiDebugWindows.cpp.obj
+
+visualization/AiDebugWindows.i: visualization/AiDebugWindows.cpp.i
+.PHONY : visualization/AiDebugWindows.i
+
+# target to preprocess a source file
+visualization/AiDebugWindows.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.i
+.PHONY : visualization/AiDebugWindows.cpp.i
+
+visualization/AiDebugWindows.s: visualization/AiDebugWindows.cpp.s
+.PHONY : visualization/AiDebugWindows.s
+
+# target to generate assembly for a file
+visualization/AiDebugWindows.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\ai_npc_sim.dir\build.make src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.s
+.PHONY : visualization/AiDebugWindows.cpp.s
+
 visualization/SimulationRenderer.obj: visualization/SimulationRenderer.cpp.obj
 .PHONY : visualization/SimulationRenderer.obj
 
@@ -799,6 +847,9 @@ help:
 	@echo ... Simulation.obj
 	@echo ... Simulation.i
 	@echo ... Simulation.s
+	@echo ... ai/AiDebugSnapshot.obj
+	@echo ... ai/AiDebugSnapshot.i
+	@echo ... ai/AiDebugSnapshot.s
 	@echo ... ai/FeedForwardNetwork.obj
 	@echo ... ai/FeedForwardNetwork.i
 	@echo ... ai/FeedForwardNetwork.s
@@ -865,6 +916,9 @@ help:
 	@echo ... rl/EpisodeRecorder.obj
 	@echo ... rl/EpisodeRecorder.i
 	@echo ... rl/EpisodeRecorder.s
+	@echo ... visualization/AiDebugWindows.obj
+	@echo ... visualization/AiDebugWindows.i
+	@echo ... visualization/AiDebugWindows.s
 	@echo ... visualization/SimulationRenderer.obj
 	@echo ... visualization/SimulationRenderer.i
 	@echo ... visualization/SimulationRenderer.s

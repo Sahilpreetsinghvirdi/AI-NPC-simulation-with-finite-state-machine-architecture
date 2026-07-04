@@ -97,6 +97,28 @@ CheckpointResult CheckpointManager::Load(sim::ai::ITrainablePolicy& policy) cons
             checkpoint.trainingState.lastValueLoss = std::stof(value);
         } else if (key == "lastEntropy") {
             checkpoint.trainingState.lastEntropy = std::stof(value);
+        } else if (key == "lastTotalLoss") {
+            checkpoint.trainingState.lastTotalLoss = std::stof(value);
+        } else if (key == "lastClipFraction") {
+            checkpoint.trainingState.lastClipFraction = std::stof(value);
+        } else if (key == "lastKlDivergence") {
+            checkpoint.trainingState.lastKlDivergence = std::stof(value);
+        } else if (key == "lastExplainedVariance") {
+            checkpoint.trainingState.lastExplainedVariance = std::stof(value);
+        } else if (key == "lastGradientNorm") {
+            checkpoint.trainingState.lastGradientNorm = std::stof(value);
+        } else if (key == "lastParameterUpdateNorm") {
+            checkpoint.trainingState.lastParameterUpdateNorm = std::stof(value);
+        } else if (key == "lastMaxParameterUpdate") {
+            checkpoint.trainingState.lastMaxParameterUpdate = std::stof(value);
+        } else if (key == "lastReturn") {
+            checkpoint.trainingState.lastReturn = std::stof(value);
+        } else if (key == "lastAdvantage") {
+            checkpoint.trainingState.lastAdvantage = std::stof(value);
+        } else if (key == "lastPpoEpoch") {
+            checkpoint.trainingState.lastPpoEpoch = static_cast<std::size_t>(std::stoull(value));
+        } else if (key == "lastPpoMinibatch") {
+            checkpoint.trainingState.lastPpoMinibatch = static_cast<std::size_t>(std::stoull(value));
         } else if (key == "learnedPolicyEnabled") {
             checkpoint.trainingState.learnedPolicyEnabled = value == "1";
         } else if (key == "networkInputSize") {
@@ -169,6 +191,17 @@ CheckpointResult CheckpointManager::Save(const sim::ai::ITrainablePolicy& policy
         output << "lastPolicyLoss=" << checkpoint.trainingState.lastPolicyLoss << '\n';
         output << "lastValueLoss=" << checkpoint.trainingState.lastValueLoss << '\n';
         output << "lastEntropy=" << checkpoint.trainingState.lastEntropy << '\n';
+        output << "lastTotalLoss=" << checkpoint.trainingState.lastTotalLoss << '\n';
+        output << "lastClipFraction=" << checkpoint.trainingState.lastClipFraction << '\n';
+        output << "lastKlDivergence=" << checkpoint.trainingState.lastKlDivergence << '\n';
+        output << "lastExplainedVariance=" << checkpoint.trainingState.lastExplainedVariance << '\n';
+        output << "lastGradientNorm=" << checkpoint.trainingState.lastGradientNorm << '\n';
+        output << "lastParameterUpdateNorm=" << checkpoint.trainingState.lastParameterUpdateNorm << '\n';
+        output << "lastMaxParameterUpdate=" << checkpoint.trainingState.lastMaxParameterUpdate << '\n';
+        output << "lastReturn=" << checkpoint.trainingState.lastReturn << '\n';
+        output << "lastAdvantage=" << checkpoint.trainingState.lastAdvantage << '\n';
+        output << "lastPpoEpoch=" << checkpoint.trainingState.lastPpoEpoch << '\n';
+        output << "lastPpoMinibatch=" << checkpoint.trainingState.lastPpoMinibatch << '\n';
         output << "learnedPolicyEnabled=" << (checkpoint.trainingState.learnedPolicyEnabled ? 1 : 0) << '\n';
         output << "networkInputSize=" << checkpoint.network.inputSize << '\n';
         output << "networkHiddenSize=" << checkpoint.network.hiddenSize << '\n';

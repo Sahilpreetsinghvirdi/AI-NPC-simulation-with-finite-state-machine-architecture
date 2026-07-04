@@ -26,6 +26,17 @@ struct PpoUpdateStats {
     float meanPolicyLoss{0.0f};
     float meanValueLoss{0.0f};
     float meanEntropy{0.0f};
+    float meanTotalLoss{0.0f};
+    float meanClipFraction{0.0f};
+    float meanApproxKlDivergence{0.0f};
+    float explainedVariance{0.0f};
+    float meanGradientNorm{0.0f};
+    float meanParameterUpdateNorm{0.0f};
+    float maxParameterUpdate{0.0f};
+    float latestReturn{0.0f};
+    float latestAdvantage{0.0f};
+    std::size_t lastEpoch{0};
+    std::size_t lastMinibatch{0};
 };
 
 class PpoOptimizer {

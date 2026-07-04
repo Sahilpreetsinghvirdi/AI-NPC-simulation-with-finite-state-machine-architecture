@@ -78,6 +78,8 @@ NetworkEvaluation FeedForwardNetwork::Evaluate(const std::vector<float>& input) 
     }
 
     NetworkEvaluation evaluation;
+    evaluation.normalizedInput = normalizedInput;
+    evaluation.hiddenActivations = hidden;
     evaluation.logits.resize(config_.outputSize, 0.0f);
     for (std::size_t outputIndex = 0; outputIndex < config_.outputSize; ++outputIndex) {
         float value = outputBias_[outputIndex];
@@ -138,25 +140,34 @@ float FeedForwardNetwork::LogProbability(const std::vector<float>& input, const 
     return std::log(std::max(probabilities[static_cast<std::size_t>(action)], 1.0e-6f));
 }
 
-void FeedForwardNetwork::ApplyPolicyGradient(const std::vector<float>& input,
-                                             const int action,
-                                             const float advantage,
-                                             const float learningRate)
+GradientUpdateStats FeedForwardNetwork::ApplyPolicyGradient(const std::vector<float>& input,
+                                                            const int action,
+                                                            const float advantage,
+                                                            const float learningRate)
 {
-    ApplyActorCriticGradient(input, action, advantage, 0.0f, 0.0f, 0.0f, learningRate);
+    return ApplyActorCriticGradient(input, action, advantage, 0.0f, 0.0f, 0.0f, learningRate);
 }
 
-void FeedForwardNetwork::ApplyActorCriticGradient(const std::vector<float>& input,
-                                                  const int action,
-                                                  const float policyGradientScale,
-                                                  const float valueTarget,
-                                                  const float valueLossCoefficient,
-                                                  const float entropyCoefficient,
-                                                  const float learningRate)
+GradientUpdateStats FeedForwardNetwork::ApplyActorCriticGradient(const std::vector<float>& input,
+                                                                 const int action,
+                                                                 const float policyGradientScale,
+                                                                 const float valueTarget,
+                                                                 const float valueLossCoefficient,
+                                                                 const float entropyCoefficient,
+                                                                 const float learningRate)
 {
     if (action < 0 || static_cast<std::size_t>(action) >= config_.outputSize) {
-        return;
+        return {};
     }
+
+    GradientUpdateStats stats;
+    auto accumulateUpdate = [&](const float gradient) {
+        const float update = learningRate * gradient;
+        stats.gradientL2Norm += gradient * gradient;
+        stats.parameterUpdateL2Norm += update * update;
+        stats.maxParameterUpdate = std::max(stats.maxParameterUpdate, std::fabs(update));
+        return update;
+    };
 
     const std::vector<float> normalizedInput = NormalizeInput(input);
     std::vector<float> hiddenPreActivation(config_.hiddenSize, 0.0f);
@@ -198,28 +209,32 @@ void FeedForwardNetwork::ApplyActorCriticGradient(const std::vector<float>& inpu
             hiddenGradient[hiddenIndex] +=
                 outputGradient[outputIndex] * hiddenOutputWeights_[outputIndex * config_.hiddenSize + hiddenIndex];
             hiddenOutputWeights_[outputIndex * config_.hiddenSize + hiddenIndex] +=
-                learningRate * outputGradient[outputIndex] * hidden[hiddenIndex];
+                accumulateUpdate(outputGradient[outputIndex] * hidden[hiddenIndex]);
         }
-        outputBias_[outputIndex] += learningRate * outputGradient[outputIndex];
+        outputBias_[outputIndex] += accumulateUpdate(outputGradient[outputIndex]);
     }
 
     const float valueError = valueTarget - value;
     const float valueGradient = valueLossCoefficient * valueError;
     for (std::size_t hiddenIndex = 0; hiddenIndex < config_.hiddenSize; ++hiddenIndex) {
         hiddenGradient[hiddenIndex] += valueGradient * hiddenValueWeights_[hiddenIndex];
-        hiddenValueWeights_[hiddenIndex] += learningRate * valueGradient * hidden[hiddenIndex];
+        hiddenValueWeights_[hiddenIndex] += accumulateUpdate(valueGradient * hidden[hiddenIndex]);
     }
-    valueBias_ += learningRate * valueGradient;
+    valueBias_ += accumulateUpdate(valueGradient);
 
     for (std::size_t hiddenIndex = 0; hiddenIndex < config_.hiddenSize; ++hiddenIndex) {
         const float tanhDerivative = 1.0f - (hidden[hiddenIndex] * hidden[hiddenIndex]);
         const float gradient = hiddenGradient[hiddenIndex] * tanhDerivative;
         for (std::size_t inputIndex = 0; inputIndex < config_.inputSize; ++inputIndex) {
             inputHiddenWeights_[hiddenIndex * config_.inputSize + inputIndex] +=
-                learningRate * gradient * normalizedInput[inputIndex];
+                accumulateUpdate(gradient * normalizedInput[inputIndex]);
         }
-        hiddenBias_[hiddenIndex] += learningRate * gradient;
+        hiddenBias_[hiddenIndex] += accumulateUpdate(gradient);
     }
+
+    stats.gradientL2Norm = std::sqrt(stats.gradientL2Norm);
+    stats.parameterUpdateL2Norm = std::sqrt(stats.parameterUpdateL2Norm);
+    return stats;
 }
 
 std::vector<float> FeedForwardNetwork::ExportParameters() const

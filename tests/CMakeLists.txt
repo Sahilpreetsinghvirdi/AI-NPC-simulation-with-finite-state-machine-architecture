@@ -5,6 +5,7 @@ add_executable(ai_npc_tests
     ../src/core/LogLevel.cpp
     ../src/core/SimulationTimer.cpp
     ../src/rl/EpisodeRecorder.cpp
+    ../src/ai/AiDebugSnapshot.cpp
     ../src/ai/IPolicy.cpp
     ../src/ai/FeedForwardNetwork.cpp
     ../src/ai/FsmPolicy.cpp

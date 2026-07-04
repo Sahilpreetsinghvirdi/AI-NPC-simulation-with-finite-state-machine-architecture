@@ -176,11 +176,26 @@ src/CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.s"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Visual Studio Files\ai-npc-simulation\src\rl\EpisodeRecorder.cpp" -o CMakeFiles\ai_npc_sim.dir\rl\EpisodeRecorder.cpp.s
 
+src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/flags.make
+src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
+src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/AiDebugSnapshot.cpp
+src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj"
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\AiDebugSnapshot.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\AiDebugSnapshot.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\AiDebugSnapshot.cpp"
+
+src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.i"
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Visual Studio Files\ai-npc-simulation\src\ai\AiDebugSnapshot.cpp" > CMakeFiles\ai_npc_sim.dir\ai\AiDebugSnapshot.cpp.i
+
+src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.s"
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Visual Studio Files\ai-npc-simulation\src\ai\AiDebugSnapshot.cpp" -o CMakeFiles\ai_npc_sim.dir\ai\AiDebugSnapshot.cpp.s
+
 src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/flags.make
 src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/IPolicy.cpp
 src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\IPolicy.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\IPolicy.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\IPolicy.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.i: cmake_force
@@ -195,7 +210,7 @@ src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj: src/CMakeFiles/ai_n
 src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/FeedForwardNetwork.cpp
 src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\FeedForwardNetwork.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\FeedForwardNetwork.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\FeedForwardNetwork.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.i: cmake_force
@@ -210,7 +225,7 @@ src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj: src/CMakeFiles/ai_npc_sim.di
 src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/FsmPolicy.cpp
 src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\FsmPolicy.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\FsmPolicy.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\FsmPolicy.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.i: cmake_force
@@ -225,7 +240,7 @@ src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.obj: src/CMakeFile
 src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/PersistentLearningPolicy.cpp
 src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\PersistentLearningPolicy.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\PersistentLearningPolicy.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\PersistentLearningPolicy.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/ai/PersistentLearningPolicy.cpp.i: cmake_force
@@ -240,7 +255,7 @@ src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.obj: src/CMakeFiles/ai_npc_sim
 src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/PpoOptimizer.cpp
 src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\PpoOptimizer.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\PpoOptimizer.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\PpoOptimizer.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/ai/PpoOptimizer.cpp.i: cmake_force
@@ -255,7 +270,7 @@ src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.obj: src/CMakeFiles/ai_
 src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/PpoTrajectoryBuffer.cpp
 src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\PpoTrajectoryBuffer.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\PpoTrajectoryBuffer.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\PpoTrajectoryBuffer.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/ai/PpoTrajectoryBuffer.cpp.i: cmake_force
@@ -270,7 +285,7 @@ src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj: src/CMakeFiles/ai_npc_sim.
 src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/Observation.cpp
 src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\Observation.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\Observation.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\Observation.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/ai/Observation.cpp.i: cmake_force
@@ -285,7 +300,7 @@ src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj: src/CMakeFiles/a
 src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/NpcFiniteStateMachine.cpp
 src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\NpcFiniteStateMachine.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\NpcFiniteStateMachine.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\NpcFiniteStateMachine.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/ai/NpcFiniteStateMachine.cpp.i: cmake_force
@@ -300,7 +315,7 @@ src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj: src/CMakeFiles/ai_npc_s
 src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/ai/PolicyRegistry.cpp
 src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\ai\PolicyRegistry.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\ai\PolicyRegistry.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\ai\PolicyRegistry.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/ai/PolicyRegistry.cpp.i: cmake_force
@@ -315,7 +330,7 @@ src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj: src/CMakeFiles/ai_np
 src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/rl/CheckpointManager.cpp
 src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\rl\CheckpointManager.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\rl\CheckpointManager.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\rl\CheckpointManager.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/rl/CheckpointManager.cpp.i: cmake_force
@@ -330,7 +345,7 @@ src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj: src/CMakeFiles/ai_npc_sim
 src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/entities/Player.cpp
 src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\entities\Player.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\entities\Player.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\entities\Player.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/entities/Player.cpp.i: cmake_force
@@ -345,7 +360,7 @@ src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj: src/CMakeFiles/a
 src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/entities/PlayerLifeState.cpp
 src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\entities\PlayerLifeState.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\entities\PlayerLifeState.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\entities\PlayerLifeState.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/entities/PlayerLifeState.cpp.i: cmake_force
@@ -360,7 +375,7 @@ src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj: src/CMakeFiles/ai_npc_s
 src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/entities/NpcState.cpp
 src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\entities\NpcState.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\entities\NpcState.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\entities\NpcState.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.i: cmake_force
@@ -375,7 +390,7 @@ src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj: src/CMakeFiles/ai_npc_
 src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/entities/NpcAction.cpp
 src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\entities\NpcAction.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\entities\NpcAction.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\entities\NpcAction.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.i: cmake_force
@@ -390,7 +405,7 @@ src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj: src/CMakeFiles/ai_
 src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/entities/PoliceManager.cpp
 src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\entities\PoliceManager.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\entities\PoliceManager.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\entities\PoliceManager.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.i: cmake_force
@@ -405,7 +420,7 @@ src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj: src/CMakeFiles/ai_npc_
 src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/entities/PoliceNpc.cpp
 src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\entities\PoliceNpc.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\entities\PoliceNpc.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\entities\PoliceNpc.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.i: cmake_force
@@ -416,11 +431,26 @@ src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.s"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Visual Studio Files\ai-npc-simulation\src\entities\PoliceNpc.cpp" -o CMakeFiles\ai_npc_sim.dir\entities\PoliceNpc.cpp.s
 
+src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/flags.make
+src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
+src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/visualization/AiDebugWindows.cpp
+src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj"
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\visualization\AiDebugWindows.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\visualization\AiDebugWindows.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\visualization\AiDebugWindows.cpp"
+
+src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.i"
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Visual Studio Files\ai-npc-simulation\src\visualization\AiDebugWindows.cpp" > CMakeFiles\ai_npc_sim.dir\visualization\AiDebugWindows.cpp.i
+
+src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.s"
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Visual Studio Files\ai-npc-simulation\src\visualization\AiDebugWindows.cpp" -o CMakeFiles\ai_npc_sim.dir\visualization\AiDebugWindows.cpp.s
+
 src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/flags.make
 src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp
 src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj: D:/Visual\ Studio\ Files/ai-npc-simulation/src/visualization/SimulationRenderer.cpp
 src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj: src/CMakeFiles/ai_npc_sim.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj -MF CMakeFiles\ai_npc_sim.dir\visualization\SimulationRenderer.cpp.obj.d -o CMakeFiles\ai_npc_sim.dir\visualization\SimulationRenderer.cpp.obj -c "D:\Visual Studio Files\ai-npc-simulation\src\visualization\SimulationRenderer.cpp"
 
 src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.i: cmake_force
@@ -440,6 +470,7 @@ ai_npc_sim_OBJECTS = \
 "CMakeFiles/ai_npc_sim.dir/core/SimulationTimer.cpp.obj" \
 "CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj" \
 "CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.obj" \
+"CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj" \
 "CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj" \
 "CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj" \
 "CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj" \
@@ -456,6 +487,7 @@ ai_npc_sim_OBJECTS = \
 "CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj" \
 "CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj" \
 "CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj" \
+"CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj" \
 "CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj"
 
 # External object files for target ai_npc_sim
@@ -468,6 +500,7 @@ bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/core/Logger.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/core/SimulationTimer.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/math/Vec2.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/rl/EpisodeRecorder.cpp.obj
+bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/ai/FeedForwardNetwork.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/ai/FsmPolicy.cpp.obj
@@ -484,13 +517,14 @@ bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/entities/NpcState.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/entities/NpcAction.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/entities/PoliceManager.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/entities/PoliceNpc.cpp.obj
+bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/build.make
 bin/ai_npc_sim.exe: _deps/raylib-build/raylib/libraylib.a
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/linkLibs.rsp
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/objects1.rsp
 bin/ai_npc_sim.exe: src/CMakeFiles/ai_npc_sim.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_25) "Linking CXX executable ..\bin\ai_npc_sim.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="D:\Visual Studio Files\ai-npc-simulation\build-mingw\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_27) "Linking CXX executable ..\bin\ai_npc_sim.exe"
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1\src" && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\ai_npc_sim.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

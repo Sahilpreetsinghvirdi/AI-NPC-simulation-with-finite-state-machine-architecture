@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 namespace sim::ai {
 
@@ -69,6 +70,8 @@ TrainingResult PersistentLearningPolicy::ObserveTransition(const sim::rl::Transi
 
     ++trainingState_.trainingStepCount;
     trainingState_.totalReward += transition.reward;
+    lastTransition_ = transition;
+    hasLastTransition_ = true;
     if (transition.terminal || transition.truncated) {
         ++trainingState_.episodeCount;
     }
@@ -100,6 +103,17 @@ TrainingResult PersistentLearningPolicy::ObserveTransition(const sim::rl::Transi
             trainingState_.lastPolicyLoss = stats.meanPolicyLoss;
             trainingState_.lastValueLoss = stats.meanValueLoss;
             trainingState_.lastEntropy = stats.meanEntropy;
+            trainingState_.lastTotalLoss = stats.meanTotalLoss;
+            trainingState_.lastClipFraction = stats.meanClipFraction;
+            trainingState_.lastKlDivergence = stats.meanApproxKlDivergence;
+            trainingState_.lastExplainedVariance = stats.explainedVariance;
+            trainingState_.lastGradientNorm = stats.meanGradientNorm;
+            trainingState_.lastParameterUpdateNorm = stats.meanParameterUpdateNorm;
+            trainingState_.lastMaxParameterUpdate = stats.maxParameterUpdate;
+            trainingState_.lastReturn = stats.latestReturn;
+            trainingState_.lastAdvantage = stats.latestAdvantage;
+            trainingState_.lastPpoEpoch = stats.lastEpoch;
+            trainingState_.lastPpoMinibatch = stats.lastMinibatch;
         }
         trajectory_.Clear();
     }
@@ -130,6 +144,64 @@ PolicyCheckpoint PersistentLearningPolicy::ExportCheckpoint() const
             .parameters = network_.ExportParameters()
         }
     };
+}
+
+AiDebugSnapshot PersistentLearningPolicy::BuildDebugSnapshot(const std::uint64_t simulationTick,
+                                                             const float elapsedSeconds,
+                                                             const float fps,
+                                                             const std::size_t activePolice) const
+{
+    std::lock_guard lock(mutex_);
+
+    AiDebugSnapshot snapshot;
+    snapshot.simulationTick = simulationTick;
+    snapshot.elapsedSeconds = elapsedSeconds;
+    snapshot.fps = fps;
+    snapshot.activePolice = activePolice;
+    snapshot.trainingState = trainingState_;
+    snapshot.rolloutSize = trajectory_.Size();
+    snapshot.rolloutCapacity = trajectory_.Capacity();
+    snapshot.learningRate = optimizer_.GetConfig().learningRate;
+    snapshot.clipRange = optimizer_.GetConfig().clipRange;
+    snapshot.entropyCoefficient = optimizer_.GetConfig().entropyCoefficient;
+    snapshot.lastReturn = trainingState_.lastReturn;
+    snapshot.lastAdvantage = trainingState_.lastAdvantage;
+
+    if (hasLastTransition_) {
+        snapshot.lastAction = lastTransition_.action.discrete;
+        snapshot.lastReward = lastTransition_.reward;
+        snapshot.observation = lastTransition_.observation.features;
+        const NetworkEvaluation evaluation = network_.Evaluate(lastTransition_.observation.features);
+        const NetworkEvaluation nextEvaluation = network_.Evaluate(lastTransition_.nextObservation.features);
+        snapshot.normalizedObservation = evaluation.normalizedInput;
+        snapshot.hiddenActivations = evaluation.hiddenActivations;
+        snapshot.actorLogits = evaluation.logits;
+        snapshot.actionProbabilities = evaluation.probabilities;
+        snapshot.lastValue = evaluation.value;
+        snapshot.lastNextValue = nextEvaluation.value;
+        snapshot.lastTdError = lastTransition_.reward + (0.97f * nextEvaluation.value) - evaluation.value;
+        snapshot.lastLogProbability = network_.LogProbability(lastTransition_.observation.features, snapshot.lastAction);
+    }
+
+    snapshot.networkParameters = network_.ExportParameters();
+    if (!snapshot.networkParameters.empty()) {
+        snapshot.weightStats.minWeight = std::numeric_limits<float>::max();
+        snapshot.weightStats.maxWeight = std::numeric_limits<float>::lowest();
+        float absSum = 0.0f;
+        float squareSum = 0.0f;
+        for (const float parameter : snapshot.networkParameters) {
+            snapshot.weightStats.minWeight = std::min(snapshot.weightStats.minWeight, parameter);
+            snapshot.weightStats.maxWeight = std::max(snapshot.weightStats.maxWeight, parameter);
+            absSum += std::fabs(parameter);
+            squareSum += parameter * parameter;
+        }
+        snapshot.weightStats.meanAbsWeight = absSum / static_cast<float>(snapshot.networkParameters.size());
+        snapshot.weightStats.l2Norm = std::sqrt(squareSum);
+        snapshot.weightStats.parameterDrift = trainingState_.lastParameterUpdateNorm;
+        snapshot.weightStats.maxParameterUpdate = trainingState_.lastMaxParameterUpdate;
+    }
+
+    return snapshot;
 }
 
 bool PersistentLearningPolicy::ImportCheckpoint(const PolicyCheckpoint& checkpoint)

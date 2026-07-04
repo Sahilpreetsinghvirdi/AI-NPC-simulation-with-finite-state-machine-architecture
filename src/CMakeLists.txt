@@ -7,6 +7,7 @@ add_executable(ai_npc_sim
     core/SimulationTimer.cpp
     math/Vec2.cpp
     rl/EpisodeRecorder.cpp
+    ai/AiDebugSnapshot.cpp
     ai/IPolicy.cpp
     ai/FeedForwardNetwork.cpp
     ai/FsmPolicy.cpp
@@ -23,6 +24,7 @@ add_executable(ai_npc_sim
     entities/NpcAction.cpp
     entities/PoliceManager.cpp
     entities/PoliceNpc.cpp
+    visualization/AiDebugWindows.cpp
     visualization/SimulationRenderer.cpp
 )
 

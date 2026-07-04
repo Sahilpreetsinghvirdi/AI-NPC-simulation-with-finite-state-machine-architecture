@@ -197,6 +197,7 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/bits/std_mutex.h \
  C:/mingw64/include/c++/16.1.0/bits/unique_lock.h \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PersistentLearningPolicy.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/AiDebugSnapshot.hpp \
  D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/ITrainablePolicy.hpp \
  C:/mingw64/include/c++/16.1.0/unordered_map \
  C:/mingw64/include/c++/16.1.0/bits/unordered_map.h \
@@ -205,35 +206,6 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/ext/aligned_buffer.h \
  C:/mingw64/include/c++/16.1.0/bits/enable_special_members.h \
  C:/mingw64/include/c++/16.1.0/bits/node_handle.h \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoOptimizer.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoTrajectoryBuffer.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PolicyRegistry.hpp \
- C:/mingw64/include/c++/16.1.0/functional \
- C:/mingw64/include/c++/16.1.0/bits/refwrap.h \
- C:/mingw64/include/c++/16.1.0/bits/std_function.h \
- C:/mingw64/include/c++/16.1.0/array \
- C:/mingw64/include/c++/16.1.0/bits/binders.h \
- C:/mingw64/include/c++/16.1.0/memory \
- C:/mingw64/include/c++/16.1.0/bits/stl_tempbuf.h \
- C:/mingw64/include/c++/16.1.0/bits/stl_raw_storage_iter.h \
- C:/mingw64/include/c++/16.1.0/bits/align.h \
- C:/mingw64/include/c++/16.1.0/bits/unique_ptr.h \
- C:/mingw64/include/c++/16.1.0/bits/shared_ptr.h \
- C:/mingw64/include/c++/16.1.0/bits/shared_ptr_base.h \
- C:/mingw64/include/c++/16.1.0/bits/allocated_ptr.h \
- C:/mingw64/include/c++/16.1.0/ext/concurrence.h \
- C:/mingw64/include/c++/16.1.0/bits/shared_ptr_atomic.h \
- C:/mingw64/include/c++/16.1.0/bits/atomic_base.h \
- C:/mingw64/include/c++/16.1.0/bits/atomic_lockfree_defines.h \
- C:/mingw64/include/c++/16.1.0/bits/atomic_wait.h \
- C:/mingw64/include/c++/16.1.0/backward/auto_ptr.h \
- C:/mingw64/include/c++/16.1.0/bits/ranges_uninitialized.h \
- C:/mingw64/include/c++/16.1.0/bits/ranges_algobase.h \
- C:/mingw64/include/c++/16.1.0/pstl/glue_memory_defs.h \
- C:/mingw64/include/c++/16.1.0/pstl/execution_defs.h \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/Simulation.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/core/Logger.hpp \
- D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/core/LogLevel.hpp \
  C:/mingw64/include/c++/16.1.0/filesystem \
  C:/mingw64/include/c++/16.1.0/bits/fs_fwd.h \
  C:/mingw64/include/c++/16.1.0/bits/fs_path.h \
@@ -251,8 +223,37 @@ tests/CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj: \
  C:/mingw64/include/c++/16.1.0/bits/istream.tcc \
  C:/mingw64/include/c++/16.1.0/bits/sstream.tcc \
  C:/mingw64/include/c++/16.1.0/codecvt \
+ C:/mingw64/include/c++/16.1.0/ext/concurrence.h \
+ C:/mingw64/include/c++/16.1.0/bits/shared_ptr.h \
+ C:/mingw64/include/c++/16.1.0/bits/shared_ptr_base.h \
+ C:/mingw64/include/c++/16.1.0/bits/allocated_ptr.h \
+ C:/mingw64/include/c++/16.1.0/bits/refwrap.h \
+ C:/mingw64/include/c++/16.1.0/bits/unique_ptr.h \
+ C:/mingw64/include/c++/16.1.0/bits/align.h \
  C:/mingw64/include/c++/16.1.0/bits/fs_dir.h \
  C:/mingw64/include/c++/16.1.0/bits/fs_ops.h \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoOptimizer.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PpoTrajectoryBuffer.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/ai/PolicyRegistry.hpp \
+ C:/mingw64/include/c++/16.1.0/functional \
+ C:/mingw64/include/c++/16.1.0/bits/std_function.h \
+ C:/mingw64/include/c++/16.1.0/array \
+ C:/mingw64/include/c++/16.1.0/bits/binders.h \
+ C:/mingw64/include/c++/16.1.0/memory \
+ C:/mingw64/include/c++/16.1.0/bits/stl_tempbuf.h \
+ C:/mingw64/include/c++/16.1.0/bits/stl_raw_storage_iter.h \
+ C:/mingw64/include/c++/16.1.0/bits/shared_ptr_atomic.h \
+ C:/mingw64/include/c++/16.1.0/bits/atomic_base.h \
+ C:/mingw64/include/c++/16.1.0/bits/atomic_lockfree_defines.h \
+ C:/mingw64/include/c++/16.1.0/bits/atomic_wait.h \
+ C:/mingw64/include/c++/16.1.0/backward/auto_ptr.h \
+ C:/mingw64/include/c++/16.1.0/bits/ranges_uninitialized.h \
+ C:/mingw64/include/c++/16.1.0/bits/ranges_algobase.h \
+ C:/mingw64/include/c++/16.1.0/pstl/glue_memory_defs.h \
+ C:/mingw64/include/c++/16.1.0/pstl/execution_defs.h \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/Simulation.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/core/Logger.hpp \
+ D:/Visual\ Studio\ Files/AI-NPC~1/include/sim/core/LogLevel.hpp \
  C:/mingw64/include/c++/16.1.0/fstream \
  C:/mingw64/include/c++/16.1.0/x86_64-w64-mingw32/bits/basic_file.h \
  C:/mingw64/include/c++/16.1.0/x86_64-w64-mingw32/bits/c++io.h \

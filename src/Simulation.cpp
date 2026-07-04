@@ -212,6 +212,14 @@ const std::string& Simulation::GetLastEventMessage() const
     return lastEventMessage_;
 }
 
+sim::ai::AiDebugSnapshot Simulation::BuildAiDebugSnapshot(const float fps) const
+{
+    return learningPolicy_.BuildDebugSnapshot(timer_.GetTickIndex(),
+                                              timer_.GetElapsedTime(),
+                                              fps,
+                                              policeManager_.GetActiveCount());
+}
+
 sim::math::Vec2 Simulation::GetHospitalPosition() const
 {
     return hospitalPosition_;

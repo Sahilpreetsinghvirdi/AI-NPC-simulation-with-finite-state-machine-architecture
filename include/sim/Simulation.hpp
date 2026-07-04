@@ -91,6 +91,7 @@ public:
     [[nodiscard]] sim::core::SimulationTimer& GetTimer() { return timer_; }
     [[nodiscard]] const sim::rl::EpisodeRecorder& GetRlEpisodeRecorder() const { return rlEpisodeRecorder_; }
     [[nodiscard]] const sim::ai::PersistentLearningPolicy& GetLearningPolicy() const { return learningPolicy_; }
+    [[nodiscard]] sim::ai::AiDebugSnapshot BuildAiDebugSnapshot(float fps) const;
 
 private:
     void UpdatePlayer(float deltaTime);

@@ -252,6 +252,30 @@ __/src/Simulation.cpp.s:
 	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.s
 .PHONY : __/src/Simulation.cpp.s
 
+__/src/ai/AiDebugSnapshot.obj: __/src/ai/AiDebugSnapshot.cpp.obj
+.PHONY : __/src/ai/AiDebugSnapshot.obj
+
+# target to build an object file
+__/src/ai/AiDebugSnapshot.cpp.obj:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/AiDebugSnapshot.cpp.obj
+.PHONY : __/src/ai/AiDebugSnapshot.cpp.obj
+
+__/src/ai/AiDebugSnapshot.i: __/src/ai/AiDebugSnapshot.cpp.i
+.PHONY : __/src/ai/AiDebugSnapshot.i
+
+# target to preprocess a source file
+__/src/ai/AiDebugSnapshot.cpp.i:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/AiDebugSnapshot.cpp.i
+.PHONY : __/src/ai/AiDebugSnapshot.cpp.i
+
+__/src/ai/AiDebugSnapshot.s: __/src/ai/AiDebugSnapshot.cpp.s
+.PHONY : __/src/ai/AiDebugSnapshot.s
+
+# target to generate assembly for a file
+__/src/ai/AiDebugSnapshot.cpp.s:
+	cd /d "D:\Visual Studio Files\AI-NPC~1\BUILD-~1" && $(MAKE) $(MAKESILENT) -f tests\CMakeFiles\ai_npc_tests.dir\build.make tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/AiDebugSnapshot.cpp.s
+.PHONY : __/src/ai/AiDebugSnapshot.cpp.s
+
 __/src/ai/FeedForwardNetwork.obj: __/src/ai/FeedForwardNetwork.cpp.obj
 .PHONY : __/src/ai/FeedForwardNetwork.obj
 
@@ -778,6 +802,9 @@ help:
 	@echo ... __/src/Simulation.obj
 	@echo ... __/src/Simulation.i
 	@echo ... __/src/Simulation.s
+	@echo ... __/src/ai/AiDebugSnapshot.obj
+	@echo ... __/src/ai/AiDebugSnapshot.i
+	@echo ... __/src/ai/AiDebugSnapshot.s
 	@echo ... __/src/ai/FeedForwardNetwork.obj
 	@echo ... __/src/ai/FeedForwardNetwork.i
 	@echo ... __/src/ai/FeedForwardNetwork.s

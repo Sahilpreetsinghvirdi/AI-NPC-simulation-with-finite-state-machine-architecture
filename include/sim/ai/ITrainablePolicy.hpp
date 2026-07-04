@@ -25,6 +25,17 @@ struct TrainingState {
     float lastPolicyLoss{0.0f};
     float lastValueLoss{0.0f};
     float lastEntropy{0.0f};
+    float lastTotalLoss{0.0f};
+    float lastClipFraction{0.0f};
+    float lastKlDivergence{0.0f};
+    float lastExplainedVariance{0.0f};
+    float lastGradientNorm{0.0f};
+    float lastParameterUpdateNorm{0.0f};
+    float lastMaxParameterUpdate{0.0f};
+    float lastReturn{0.0f};
+    float lastAdvantage{0.0f};
+    std::size_t lastPpoEpoch{0};
+    std::size_t lastPpoMinibatch{0};
     bool learnedPolicyEnabled{false};
     std::string algorithmId{"ppo_ready_policy_gradient"};
     std::string policyId{"persistent_learning_fsm"};

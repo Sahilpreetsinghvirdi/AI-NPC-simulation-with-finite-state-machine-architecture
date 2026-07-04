@@ -211,6 +211,12 @@
 },
 {
   "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\ai\\AiDebugSnapshot.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\AiDebugSnapshot.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/AiDebugSnapshot.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/ai/AiDebugSnapshot.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
   "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\ai\\IPolicy.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\IPolicy.cpp\"",
   "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/IPolicy.cpp",
   "output": "src/CMakeFiles/ai_npc_sim.dir/ai/IPolicy.cpp.obj"
@@ -307,6 +313,12 @@
 },
 {
   "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
+  "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\visualization\\AiDebugWindows.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\visualization\\AiDebugWindows.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/visualization/AiDebugWindows.cpp",
+  "output": "src/CMakeFiles/ai_npc_sim.dir/visualization/AiDebugWindows.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/src",
   "command": "C:\\mingw64\\bin\\c++.exe -DGRAPHICS_API_OPENGL_33 -DNOMINMAX -DPLATFORM_DESKTOP -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_sim.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_sim.dir\\visualization\\SimulationRenderer.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\visualization\\SimulationRenderer.cpp\"",
   "file": "D:/Visual Studio Files/ai-npc-simulation/src/visualization/SimulationRenderer.cpp",
   "output": "src/CMakeFiles/ai_npc_sim.dir/visualization/SimulationRenderer.cpp.obj"
@@ -346,6 +358,12 @@
   "command": "C:\\mingw64\\bin\\c++.exe -DNOMINMAX -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_tests.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_tests.dir\\__\\src\\rl\\EpisodeRecorder.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\rl\\EpisodeRecorder.cpp\"",
   "file": "D:/Visual Studio Files/ai-npc-simulation/src/rl/EpisodeRecorder.cpp",
   "output": "tests/CMakeFiles/ai_npc_tests.dir/__/src/rl/EpisodeRecorder.cpp.obj"
+},
+{
+  "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests",
+  "command": "C:\\mingw64\\bin\\c++.exe -DNOMINMAX -DSIM_DATA_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/data\\\"\" -DSIM_LOGS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/logs\\\"\" -DSIM_MODELS_DIR=\"\\\"D:/Visual Studio Files/ai-npc-simulation/models\\\"\" -DWIN32_LEAN_AND_MEAN @CMakeFiles/ai_npc_tests.dir/includes_CXX.rsp -g -std=c++20 -Wall -Wextra -Wpedantic -o CMakeFiles\\ai_npc_tests.dir\\__\\src\\ai\\AiDebugSnapshot.cpp.obj -c \"D:\\Visual Studio Files\\ai-npc-simulation\\src\\ai\\AiDebugSnapshot.cpp\"",
+  "file": "D:/Visual Studio Files/ai-npc-simulation/src/ai/AiDebugSnapshot.cpp",
+  "output": "tests/CMakeFiles/ai_npc_tests.dir/__/src/ai/AiDebugSnapshot.cpp.obj"
 },
 {
   "directory": "D:/Visual Studio Files/ai-npc-simulation/build-mingw/tests",

@@ -6,6 +6,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ai_npc_tests.dir/NpcFiniteStateMachineTests.cpp.obj.d"
   "CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.obj"
   "CMakeFiles/ai_npc_tests.dir/__/src/Simulation.cpp.obj.d"
+  "CMakeFiles/ai_npc_tests.dir/__/src/ai/AiDebugSnapshot.cpp.obj"
+  "CMakeFiles/ai_npc_tests.dir/__/src/ai/AiDebugSnapshot.cpp.obj.d"
   "CMakeFiles/ai_npc_tests.dir/__/src/ai/FeedForwardNetwork.cpp.obj"
   "CMakeFiles/ai_npc_tests.dir/__/src/ai/FeedForwardNetwork.cpp.obj.d"
   "CMakeFiles/ai_npc_tests.dir/__/src/ai/FsmPolicy.cpp.obj"
